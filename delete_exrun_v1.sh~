@@ -1,0 +1,18 @@
+
+
+#inputtag=k2pigd_kloe_pi0d_radcor
+#inputtag=ee_split_2004
+#inputtag=ee_split_2003
+#inputtag=ee_pass5
+
+inputtag=$1
+tag=$2	
+outversion=$3
+
+lists=/home/rmarchev/compact/reader/tmp/lists/$inputtag/${tag}_$outversion
+outlogs=/home/rmarchev/compact/reader/tmp/logs/$inputtag/${tag}_$outversion
+output=/home/rmarchev/compact/reader/tmp/output/$inputtag/${tag}_$outversion
+
+rm -rf $lists $outlogs $output
+
+ 

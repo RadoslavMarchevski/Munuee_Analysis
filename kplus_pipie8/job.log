@@ -1,0 +1,39 @@
+Sender: LSF System <lsfadmin@b65c52a4d2.cern.ch>
+Subject: Job 600389153: <scompact.job /afs/cern.ch/user/r/rmarchev/compact/reader/kplus_pipie8 kplus_pipie8> in cluster batch Done
+
+Job <scompact.job /afs/cern.ch/user/r/rmarchev/compact/reader/kplus_pipie8 kplus_pipie8> was submitted from host <lxplus0051.cern.ch> by user <rmarchev> in cluster <batch>.
+Job was executed on host(s) <b65c52a4d2.cern.ch>, in queue <2nd>, as user <rmarchev> in cluster <batch>.
+</afs/cern.ch/user/r/rmarchev> was used as the home directory.
+</afs/cern.ch/user/r/rmarchev/compact/reader/kplus_pipie8> was used as the working directory.
+Started at Tue Dec  9 23:16:09 2014
+Results reported at Tue Dec  9 23:37:17 2014
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+scompact.job /afs/cern.ch/user/r/rmarchev/compact/reader/kplus_pipie8 kplus_pipie8
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :    900.26 sec.
+    Max Memory :       393 MB
+    Max Swap   :      1002 MB
+
+    Max Processes  :         6
+    Max Threads    :        23
+
+The output (if any) follows:
+
+@(#)CERN job starter $Date: 2010/06/23 14:22:16 $
+Working directory is </pool/lsf/rmarchev/600389153> on <>
+
+
+Job finished at Tue Dec  9 23:37:15 CET 2014 on node 
+ under linux version Scientific Linux CERN SLC release 6.6 (Carbon)
+
+CERN statistics: This process used approximately : 0:26:10 KSI2K hours (1570 KSI2K seconds)
+                 This process corresponds to     : 1:42:05 HS06  hours (6125 HS06  seconds)

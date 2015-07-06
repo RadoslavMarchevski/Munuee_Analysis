@@ -1,0 +1,845 @@
+*COmPACT* (Tue Dec  9 23:17:41 2014) - readflist: 25 filenames found and read
+*COmPACT* (Tue Dec  9 23:17:41 2014) - ****************************************
+*COmPACT* (Tue Dec  9 23:17:41 2014) - *                                      *
+*COmPACT* (Tue Dec  9 23:17:41 2014) - * Setting up compact for use with ROOT *
+*COmPACT* (Tue Dec  9 23:17:41 2014) - *                                      *
+*COmPACT* (Tue Dec  9 23:17:41 2014) - ****************************************
+*COmPACT* (Tue Dec  9 23:17:41 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15772/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:17:42 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15772/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+*COmPACT* (Tue Dec  9 23:17:42 2014) - ***************************************************
+*COmPACT* (Tue Dec  9 23:17:42 2014) - *                                                  
+*COmPACT* (Tue Dec  9 23:17:42 2014) - *                 SQL database opened              
+*COmPACT* (Tue Dec  9 23:17:42 2014) - *     version 3 (upd. Mon Jun 10 18:05:59 2013)
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * Available database tables are:                   
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_akl 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_clk 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_dch 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_hac 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_hodc 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_hodn 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_kab 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_lkr 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_mbx 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_muv 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_nut 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_phys 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> bb_pmb 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_akl 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_clk 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_dch 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_hac 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_hodc 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_hodn 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_kab 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_lkr 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_mbx 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_muv 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_nut 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_phys 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> br_pmb 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> cog 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> db_ver 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> eb_corr 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> kab_mom_corr 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> kab_mom_corr_mc 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> mass 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> mccog 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> mcmass 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> mcpkaon 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> pkaon 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> run_att 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> sample 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_akl 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_aks 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_dch 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_hac 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_kab_extra 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_lkr 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_lkr_akl 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_lkr_hac 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_lkr_nhod 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_lkr_tag 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_muv 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_nhod 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - * -----------------------------> toff_tag 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - *                                                  
+*COmPACT* (Tue Dec  9 23:17:42 2014) - ************************************************** 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/database/database.db
+*COmPACT* (Tue Dec  9 23:17:42 2014) - ************************************************** 
+*COmPACT* (Tue Dec  9 23:17:42 2014) - *  Initializing DB scale factors                   
+*COmPACT* (Tue Dec  9 23:17:42 2014) - ------------Using the following scale factors------------
+*COmPACT* (Tue Dec  9 23:17:42 2014) - mass:  1000000.0 1000000.0 1000000.0 1000000.0
+*COmPACT* (Tue Dec  9 23:17:42 2014) - cog:  10000.0 10000.0 10000.0 10000.0 10000.0 10000.0 10000.0 10000.0
+*COmPACT* (Tue Dec  9 23:17:42 2014) -  File for lkr HIKS 2000 opened successfully: /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles//lkrcalhi2k.dat
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15772/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15772/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+File written with SQL db version 0 (upd. 33817626)
+ File for blue tube mag. field opened sucessfully
+  COEFMS FOR CH 2 TO CH4   1.00635886  1.10587746E-06  0.000985967577
+  COEFMS FROM KEVLAR WINDOW TO CH1  0.00330900401  3.38685766E-07
+  3.31794108E-05
+### saving histograms to file run2007.root
+File /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/rdgeom2003.data for the NA48 geometry open successfully 
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15772
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15772 15772
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15772 15772
+  Data set for:KAMA
+  Validity range taken: 15772 15772
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 1  -  run 15772  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+ File for Lkr DC correction opened sucessfully
+ File for Lkr Sharing_mc_corr correction opened sucessfully
+  read 1-1-11   1.00020504
+**COmPACT Warning** (Tue Dec  9 23:17:44 2014) - More than 10 muons found
+*COmPACT* (Tue Dec  9 23:19:09 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:19:09 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:19:16 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15773
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15773 15773
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15773 15773
+  Data set for:KAMA
+  Validity range taken: 15773 15773
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 2  -  run 15773  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:19:17 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:19:17 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:19:25 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15773/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 3  -  run 15773  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:21:02 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:21:02 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15774/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:21:09 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15774/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15774/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15774/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15774
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15774 15774
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15774 15774
+  Data set for:KAMA
+  Validity range taken: 15774 15774
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 4  -  run 15774  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:22:09 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:22:09 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:22:19 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15775
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15775 15775
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15775 15775
+  Data set for:KAMA
+  Validity range taken: 15775 15775
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 5  -  run 15775  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -539.9  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:22:25 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:22:25 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:22:34 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15775/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 6  -  run 15775  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -539.9  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:24:14 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:24:14 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15776/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:24:21 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15776/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15776/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15776/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15776
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15776 15776
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15776 15776
+  Data set for:KAMA
+  Validity range taken: 15776 15776
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 7  -  run 15776  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:25:37 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:25:38 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15777/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:25:48 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15777/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15777/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15777/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15777
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15777 15777
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15777 15777
+  Data set for:KAMA
+  Validity range taken: 15777 15777
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 8  -  run 15777  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:27:20 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:27:20 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15778/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:27:25 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15778/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15778/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15778/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15778
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15778 15778
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15778 15778
+  Data set for:KAMA
+  Validity range taken: 15778 15778
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 9  -  run 15778  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:28:01 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:28:01 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:28:09 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15779
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15779 15779
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15779 15779
+  Data set for:KAMA
+  Validity range taken: 15779 15779
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 10  -  run 15779  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:28:20 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:28:20 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:28:25 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15779/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 11  -  run 15779  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:30:09 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:30:11 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15781/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:30:20 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15781/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15781/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15781/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15781
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15781 15781
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15781 15781
+  Data set for:KAMA
+  Validity range taken: 15781 15781
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 12  -  run 15781  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:31:35 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:31:35 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15782/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:31:41 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15782/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15782/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15782/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15782
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15782 15782
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15782 15782
+  Data set for:KAMA
+  Validity range taken: 15782 15782
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 13  -  run 15782  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:32:12 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:32:12 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15783/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:32:21 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15783/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15783/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15783/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15783
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15783 15783
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15783 15783
+  Data set for:KAMA
+  Validity range taken: 15783 15783
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 14  -  run 15783  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:33:02 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:33:02 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:33:04 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15784
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15784 15784
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15784 15784
+  Data set for:KAMA
+  Validity range taken: 15784 15784
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 15  -  run 15784  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:33:05 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:33:05 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:33:12 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15784/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 16  -  run 15784  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:34:49 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:34:51 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:35:00 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15785
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15785 15785
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15785 15785
+  Data set for:KAMA
+  Validity range taken: 15785 15785
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 17  -  run 15785  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:35:01 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:35:01 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:35:12 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15785/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 18  -  run 15785  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:36:49 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:36:49 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:36:55 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15786
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15786 15786
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15786 15786
+  Data set for:KAMA
+  Validity range taken: 15786 15786
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 19  -  run 15786  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:37:16 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:37:17 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:37:29 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15786/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 20  -  run 15786  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:39:09 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:39:09 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:39:13 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15787
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15787 15787
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15787 15787
+  Data set for:KAMA
+  Validity range taken: 15787 15787
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 21  -  run 15787  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:39:14 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:39:14 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:39:22 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15787/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+burst number = 22  -  run 15787  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = 540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:40:57 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:40:57 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15788/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:41:07 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15788/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15788/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15788/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15788
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15788 15788
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15788 15788
+  Data set for:KAMA
+  Validity range taken: 15788 15788
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 23  -  run 15788  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:42:16 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:42:16 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15789/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 offset 0
+*COmPACT* (Tue Dec  9 23:42:22 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15789/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15789/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15789/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp1
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15789
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15789 15789
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15789 15789
+  Data set for:KAMA
+  Validity range taken: 15789 15789
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 24  -  run 15789  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.0  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:43:28 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:43:28 2014) - filename /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15790/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 offset 0
+*COmPACT* (Tue Dec  9 23:43:36 2014) - openCompact: Version 7.3 MC Compact file, named /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15790/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2 opened
+File on castor:  not OK for xrootd: /castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15790/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/r/rmarchev/cmc007/magnet_corr/turbo/15790/kplus/kch_pipiene/kch_pipiene_07_03_2013.cmp2
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal_mc.dat
+  Kabes calibration constant update FOR RUN: 15790
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2 1316    4    1    2    3    1 1305 1316    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15790 15790
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 16999
+  Data set for:KARA
+  Validity range taken: 15000 16915
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15790 15790
+  Data set for:KAMA
+  Validity range taken: 15790 15790
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 25  -  run 15790  -  period 0  -  burst time 0  -  BadB.Skip = 0  -  magnet current = -540.2  -  dataType = 2
+*COmPACT* (Tue Dec  9 23:43:37 2014) - closeCompact: Closing input file
+*COmPACT* (Tue Dec  9 23:43:43 2014) - ************ COmPACT finished ************
+*COmPACT* (Tue Dec  9 23:43:43 2014) - Total number of  bursts read :       25
+*COmPACT* (Tue Dec  9 23:43:43 2014) - Total number of  events read :  1402162
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of CMP  events read :        0
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of KE3  events read :        0
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of KMU3 events read :        0
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of MC   events read :  1402162
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of SCMP events read :        0
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of SMC  events read :        0
+*COmPACT* (Tue Dec  9 23:43:43 2014) -   Number of HCMP events read :        0
+*COmPACT* (Tue Dec  9 23:43:43 2014) - ******************************************

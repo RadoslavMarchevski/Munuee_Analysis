@@ -1,0 +1,96 @@
+Sender: LSF System <lsfadmin@a0360.mogon>
+Subject: Job 49036310: </home/rmarchev/compact/reader/simple.sh> in cluster <mogon> Done
+
+Job </home/rmarchev/compact/reader/simple.sh> was submitted from host <login01.mogon> by user <rmarchev> in cluster <mogon>.
+Job was executed on host(s) <a0360.mogon>, in queue <short>, as user <rmarchev> in cluster <mogon>.
+</tmp/.lsbtmp406870> was used as the home directory.
+</home/rmarchev/compact/reader> was used as the working directory.
+Started at Thu Jul  3 13:45:22 2014
+Results reported on Thu Jul  3 13:45:26 2014
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/home/rmarchev/compact/reader/simple.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   0.44 sec.
+    Max Memory :                                 6.17 MB
+    Average Memory :                             1.52 MB
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               1017.83 MB
+    Max Processes :                              3
+    Max Threads :                                3
+
+The output (if any) follows:
+
+Hello!
+Sender: LSF System <lsfadmin@a0360.mogon>
+Subject: Job 49036311: </home/rmarchev/compact/reader/simple.sh> in cluster <mogon> Done
+
+Job </home/rmarchev/compact/reader/simple.sh> was submitted from host <login01.mogon> by user <rmarchev> in cluster <mogon>.
+Job was executed on host(s) <a0360.mogon>, in queue <short>, as user <rmarchev> in cluster <mogon>.
+</tmp/.lsbtmp406870> was used as the home directory.
+</home/rmarchev/compact/reader> was used as the working directory.
+Started at Thu Jul  3 13:45:22 2014
+Results reported on Thu Jul  3 13:45:28 2014
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/home/rmarchev/compact/reader/simple.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   0.43 sec.
+    Max Memory :                                 7.50 MB
+    Average Memory :                             2.86 MB
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               1016.50 MB
+    Max Processes :                              3
+    Max Threads :                                3
+
+The output (if any) follows:
+
+Hello!
+Sender: LSF System <lsfadmin@a0360.mogon>
+Subject: Job 49036312: </home/rmarchev/compact/reader/simple.sh> in cluster <mogon> Done
+
+Job </home/rmarchev/compact/reader/simple.sh> was submitted from host <login01.mogon> by user <rmarchev> in cluster <mogon>.
+Job was executed on host(s) <a0360.mogon>, in queue <short>, as user <rmarchev> in cluster <mogon>.
+</tmp/.lsbtmp406870> was used as the home directory.
+</home/rmarchev/compact/reader> was used as the working directory.
+Started at Thu Jul  3 13:45:24 2014
+Results reported on Thu Jul  3 13:45:29 2014
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/home/rmarchev/compact/reader/simple.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   0.44 sec.
+    Max Memory :                                 6.35 MB
+    Average Memory :                             1.65 MB
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               1017.65 MB
+    Max Processes :                              3
+    Max Threads :                                3
+
+The output (if any) follows:
+
+Hello!

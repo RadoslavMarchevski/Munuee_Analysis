@@ -1,0 +1,153 @@
+Sender: LSF System <lsfadmin@b6c8149233.cern.ch>
+Subject: Job 591453037: <pass5_5> in cluster batch Done
+
+Job <pass5_5> was submitted from host <lxplus0155.cern.ch> by user <rmarchev> in cluster <batch>.
+Job was executed on host(s) <b6c8149233.cern.ch>, in queue <2nd>, as user <rmarchev> in cluster <batch>.
+</afs/cern.ch/user/r/rmarchev> was used as the home directory.
+</afs/cern.ch/user/r/rmarchev/compact/reader> was used as the working directory.
+Started at Sat Nov 15 12:15:39 2014
+Results reported at Sat Nov 15 12:18:32 2014
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+source /afs/cern.ch/user/r/rmarchev/compact/reader/exrun_v1.sh 5 v1 -1 try
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :     35.65 sec.
+    Max Memory :       266 MB
+    Max Swap   :       841 MB
+
+    Max Processes  :         6
+    Max Threads    :        11
+
+The output (if any) follows:
+
+@(#)CERN job starter $Date: 2010/06/23 14:22:16 $
+Working directory is </pool/lsf/rmarchev/591453037> on <>
+
+=======> Set Root Histogramfilename to try_v1_run_5.root
+File on castor:  not OK for xrootd: /castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_09_56_41.scmp
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_09_56_41.scmp
+File written with SQL db version 2 (upd. 1102256905)
+ File for blue tube mag. field opened sucessfully
+  COEFMS FOR CH 2 TO CH4   1.00635886  1.10587746E-06  0.000985967577
+  COEFMS FROM KEVLAR WINDOW TO CH1  0.00330900401  3.38685766E-07
+  3.31794108E-05
+### saving histograms to file try_v1_run_5.root
+File /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/rdgeom2003.data for the NA48 geometry open successfully 
+ Opened Kabes calibration files: 
+ /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles/kabes_cal.dat
+  Kabes calibration constant update FOR RUN: 15303
+  Number of data set for:
+ KABE KACS KAT1 KCAB KDET KAT0 KATS KARA KAYC KASY KAGE KAMA USER
+                                   
+    1    2    3    2  595    4    3    3    3    1  595  595    3
+  Data set for:KABE
+  Validity range taken: 15000 99999
+  Data set for:KACS
+  Validity range taken: 15000 16905
+  Data set for:KAT1
+  Validity range taken: 15000 15999
+  Data set for:KCAB
+  Validity range taken: 15000 16905
+  Data set for:KDET
+  Validity range taken: 15000 15545
+  Data set for:KAT0
+  Validity range taken: 15000 15999
+  Data set for:KATS
+  Validity range taken: 15000 15999
+  Data set for:KARA
+  Validity range taken: 15000 15999
+  Data set for:KAYC
+  Validity range taken: 15000 15999
+  Data set for:KASY
+  Validity range taken: 15000 99999
+  Data set for:KAGE
+  Validity range taken: 15000 15545
+  Data set for:KAMA
+  Validity range taken: 15000 15545
+  Data set for:USER
+  Validity range taken: 15000 15999
+burst number = 1  -  run 15303  -  period 0  -  burst time 1055663801  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 2  -  run 15303  -  period 0  -  burst time 1055663818  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 3  -  run 15303  -  period 0  -  burst time 1055663835  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 4  -  run 15303  -  period 0  -  burst time 1055663852  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 5  -  run 15303  -  period 0  -  burst time 1055663869  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 6  -  run 15303  -  period 0  -  burst time 1055663885  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 7  -  run 15303  -  period 0  -  burst time 1055663902  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 8  -  run 15303  -  period 0  -  burst time 1055663919  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 9  -  run 15303  -  period 0  -  burst time 1055663936  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 10  -  run 15303  -  period 0  -  burst time 1055663953  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 11  -  run 15303  -  period 0  -  burst time 1055663969  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 12  -  run 15303  -  period 0  -  burst time 1055663986  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 13  -  run 15303  -  period 0  -  burst time 1055664003  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 14  -  run 15303  -  period 0  -  burst time 1055664020  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 15  -  run 15303  -  period 0  -  burst time 1055664037  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 16  -  run 15303  -  period 0  -  burst time 1055664053  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 17  -  run 15303  -  period 0  -  burst time 1055664070  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 18  -  run 15303  -  period 0  -  burst time 1055664087  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 19  -  run 15303  -  period 0  -  burst time 1055664104  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 20  -  run 15303  -  period 0  -  burst time 1055664121  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 21  -  run 15303  -  period 0  -  burst time 1055664137  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 22  -  run 15303  -  period 0  -  burst time 1055664305  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 23  -  run 15303  -  period 0  -  burst time 1055664322  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 24  -  run 15303  -  period 0  -  burst time 1055664339  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 25  -  run 15303  -  period 0  -  burst time 1055664356  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 26  -  run 15303  -  period 0  -  burst time 1055664373  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 27  -  run 15303  -  period 0  -  burst time 1055664389  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 28  -  run 15303  -  period 0  -  burst time 1055664406  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 29  -  run 15303  -  period 0  -  burst time 1055664423  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 30  -  run 15303  -  period 0  -  burst time 1055664440  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+File on castor:  not OK for xrootd: /castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_10_07_37.scmp
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_10_07_37.scmp
+File on castor:  not OK for xrootd: /castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_10_07_37.scmp
+Using file name: root://castorpublic.cern.ch//castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_10_07_37.scmp
+burst number = 31  -  run 15303  -  period 0  -  burst time 1055664457  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 32  -  run 15303  -  period 0  -  burst time 1055664473  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 33  -  run 15303  -  period 0  -  burst time 1055664490  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 34  -  run 15303  -  period 0  -  burst time 1055664507  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 35  -  run 15303  -  period 0  -  burst time 1055664524  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 36  -  run 15303  -  period 0  -  burst time 1055664541  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 37  -  run 15303  -  period 0  -  burst time 1055664557  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 38  -  run 15303  -  period 0  -  burst time 1055664574  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 39  -  run 15303  -  period 0  -  burst time 1055665229  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 40  -  run 15303  -  period 0  -  burst time 1055665246  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 41  -  run 15303  -  period 0  -  burst time 1055665263  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 42  -  run 15303  -  period 0  -  burst time 1055665280  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 43  -  run 15303  -  period 0  -  burst time 1055665297  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 44  -  run 15303  -  period 0  -  burst time 1055665313  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 45  -  run 15303  -  period 0  -  burst time 1055665330  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 46  -  run 15303  -  period 0  -  burst time 1055665347  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 47  -  run 15303  -  period 0  -  burst time 1055665364  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 48  -  run 15303  -  period 0  -  burst time 1055667749  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 49  -  run 15303  -  period 0  -  burst time 1055667766  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 50  -  run 15303  -  period 0  -  burst time 1055667783  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 51  -  run 15303  -  period 0  -  burst time 1055667800  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 52  -  run 15303  -  period 0  -  burst time 1055667817  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 53  -  run 15303  -  period 0  -  burst time 1055667833  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 54  -  run 15303  -  period 0  -  burst time 1055667867  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 55  -  run 15303  -  period 0  -  burst time 1055667884  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 56  -  run 15303  -  period 0  -  burst time 1055667901  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 57  -  run 15303  -  period 0  -  burst time 1055667917  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 58  -  run 15303  -  period 0  -  burst time 1055667934  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 59  -  run 15303  -  period 0  -  burst time 1055667951  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+burst number = 60  -  run 15303  -  period 0  -  burst time 1055667968  -  BadB.Skip = 1  -  magnet current = -99999.0  -  dataType = 1
+
+Job finished at Sat Nov 15 12:18:30 CET 2014 on node 
+ under linux version Scientific Linux CERN SLC release 6.6 (Carbon)
+
+CERN statistics: This process used approximately : 0:00:59 KSI2K hours (59 KSI2K seconds)
+                 This process corresponds to     : 0:03:50 HS06  hours (230 HS06  seconds)
+
+
+PS:
+
+Read file </afs/cern.ch/user/r/rmarchev/compact/reader/tmp/logs/pass5/try_v1/try_v1_run_5.err> for stderr output of this job.
+

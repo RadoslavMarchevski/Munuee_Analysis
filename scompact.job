@@ -1,0 +1,10 @@
+#!/bin/csh
+
+cd $1
+echo started at `date` >! compact.log
+#setenv COMPACT_SQL_DATABASE /afs/cern.ch/na48/offline/compact/compact-7.2/compact/database/database.dev
+setenv XRDPOSIX_CACHE      'cachesz=10000000&optpr=1&aprtrig=10000000'
+compact -cheat -ndb -l compact.list >&! compact.out
+#ls | grep txt | xargs bzip2
+#ls | grep root| xargs bzip2
+echo finished at `date` >> compact.log
