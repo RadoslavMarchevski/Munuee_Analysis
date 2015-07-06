@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 #include "Charged_Particle.h"
-
+#include "Cuts.h"
 class Hist_dir {
 public:
     //Three type of directories one for monitoring of some main
@@ -15,7 +15,20 @@ public:
     Hist_dir(const std::string& dir_Name,int type);
     ~Hist_dir();
     void AddToFile(TFile* file);
-    void FillHist(Charged_Particle& part);
+    void FillHist(Charged_Particle& part, std::string particle);
+    void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
+    void FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
+    void Make_Cuts(Cuts& cutting);
+    TLorentzVector& GetThreeTrackMomentum(){return Three_Track_Momentum; };
+    TLorentzVector& GetTwoTrackMomentum(){return Two_Track_Momentum; };
+    TLorentzVector& GetKaonMomentum(){return Kaon_Momentum; };
+    TLorentzVector& GetNuMomentum(){return Nu_Momentum; };
+
+    TLorentzVector Kaon_Momentum;
+    TLorentzVector Two_Track_Momentum;
+    TLorentzVector Three_Track_Momentum;
+    TLorentzVector Nu_Momentum;
+
     TH1I* fh_Ntracks           ;
     TH1I* fh_Nvtx              ;
     TH1I* fh_Kaon_Charge       ;
