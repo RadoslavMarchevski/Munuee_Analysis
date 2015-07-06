@@ -1,5 +1,6 @@
 #include "Hist_dir.h"
 #include "Charged_Particle.h"
+#include "Cuts.h"
 #include "TFile.h"
 #include "TDirectory.h"
 #include "TH1F.h"
@@ -138,8 +139,6 @@ void Hist_dir::AddToFile(TFile* file){
         fh_yvtxdiff_mue1_e1e2->Write();
         fh_yvtxdiff_mue2_e1e2->Write();
         fh_DCHtime_mu->Write();
-        fh_DCHtime_mu->Write();
-        fh_DCHtime_mu->Write();
         fh_HodTime_mu->Write();
         fh_DCHtime_e1->Write();
         fh_DCHtime_e2->Write();
@@ -224,8 +223,84 @@ Hist_dir::~Hist_dir(){
 }
 
 
-void Hist_dir::FillHist(Charged_Particle& part){
-    fh_muee_M->Fill(part.GetMass());
-    return;
+void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
+    if(particle.compare("muon") == 0 ){
+        //Particle specific histograms
+        fh_DCHtime_mu->Fill( part.GetDCHtime());
+        fh_Mu_momentum->Fill(part.GetMomentum());
+        fh_Mu_charge->Fill(part.GetCharge() );
+        fh_Mu_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_Track_Momentum->Fill(part.GetMomentum());
+        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
 
+    }
+    if(particle.compare("electron1") == 0 ){
+        fh_Track_Momentum->Fill(part.GetMomentum());
+        fh_Electron_Momentum->Fill(part.GetMomentum());
+        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_Electron_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_DCHtime_e1->Fill( part.GetDCHtime());
+    }
+    if(particle.compare("electron2") == 0 ){
+        fh_Track_Momentum->Fill(part.GetMomentum());
+        fh_Electron_Momentum->Fill(part.GetMomentum());
+        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_Electron_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_DCHtime_e2->Fill( part.GetDCHtime());
+    }
+    if(particle.compare("pion1") == 0 ){
+        //Particle specific histograms
+        fh_Pion_Momentum->Fill(part.GetMomentum());
+        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+    }
+
+    if(particle.compare("pion2") == 0 ){
+        //Particle specific histograms
+        fh_Pion_Momentum->Fill(part.GetMomentum());
+        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+    }
+
+    if(particle.compare("pion3") == 0 ){
+        //Particle specific histograms
+        fh_Pion_Momentum->Fill(part.GetMomentum());
+        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+    }
+}
+
+void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles){
+
+
+    if(particles.compare("mue1") == 0 ){
+        fh_DCH_timediff_mu_e1->Fill( p1.GetDCHtime() - p2.GetDCHtime());
+        fh_Hod_timediff_mu_e1->Fill( p1.GetHodTime() - p2.GetHodTime());
+    }
+    if(particles.compare("mue2") == 0 ){
+        fh_DCH_timediff_mu_e2->Fill( p1.GetDCHtime() - p2.GetDCHtime());
+        fh_Hod_timediff_mu_e2->Fill( p1.GetHodTime() - p2.GetHodTime());
+    }
+    if(particles.compare("e1e2") == 0 ){
+        //TLorentzVector Two_Track_Momentum;
+        Two_Track_Momentum = p1.Momentum + p2.Momentum;
+        fh_mee->Fill( Two_Track_Momentum.M());
+        fh_DCH_timediff_e1_e2->Fill(p1.GetDCHtime() -  p2.GetDCHtime());
+        fh_Hod_timediff_e1_e2->Fill(p1.GetHodTime() - p2.GetHodTime());
+    }
+
+
+}
+void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3){
+    static double massKaonC = 0.493677;
+    //TLorentzVector Three_Track_Momentum;
+    //TLorentzVector Kaon_Momentum;
+    //TLorentzVector Nu_Momentum;
+    Three_Track_Momentum = p1.Momentum + p2.Momentum + p3.Momentum;
+    Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
+    Nu_Momentum = Kaon_Momentum - Three_Track_Momentum;
+
+    fh_missing_mass->Fill(Nu_Momentum.M2());
+    fh_muee_P->Fill(Three_Track_Momentum.P());
+    fh_muee_Pt->Fill(Three_Track_Momentum.Pt());
+    fh_muee_M->Fill(Three_Track_Momentum.M());
+
+    //Make_Cuts();
 }

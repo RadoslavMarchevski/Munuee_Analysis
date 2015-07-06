@@ -24,7 +24,7 @@ vector<TVector3*> clcorrpos;
 TVector3* clpos;
 
 void cleanup();
-
+Cuts make_cuts(Hist_dir* dir1, Charged_Particle& muon, Charged_Particle& electron1, Charged_Particle& electron2,double* Vertex_mu_e1,double* Vertex_mu_e2,double* Vertex_e1_e2);
 
 
 int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
@@ -185,18 +185,23 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //Normalization channel K3pi selection
     if(pi1 != -1 && pi2 != -1 && pi3 != -1){
 
-        K3pi_selection->fh_Nvtx->Fill(nvtx);
-
         K3pi_selection->fh_Ntracks->Fill(ntrack);
-        K3pi_selection->fh_Pion_Momentum->Fill(pion1.GetMomentum());
-        K3pi_selection->fh_Pion_Momentum->Fill(pion2.GetMomentum());
-        K3pi_selection->fh_Pion_Momentum->Fill(pion3.GetMomentum());
-        K3pi_selection->fh_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum() );
-        K3pi_selection->fh_eop->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum() );
-        K3pi_selection->fh_eop->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum() );
-
+        K3pi_selection->fh_Nvtx->Fill(nvtx);
         K3pi_selection->fh_Kaon_Charge->Fill(Kcharge);
         K3pi_selection->fh_Event_Type->Fill(K3pi_Event_Type);
+        K3pi_selection->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
+        K3pi_selection->FillHist(pion1,"pion1");
+        K3pi_selection->FillHist(pion2,"pion2");
+        K3pi_selection->FillHist(pion3,"pion3");
+
+        //K3pi_selection->fh_Pion_Momentum->Fill(pion1.GetMomentum());
+        //K3pi_selection->fh_Pion_Momentum->Fill(pion2.GetMomentum());
+        //K3pi_selection->fh_Pion_Momentum->Fill(pion3.GetMomentum());
+        //K3pi_selection->fh_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum() );
+        //K3pi_selection->fh_eop->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum() );
+        //K3pi_selection->fh_eop->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum() );
+
+
         if(Kcharge*pion1.GetCharge()==-1)
             K3pi_selection->fh_odd_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum());
         else if(Kcharge*pion2.GetCharge()==-1)
@@ -204,7 +209,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         else if(Kcharge*pion3.GetCharge()==-1)
             K3pi_selection->fh_odd_eop->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum());
 
-        K3pi_selection->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
     }
 
     dir1->fh_Nvtx->Fill(nvtx);
@@ -216,25 +220,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     //------------------------------------Cut one-------------------------------------
 
-    //Variables from compact
-    dir1->fh_Track_Momentum->Fill(muon.GetMomentum());
-    dir1->fh_Track_Momentum->Fill(electron1.GetMomentum());
-    dir1->fh_Track_Momentum->Fill(electron2.GetMomentum());
-    dir1->fh_eop->Fill(muon.GetEnergyLeftInEcal()/ muon.GetMomentum() );
-    dir1->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/ electron1.GetMomentum() );
-    dir1->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/ electron2.GetMomentum() );
-
-    //Muon distributions
-    dir1->fh_Mu_momentum->Fill(muon.GetMomentum());
-    dir1->fh_Mu_charge->Fill(muon.GetCharge() );
-    dir1->fh_Mu_eop->Fill(muon.GetEnergyLeftInEcal()/ muon.GetMomentum() );
-
-    //Electrons distributions
-    dir1->fh_Electron_eop->Fill(electron1.GetEnergyLeftInEcal()/ electron1.GetMomentum() );
-    dir1->fh_Electron_eop->Fill(electron2.GetEnergyLeftInEcal()/ electron2.GetMomentum() );
-    dir1->fh_Electron_Momentum->Fill(electron1.GetMomentum());
-    dir1->fh_Electron_Momentum->Fill(electron2.GetMomentum());
-
 
     if(Kcharge*electron1.GetCharge()==-1)
         dir1->fh_odd_eop->Fill(electron1.GetEnergyLeftInEcal()/ electron1.GetMomentum());
@@ -243,7 +228,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     dir1->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
     //--Vertex Reconstruction --
-    //Vertex calculation for each pair of tracks:
+    //Vertex reconstruction for each pair of tracks:
     //correct slopes are taken from the compact
     //three track vertex reconstruction routine
     double Vertex_mu_e1[3]= {0.};
@@ -265,7 +250,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     }
 
     dir1->fh_Z_Vertex->Fill(COmPaCt_Z_Vertex );
-    dir1->fh_Mu_Zvtx_min_COmPaCt_Zvtx->Fill( Vertex_mu_e1[2] - COmPaCt_Z_Vertex);
 
     dir1->fh_zvtxdiff_mue1_mue2->Fill( Vertex_mu_e1[2] - Vertex_mu_e2[2]);
     dir1->fh_zvtxdiff_mue1_e1e2->Fill( Vertex_mu_e1[2] - Vertex_e1_e2[2]);
@@ -278,74 +262,45 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir1->fh_xvtxdiff_mue2_e1e2->Fill( Vertex_mu_e2[0] - Vertex_e1_e2[0]);
     //--End of Vertex Reconstruction --
 
-    //-- Time alignment
-    dir1->fh_DCHtime_mu->Fill( muon.GetDCHtime());
-    dir1->fh_DCHtime_e1->Fill( electron1.GetDCHtime());
-    dir1->fh_DCHtime_e2->Fill( electron2.GetDCHtime());
-    dir1->fh_DCH_timediff_e1_e2->Fill(electron2.GetDCHtime() - electron1.GetDCHtime());
-    dir1->fh_DCH_timediff_mu_e1->Fill( muon.GetDCHtime() - electron1.GetDCHtime());
-    dir1->fh_DCH_timediff_mu_e2->Fill( muon.GetDCHtime() - electron2.GetDCHtime());
-    dir1->fh_Hod_timediff_e1_e2->Fill( electron2.GetHodTime() - electron1.GetHodTime());
-    dir1->fh_Hod_timediff_mu_e1->Fill( muon.GetHodTime() - electron1.GetHodTime());
-    dir1->fh_Hod_timediff_mu_e2->Fill( muon.GetHodTime() - electron2.GetHodTime());
-    //-- End of Time alignment
+    //Fill the properties of single tracks (Momentum, E/p , Time variables etc ..)
+    dir1->FillHist(muon,"muon");
+    dir1->FillHist(electron1,"electron1");
+    dir1->FillHist(electron2,"electron2");
+    //Fill histograms for each pair of tracks. First calculates all necessary
+    //two track variables like time differences between two tracks e+e-
+    //invariant mass etc. . Then fills the histograms with the calculated
+    //variables.
+    dir1->FillHist(muon,electron1,"mue1");
+    dir1->FillHist(muon,electron2,"mue2");
+    dir1->FillHist(electron1,electron2,"e1e2");
+    //Fill histograms for the three tracks. Calculates three track vector
+    //and fills the histograms with the variables of interest (momentum,mass ..).
+    dir1->FillHist(electron1,electron2,muon);
 
-    //Two electron system
-    TLorentzVector e1_e2_momentum;
-    e1_e2_momentum = electron1.Momentum + electron2.Momentum;
-    dir1->fh_mee->Fill( e1_e2_momentum.M());
-
-    //Three track system
-    TLorentzVector Three_track_momentum;
-    Three_track_momentum = electron1.Momentum + electron2.Momentum + muon.Momentum;
-    dir1->fh_muee_P->Fill(Three_track_momentum.P());
-    dir1->fh_muee_Pt->Fill(Three_track_momentum.Pt());
-    //dir1->fh_muee_M->Fill(Three_track_momentum.M());
-    dir1->FillHist(muon);
-    //Neutrino momentum
-    TLorentzVector Kaon_momentum;
-    Kaon_momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
-    TLorentzVector Nu_momentum;
-    Nu_momentum = Kaon_momentum - Three_track_momentum;
-    dir1->fh_missing_mass->Fill(Nu_momentum.M2());
-
+    //Producing cut variable in more readable way with the class
+    //described in Cuts.h;
+    Cuts cutting = make_cuts(dir1,muon,electron1,electron2,Vertex_mu_e1,Vertex_mu_e2,Vertex_e1_e2);
 
     //Defining variables that it would be cut on
-    Cuts cutting;
-    cutting.DCH_e1e2 = electron2.GetDCHtime() - electron1.GetDCHtime();
-    cutting.DCH_mue1 = muon.GetDCHtime() - electron1.GetDCHtime();
-    cutting.DCH_mue2 = muon.GetDCHtime() - electron2.GetDCHtime();
-    cutting.Hod_e1e2 = electron2.GetHodTime() - electron1.GetHodTime();
-    cutting.Hod_mue1 = muon.GetHodTime() - electron1.GetHodTime();
-    cutting.Hod_mue2 = muon.GetHodTime() - electron2.GetHodTime();
-    cutting.Mu_P     = muon.GetMomentum();
-    cutting.E1_P     = electron1.GetMomentum();
-    cutting.E2_P     = electron2.GetMomentum();
-    cutting.muee_P   = Three_track_momentum.P();
-    cutting.muee_Pt  = Three_track_momentum.Pt();
-    cutting.zvtx_e1e2= Vertex_mu_e1[2] - Vertex_mu_e2[2];
-    cutting.zvtx_mue2= Vertex_mu_e1[2] - Vertex_e1_e2[2];
-    cutting.zvtx_mue1= Vertex_mu_e2[2] - Vertex_e1_e2[2];
-    cutting.yvtx_e1e2= Vertex_mu_e1[1] - Vertex_mu_e2[1];
-    cutting.yvtx_mue2= Vertex_mu_e1[1] - Vertex_e1_e2[1];
-    cutting.yvtx_mue1= Vertex_mu_e2[1] - Vertex_e1_e2[1];
-    cutting.xvtx_e1e2= Vertex_mu_e1[0] - Vertex_mu_e2[0];
-    cutting.xvtx_mue2= Vertex_mu_e1[0] - Vertex_e1_e2[0];
-    cutting.xvtx_mue1= Vertex_mu_e2[0] - Vertex_e1_e2[0];
-
-    //Cuts
+    //
+    ////Cuts
+    //-- Momentum cut ---
 
     if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
     if(cutting.E2_P < 3.  || cutting.E2_P > 50.){return 0;}
     if(cutting.muee_P < 44 || cutting.muee_P > 66){return 0;}
+    //--ENDOF Momentum cut ---
+    //-- Timing cut ---
     if(fabs(cutting.DCH_e1e2) > 10. ||
        fabs(cutting.DCH_mue1) > 10. ||
        fabs(cutting.DCH_mue2) > 10. ||
        fabs(cutting.Hod_e1e2) > 2. ||
        fabs(cutting.Hod_mue1) > 2. ||
        fabs(cutting.Hod_mue2) > 2.
-       ){return 0;}
+        ){return 0;}
+    //-- ENDOF Timing cut ---
+    //--Vertex Cut --
     if(fabs(cutting.zvtx_e1e2) > 500 ||
        fabs(cutting.zvtx_mue1) > 500 ||
        fabs(cutting.zvtx_mue2) > 500 ||
@@ -355,16 +310,17 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_e1e2) > 500 ||
        fabs(cutting.yvtx_mue2) > 500 ||
        fabs(cutting.yvtx_mue1) > 500
-       ){return 0;}
+        ){return 0;}
+    //--ENDOF Vertex Cut --
 
-    dir2->fh_Mu_momentum->Fill(muon.GetMomentum());
-    dir2->fh_Mu_charge->Fill(muon.GetCharge() );
-    dir2->fh_Mu_eop->Fill(muon.GetEnergyLeftInEcal()/ muon.GetMomentum() );
-    dir2->fh_Electron_Momentum->Fill(electron1.GetMomentum());
-    dir2->fh_Electron_Momentum->Fill(electron2.GetMomentum());
-    dir2->fh_muee_P->Fill(Three_track_momentum.P());
-    dir2->fh_missing_mass->Fill(Nu_momentum.M2());
-    dir1->fh_Event_Type->Fill(Event_Type);
+    dir2->FillHist(muon,"muon");
+    dir2->FillHist(electron1,"electron1");
+    dir2->FillHist(electron2,"electron2");
+    dir2->FillHist(muon,electron1,"mue1");
+    dir2->FillHist(muon,electron2,"mue2");
+    dir2->FillHist(electron1,electron2,"e1e2");
+    dir2->FillHist(electron1,electron2,muon);
+
     return 0;
 }
 
@@ -373,4 +329,30 @@ void cleanup()    {
 
 
     return;
+}
+
+Cuts make_cuts(Hist_dir* dir1,Charged_Particle& muon, Charged_Particle& electron1, Charged_Particle& electron2,double* Vertex_mu_e1,double* Vertex_mu_e2,double* Vertex_e1_e2){
+    Cuts cutting;
+
+    cutting.DCH_e1e2 = electron2.GetDCHtime() - electron1.GetDCHtime();
+    cutting.DCH_mue1 = muon.GetDCHtime() - electron1.GetDCHtime();
+    cutting.DCH_mue2 = muon.GetDCHtime() - electron2.GetDCHtime();
+    cutting.Hod_e1e2 = electron2.GetHodTime() - electron1.GetHodTime();
+    cutting.Hod_mue1 = muon.GetHodTime() - electron1.GetHodTime();
+    cutting.Hod_mue2 = muon.GetHodTime() - electron2.GetHodTime();
+    cutting.Mu_P     = muon.GetMomentum();
+    cutting.E1_P     = electron1.GetMomentum();
+    cutting.E2_P     = electron2.GetMomentum();
+    cutting.muee_P   = dir1->GetThreeTrackMomentum().P();
+    cutting.muee_Pt  = dir1->GetThreeTrackMomentum().Pt();
+    cutting.zvtx_e1e2= Vertex_mu_e1[2] - Vertex_mu_e2[2];
+    cutting.zvtx_mue2= Vertex_mu_e1[2] - Vertex_e1_e2[2];
+    cutting.zvtx_mue1= Vertex_mu_e2[2] - Vertex_e1_e2[2];
+    cutting.yvtx_e1e2= Vertex_mu_e1[1] - Vertex_mu_e2[1];
+    cutting.yvtx_mue2= Vertex_mu_e1[1] - Vertex_e1_e2[1];
+    cutting.yvtx_mue1= Vertex_mu_e2[1] - Vertex_e1_e2[1];
+    cutting.xvtx_e1e2= Vertex_mu_e1[0] - Vertex_mu_e2[0];
+    cutting.xvtx_mue2= Vertex_mu_e1[0] - Vertex_e1_e2[0];
+    cutting.xvtx_mue1= Vertex_mu_e2[0] - Vertex_e1_e2[0];
+    return cutting;
 }
