@@ -19,7 +19,7 @@ public:
     void FillHist(Charged_Particle& part, std::string particle);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
-    void FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2);
+    void FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2,std::string decay_type);
     TLorentzVector& GetThreeTrackMomentum(){return Three_Track_Momentum; };
     TLorentzVector& GetTwoTrackMomentum(){return Two_Track_Momentum; };
     TLorentzVector& GetKaonMomentum(){return Kaon_Momentum; };
@@ -56,6 +56,18 @@ public:
     TH1F* fh_zvtxdiff_mue1_mue2;
     TH1F* fh_zvtxdiff_mue1_e1e2;
     TH1F* fh_zvtxdiff_mue2_e1e2;
+    TH1F* fh_xvtxdiff_pi1pi2_pi2pi3;
+    TH1F* fh_xvtxdiff_pi1pi2_pi1pi3;
+    TH1F* fh_xvtxdiff_pi1pi3_pi2pi3;
+    TH1F* fh_yvtxdiff_pi1pi2_pi2pi3;
+    TH1F* fh_yvtxdiff_pi1pi2_pi1pi3;
+    TH1F* fh_yvtxdiff_pi1pi3_pi2pi3;
+    TH1F* fh_zvtxdiff_pi1pi2_pi2pi3;
+    TH1F* fh_zvtxdiff_pi1pi2_pi1pi3;
+    TH1F* fh_zvtxdiff_pi1pi3_pi2pi3;
+    TH1F* fh_cda_pi1_pi2;
+    TH1F* fh_cda_pi1_pi3;
+    TH1F* fh_cda_pi2_pi3;
     TH1F* fh_DCHtime_mu;
     TH1F* fh_DCHtime_e1;
     TH1F* fh_DCHtime_e2;

@@ -39,7 +39,26 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_odd_eop           = new TH1F("odd_E/p","E/p for the odd track in the k3pi selection",120,0.,1.2);
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
         fh_Z_Vertex          = new TH1F("Z_vertex","Reconstructed Z Vtx position ;Z_Vtx[cm];Nevents ",1500.,-5000.,10000.);
+ //Reconstructed Vtx difference
+        fh_xvtxdiff_pi1pi2_pi2pi3 = new TH1F("xvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed X vtx; X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_xvtxdiff_pi1pi2_pi1pi3 = new TH1F("xvtxdiff_pi1pi2_pi1pi3","Difference between  #pi_1 #pi_2 and #pi_1 #pi_3 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_xvtxdiff_pi1pi3_pi2pi3 = new TH1F("xvtxdiff_pi1pi3_pi2pi3","Difference between  #pi_1 #pi_3 and #pi_2 #pi_3 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_yvtxdiff_pi1pi2_pi2pi3 = new TH1F("yvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed  Y vtx;Y_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_yvtxdiff_pi1pi2_pi1pi3 = new TH1F("yvtxdiff_pi1pi2_pi1pi3","Difference between  #pi_1 #pi_2 and #pi_1 #pi_3 reconstructed Y vtx;Y_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_yvtxdiff_pi1pi3_pi2pi3 = new TH1F("yvtxdiff_pi1pi3_pi2pi3","Difference between  #pi_1 #pi_3 and #pi_2 #pi_3 reconstructed Y vtx;Y_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_zvtxdiff_pi1pi2_pi2pi3 = new TH1F("zvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed  Z vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_zvtxdiff_pi1pi2_pi1pi3 = new TH1F("zvtxdiff_pi1pi2_pi1pi3","Difference between  #pi_1 #pi_2 and #pi_1 #pi_3 reconstructed Z vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_zvtxdiff_pi1pi3_pi2pi3 = new TH1F("zvtxdiff_pi1pi3_pi2pi3","Difference between  #pi_1 #pi_3 and #pi_2 #pi_3 reconstructed Z vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_cda_pi1_pi2 = new TH1F("cda_pi1_pi2","Closest distance approach between the #pi_1 and #pi_3;cda[cm];Nevents",50, 0., 50.);
+        fh_cda_pi1_pi3 = new TH1F("cda_pi1_pi3","Closest distance approach between the #pi_1 and #pi_3;cda[cm];Nevents",50, 0., 50.);
+        fh_cda_pi2_pi3 = new TH1F("cda_pi2_pi3","Closest distance approach between the #pi_2 and #pi_3;cda[cm];Nevents" ,50, 0., 50.);
+        //ENDOF Vertex Reconstruction
 
+        fh_muee_P = new TH1F("3pi_P","Three track momentum ;P_{3#pi}[GeV];Nevents",100,0.,100);
+        fh_muee_Pt = new TH1F("3pi_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",200,0,2.);
+        fh_muee_M = new TH1F("3pi_M","Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
+
+        fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
@@ -59,15 +78,16 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Z_Vertex          = new TH1F("Z_vertex","Reconstructed Z Vtx position ;Z_Vtx[cm];Nevents ",150.,-5000.,10000.);
         fh_Mu_Zvtx_min_COmPaCt_Zvtx = new TH1F("Mu_Zvtx_min_COmPaCt_Zvtx","Calculated #mu Zvtx - COmPact three track Zvtx;(Z_#mu - Z_vtx)[cm];Nevents ",100,-10000.,10000.);
         //Reconstructed Vtx difference
-        fh_xvtxdiff_mue1_mue2 = new TH1F("xvtxdiff_mue1_mue2","Difference between #mu e1 and #mu e2 reconstructed X vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
-        fh_xvtxdiff_mue1_e1e2 = new TH1F("xvtxdiff_mue1_e1e2","Difference between #mu e1 and e1 e2 reconstructed X vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
-        fh_xvtxdiff_mue2_e1e2 = new TH1F("xvtxdiff_mue2_e1e2","Difference between #mu e2 and e1 e2 reconstructed X vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
-        fh_yvtxdiff_mue1_mue2 = new TH1F("yvtxdiff_mue1_mue2","Difference between #mu e1 and #mu e2 reconstructed Y vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
-        fh_yvtxdiff_mue1_e1e2 = new TH1F("yvtxdiff_mue1_e1e2","Difference between #mu e1 and e1 e2 reconstructed  Y vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
-        fh_yvtxdiff_mue2_e1e2 = new TH1F("yvtxdiff_mue2_e1e2","Difference between #mu e2 and e1 e2 reconstructed  Y vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_xvtxdiff_mue1_mue2 = new TH1F("xvtxdiff_mue1_mue2","Difference between #mu e1 and #mu e2 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_xvtxdiff_mue1_e1e2 = new TH1F("xvtxdiff_mue1_e1e2","Difference between #mu e1 and e1 e2 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_xvtxdiff_mue2_e1e2 = new TH1F("xvtxdiff_mue2_e1e2","Difference between #mu e2 and e1 e2 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_yvtxdiff_mue1_mue2 = new TH1F("yvtxdiff_mue1_mue2","Difference between #mu e1 and #mu e2 reconstructed Y vtx;Y_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_yvtxdiff_mue1_e1e2 = new TH1F("yvtxdiff_mue1_e1e2","Difference between #mu e1 and e1 e2 reconstructed  Y vtx;Y_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+        fh_yvtxdiff_mue2_e1e2 = new TH1F("yvtxdiff_mue2_e1e2","Difference between #mu e2 and e1 e2 reconstructed  Y vtx;Y_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
         fh_zvtxdiff_mue1_mue2 = new TH1F("zvtxdiff_mue1_mue2","Difference between #mu e1 and #mu e2 reconstructed Z vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
         fh_zvtxdiff_mue1_e1e2 = new TH1F("zvtxdiff_mue1_e1e2","Difference between #mu e1 and e1 e2 reconstructed Z vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
         fh_zvtxdiff_mue2_e1e2 = new TH1F("zvtxdiff_mue2_e1e2","Difference between #mu e2 and e1 e2 reconstructed Z vtx;Z_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
+
         //ENDOF Reconstructed Vtx difference
 
         //Time matching
@@ -120,6 +140,22 @@ void Hist_dir::AddToFile(TFile* file){
         fh_odd_eop           ->Write();
         fh_COmPaCt_Z_Vertex  ->Write();
         fh_Z_Vertex          ->Write();
+        fh_zvtxdiff_pi1pi2_pi2pi3->Write();
+        fh_zvtxdiff_pi1pi2_pi1pi3->Write();
+        fh_zvtxdiff_pi1pi3_pi2pi3->Write();
+        fh_xvtxdiff_pi1pi2_pi2pi3->Write();
+        fh_xvtxdiff_pi1pi2_pi1pi3->Write();
+        fh_xvtxdiff_pi1pi3_pi2pi3->Write();
+        fh_yvtxdiff_pi1pi2_pi2pi3->Write();
+        fh_yvtxdiff_pi1pi2_pi1pi3->Write();
+        fh_yvtxdiff_pi1pi3_pi2pi3->Write();
+        fh_cda_pi1_pi2           ->Write();
+        fh_cda_pi1_pi3           ->Write();
+        fh_cda_pi2_pi3           ->Write();
+        fh_muee_P                ->Write();
+        fh_muee_Pt               ->Write();
+        fh_muee_M                ->Write();
+        fh_missing_mass          ->Write();
     }
     if(ftype==2){
         fh_Ntracks           ->Write();
@@ -191,6 +227,22 @@ Hist_dir::~Hist_dir(){
         delete fh_odd_eop           ;
         delete fh_COmPaCt_Z_Vertex  ;
         delete fh_Z_Vertex          ;
+        delete fh_zvtxdiff_pi1pi2_pi2pi3   ;
+        delete fh_zvtxdiff_pi1pi2_pi1pi3   ;
+        delete fh_zvtxdiff_pi1pi3_pi2pi3   ;
+        delete fh_xvtxdiff_pi1pi2_pi2pi3   ;
+        delete fh_xvtxdiff_pi1pi2_pi1pi3   ;
+        delete fh_xvtxdiff_pi1pi3_pi2pi3   ;
+        delete fh_yvtxdiff_pi1pi2_pi2pi3   ;
+        delete fh_yvtxdiff_pi1pi2_pi1pi3   ;
+        delete fh_yvtxdiff_pi1pi3_pi2pi3   ;
+        delete fh_cda_pi1_pi2              ;
+        delete fh_cda_pi1_pi3              ;
+        delete fh_cda_pi2_pi3              ;
+        delete fh_muee_P                ;
+        delete fh_muee_Pt               ;
+        delete fh_muee_M                ;
+        delete fh_missing_mass          ;
     }
     if(ftype==2){
         delete fh_Ntracks           ;

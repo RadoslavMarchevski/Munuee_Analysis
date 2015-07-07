@@ -106,17 +106,34 @@ void Hist_dir::FillCommonHist(superCmpEvent* sevt){
     fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
 
 }
-void Hist_dir::FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2){
-    fh_zvtxdiff_mue1_mue2->Fill( mu_e1[2] - mu_e2[2]);
-    fh_zvtxdiff_mue1_e1e2->Fill( mu_e1[2] - e1_e2[2]);
-    fh_zvtxdiff_mue2_e1e2->Fill( mu_e2[2] - e1_e2[2]);
-    fh_yvtxdiff_mue1_mue2->Fill( mu_e1[1] - mu_e2[1]);
-    fh_yvtxdiff_mue1_e1e2->Fill( mu_e1[1] - e1_e2[1]);
-    fh_yvtxdiff_mue2_e1e2->Fill( mu_e2[1] - e1_e2[1]);
-    fh_xvtxdiff_mue1_mue2->Fill( mu_e1[0] - mu_e2[0]);
-    fh_xvtxdiff_mue1_e1e2->Fill( mu_e1[0] - e1_e2[0]);
-    fh_xvtxdiff_mue2_e1e2->Fill( mu_e2[0] - e1_e2[0]);
-    fh_cda_mu_e1->Fill(cda_mu_e1);
-    fh_cda_mu_e2->Fill(cda_mu_e2);
-    fh_cda_e1_e2->Fill(cda_e1_e2);
+void Hist_dir::FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2,std::string decay_type){
+    if(decay_type.compare("munuee") ==0){
+        fh_zvtxdiff_mue1_mue2->Fill( mu_e1[2] - mu_e2[2]);
+        fh_zvtxdiff_mue1_e1e2->Fill( mu_e1[2] - e1_e2[2]);
+        fh_zvtxdiff_mue2_e1e2->Fill( mu_e2[2] - e1_e2[2]);
+        fh_yvtxdiff_mue1_mue2->Fill( mu_e1[1] - mu_e2[1]);
+        fh_yvtxdiff_mue1_e1e2->Fill( mu_e1[1] - e1_e2[1]);
+        fh_yvtxdiff_mue2_e1e2->Fill( mu_e2[1] - e1_e2[1]);
+        fh_xvtxdiff_mue1_mue2->Fill( mu_e1[0] - mu_e2[0]);
+        fh_xvtxdiff_mue1_e1e2->Fill( mu_e1[0] - e1_e2[0]);
+        fh_xvtxdiff_mue2_e1e2->Fill( mu_e2[0] - e1_e2[0]);
+        fh_cda_mu_e1->Fill(cda_mu_e1);
+        fh_cda_mu_e2->Fill(cda_mu_e2);
+        fh_cda_e1_e2->Fill(cda_e1_e2);
+    }
+    if(decay_type.compare("K3pi") == 0 ){
+        fh_zvtxdiff_pi1pi2_pi2pi3->Fill(mu_e1[2] - mu_e2[2]);
+        fh_zvtxdiff_pi1pi2_pi1pi3->Fill(mu_e1[2] - e1_e2[2]);
+        fh_zvtxdiff_pi1pi3_pi2pi3->Fill(mu_e2[2] - e1_e2[2]);
+        fh_xvtxdiff_pi1pi2_pi2pi3->Fill(mu_e1[1] - mu_e2[1]);
+        fh_xvtxdiff_pi1pi2_pi1pi3->Fill(mu_e1[1] - e1_e2[1]);
+        fh_xvtxdiff_pi1pi3_pi2pi3->Fill(mu_e2[1] - e1_e2[1]);
+        fh_yvtxdiff_pi1pi2_pi2pi3->Fill(mu_e1[0] - mu_e2[0]);
+        fh_yvtxdiff_pi1pi2_pi1pi3->Fill(mu_e1[0] - e1_e2[0]);
+        fh_yvtxdiff_pi1pi3_pi2pi3->Fill(mu_e2[0] - e1_e2[0]);
+        fh_cda_pi1_pi2           ->Fill(cda_mu_e1);
+        fh_cda_pi1_pi3           ->Fill(cda_mu_e2);
+        fh_cda_pi2_pi3           ->Fill(cda_e1_e2);
+
+    }
 }
