@@ -47,7 +47,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //--------------------------------------------------------//
     //Definition of Variables
     int    ntrack = sevt->Ntrack; // number of tracks
-    int    nclust = sevt->Ncluster; // number of tracks
+    int    nclust = sevt->Ncluster; // number of clusters
     int    nvtx   = sevt->Nvtx;   // number of vtx
     double DCHbz = Geom->DCH.bz;         // z before magnet
     double DCHz = Geom->DCH.z;         // z after magnet
@@ -85,9 +85,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             sbur->BadB.HodC== 1|| sbur->BadB.Phys== 1){
             sbur->BadB.Skip=1;
         }
-    Initial_dir->fh_Ntracks->Fill(ntrack);
-    Initial_dir->fh_Nvtx->Fill(nvtx);
-    Initial_dir->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
+    Initial_dir->FillCommonHist(sevt);
+
     if(nvtx != 1){return 0;}
     if(ntrack != 3 ) {return 0;}
     if(COmPaCt_Z_Vertex < -2000. || COmPaCt_Z_Vertex > 8000.){return 0;}
@@ -185,22 +184,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //Normalization channel K3pi selection
     if(pi1 != -1 && pi2 != -1 && pi3 != -1){
 
-        K3pi_selection->fh_Ntracks->Fill(ntrack);
-        K3pi_selection->fh_Nvtx->Fill(nvtx);
-        K3pi_selection->fh_Kaon_Charge->Fill(Kcharge);
-        K3pi_selection->fh_Event_Type->Fill(K3pi_Event_Type);
-        K3pi_selection->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
+        K3pi_selection->FillCommonHist(sevt);
         K3pi_selection->FillHist(pion1,"pion1");
         K3pi_selection->FillHist(pion2,"pion2");
         K3pi_selection->FillHist(pion3,"pion3");
-
-        //K3pi_selection->fh_Pion_Momentum->Fill(pion1.GetMomentum());
-        //K3pi_selection->fh_Pion_Momentum->Fill(pion2.GetMomentum());
-        //K3pi_selection->fh_Pion_Momentum->Fill(pion3.GetMomentum());
-        //K3pi_selection->fh_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum() );
-        //K3pi_selection->fh_eop->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum() );
-        //K3pi_selection->fh_eop->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum() );
-
+        K3pi_selection->fh_Kaon_Charge->Fill(Kcharge);
+        K3pi_selection->fh_Event_Type->Fill(K3pi_Event_Type);
 
         if(Kcharge*pion1.GetCharge()==-1)
             K3pi_selection->fh_odd_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum());
@@ -211,22 +200,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     }
 
-    dir1->fh_Nvtx->Fill(nvtx);
-    dir1->fh_Ntracks->Fill(ntrack);
-    dir1->fh_Event_Type->Fill(Event_Type);
-    dir1->fh_Kaon_Charge->Fill(Kcharge);
+
     //Signal particle identification
     if(imu == -1 || iel1 == -1 || iel2 == -1){return 0;}
 
     //------------------------------------Cut one-------------------------------------
-
-
+    dir1->FillCommonHist(sevt);
+    dir1->fh_Event_Type->Fill(Event_Type);
+    //dir1->fh_Kaon_Charge->Fill(Kcharge);
     if(Kcharge*electron1.GetCharge()==-1)
         dir1->fh_odd_eop->Fill(electron1.GetEnergyLeftInEcal()/ electron1.GetMomentum());
     else if(Kcharge*electron2.GetCharge()==-1)
         dir1->fh_odd_eop->Fill(electron2.GetEnergyLeftInEcal()/ electron2.GetMomentum());
 
-    dir1->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);
     //--Vertex Reconstruction --
     //Vertex reconstruction for each pair of tracks:
     //correct slopes are taken from the compact
@@ -240,26 +226,17 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     bool vtx_mue1 = false;
     bool vtx_mue2 = false;
     bool vtx_e1e2 = false;
+
+//Checking if vertexes are true and if not go to the next event
     if(!closap_double_(muon.Position,electron1.Position,muon.Slopes,electron1.Slopes,&cda_mu_e1,Vertex_mu_e1) ||
        !closap_double_(muon.Position,electron2.Position,muon.Slopes,electron2.Slopes,&cda_mu_e2,Vertex_mu_e2) ||
        !closap_double_(electron1.Position,electron2.Position,electron1.Slopes,electron2.Slopes,&cda_e1_e2,Vertex_e1_e2)){
-        //vtx_mue1 = true;
-        //vtx_mue2 = true;
-        //vtx_e1e2 = true;
         return 0;
     }
 
     dir1->fh_Z_Vertex->Fill(COmPaCt_Z_Vertex );
+    dir1->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2);
 
-    dir1->fh_zvtxdiff_mue1_mue2->Fill( Vertex_mu_e1[2] - Vertex_mu_e2[2]);
-    dir1->fh_zvtxdiff_mue1_e1e2->Fill( Vertex_mu_e1[2] - Vertex_e1_e2[2]);
-    dir1->fh_zvtxdiff_mue2_e1e2->Fill( Vertex_mu_e2[2] - Vertex_e1_e2[2]);
-    dir1->fh_yvtxdiff_mue1_mue2->Fill( Vertex_mu_e1[1] - Vertex_mu_e2[1]);
-    dir1->fh_yvtxdiff_mue1_e1e2->Fill( Vertex_mu_e1[1] - Vertex_e1_e2[1]);
-    dir1->fh_yvtxdiff_mue2_e1e2->Fill( Vertex_mu_e2[1] - Vertex_e1_e2[1]);
-    dir1->fh_xvtxdiff_mue1_mue2->Fill( Vertex_mu_e1[0] - Vertex_mu_e2[0]);
-    dir1->fh_xvtxdiff_mue1_e1e2->Fill( Vertex_mu_e1[0] - Vertex_e1_e2[0]);
-    dir1->fh_xvtxdiff_mue2_e1e2->Fill( Vertex_mu_e2[0] - Vertex_e1_e2[0]);
     //--End of Vertex Reconstruction --
 
     //Fill the properties of single tracks (Momentum, E/p , Time variables etc ..)
@@ -284,14 +261,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //Defining variables that it would be cut on
     //
     ////Cuts
-    //-- Momentum cut ---
+    //-- CUT1 Momentum cut ---
 
     if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
     if(cutting.E2_P < 3.  || cutting.E2_P > 50.){return 0;}
     if(cutting.muee_P < 44 || cutting.muee_P > 66){return 0;}
-    //--ENDOF Momentum cut ---
-    //-- Timing cut ---
+    //--ENDOF CUT1 Momentum cut ---
+    //-- CUT2 Timing cut ---
     if(fabs(cutting.DCH_e1e2) > 10. ||
        fabs(cutting.DCH_mue1) > 10. ||
        fabs(cutting.DCH_mue2) > 10. ||
@@ -299,8 +276,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.Hod_mue1) > 2. ||
        fabs(cutting.Hod_mue2) > 2.
         ){return 0;}
-    //-- ENDOF Timing cut ---
-    //--Vertex Cut --
+    //-- ENDOF CUT2 Timing cut ---
+    //-- CUT3 Vertex Cut --
     if(fabs(cutting.zvtx_e1e2) > 500 ||
        fabs(cutting.zvtx_mue1) > 500 ||
        fabs(cutting.zvtx_mue2) > 500 ||
@@ -311,8 +288,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_mue2) > 500 ||
        fabs(cutting.yvtx_mue1) > 500
         ){return 0;}
-    //--ENDOF Vertex Cut --
+    //--ENDOF CUT3 Vertex Cut --
+    //-- CUT3 Invariant Mass Cut --
+    if(cutting.mee < 0.01 ){return 0;}
+    //--ENDOF CUT3 Invariant Mass Cut --
 
+    dir2->FillCommonHist(sevt);
+    dir2->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2);
     dir2->FillHist(muon,"muon");
     dir2->FillHist(electron1,"electron1");
     dir2->FillHist(electron2,"electron2");
@@ -343,6 +325,7 @@ Cuts make_cuts(Hist_dir* dir1,Charged_Particle& muon, Charged_Particle& electron
     cutting.Mu_P     = muon.GetMomentum();
     cutting.E1_P     = electron1.GetMomentum();
     cutting.E2_P     = electron2.GetMomentum();
+    cutting.mee      = dir1->GetTwoTrackMomentum().M();
     cutting.muee_P   = dir1->GetThreeTrackMomentum().P();
     cutting.muee_Pt  = dir1->GetThreeTrackMomentum().Pt();
     cutting.zvtx_e1e2= Vertex_mu_e1[2] - Vertex_mu_e2[2];

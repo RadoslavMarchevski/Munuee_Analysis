@@ -22,6 +22,7 @@ public:
     double E1_P;
     double E2_P;
     double muee_P;
+    double mee;
     double muee_Pt;
     double zvtx_e1e2;
     double zvtx_mue2;
@@ -32,7 +33,5 @@ public:
     double xvtx_e1e2;
     double xvtx_mue2;
     double xvtx_mue1;
-    //double muee_P;
-
 };
 #endif

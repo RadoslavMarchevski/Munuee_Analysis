@@ -389,6 +389,7 @@ UCSRCS = user_init.c \
          user_burst.c \
          Charged_Particle.c \
          Hist_dir.c \
+	 Fillhistograms.c \
          user_superBurst.c \
          Cuts.c \
          user_cmpEvent.c \

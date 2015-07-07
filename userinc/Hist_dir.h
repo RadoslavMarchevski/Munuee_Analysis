@@ -15,10 +15,11 @@ public:
     Hist_dir(const std::string& dir_Name,int type);
     ~Hist_dir();
     void AddToFile(TFile* file);
+    void FillCommonHist(superCmpEvent* sevt);
     void FillHist(Charged_Particle& part, std::string particle);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
-    void Make_Cuts(Cuts& cutting);
+    void FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2);
     TLorentzVector& GetThreeTrackMomentum(){return Three_Track_Momentum; };
     TLorentzVector& GetTwoTrackMomentum(){return Two_Track_Momentum; };
     TLorentzVector& GetKaonMomentum(){return Kaon_Momentum; };
@@ -30,6 +31,7 @@ public:
     TLorentzVector Nu_Momentum;
 
     TH1I* fh_Ntracks           ;
+    TH1I* fh_Nclusters         ;
     TH1I* fh_Nvtx              ;
     TH1I* fh_Kaon_Charge       ;
     TH1I* fh_Mu_charge         ;
@@ -71,6 +73,9 @@ public:
     TH1F* fh_missing_mass;
     TH1F* fh_muee_Pt;
     TH1F* fh_muee_P;
+    TH1F* fh_cda_mu_e2;
+    TH1F* fh_cda_e1_e2;
+    TH1F* fh_cda_mu_e1;
 
 
 private:

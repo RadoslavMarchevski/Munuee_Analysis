@@ -22,6 +22,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
 
     if(ftype==0){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
+        fh_Nclusters           = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Track_Momentum    = new TH1F("Track_Momentum","Track momentum after Nvtx,Ntrack and ZVtx cut;Track_P[GeV];Nevents ",100.,0.,100.);
         fh_eop               = new TH1F("Track_E/p","Track E/p after Nvtx,Ntrack and ZVtx cut;E/p;Nevents",120.,0.,1.2);
@@ -29,6 +30,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     }
     if(ftype==1){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
+        fh_Nclusters           = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Kaon_Charge       = new TH1I("Kaon_Charge","Charge of the Kaon;Q;Nevents",4,-2,2);
         fh_Event_Type        = new TH1I("Event_Type","Mu e e : 0- ++-, 1- +++, 2- +--, 3- -++, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
@@ -41,6 +43,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
+        fh_Nclusters           = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Kaon_Charge       = new TH1I("Kaon_Charge","Charge of the Kaon;Q;Nevents",4,-2,2);
         fh_Mu_charge         = new TH1I("Mu_charge","Muon charge ;Mu_Q;Nevents",4.,-2.,2.);
@@ -87,6 +90,9 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{#mu e e}[GeV];Nevents",1000,-1.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
+        fh_cda_mu_e1 = new TH1F("cda_mu_e1","Closest distance approach between the #mu and e1;cda[cm];Nevents",50, 0., 50.);
+        fh_cda_mu_e2 = new TH1F("cda_mu_e2","Closest distance approach between the #mu and e2;cda[cm];Nevents",50, 0., 50.);
+        fh_cda_e1_e2 = new TH1F("cda_e1_e2","Closest distance approach between the e1 and e2;cda[cm];Nevents" ,50, 0., 50.);
 
     }
 }
@@ -97,6 +103,7 @@ void Hist_dir::AddToFile(TFile* file){
     dir->cd();
     if(ftype==0){
         fh_Ntracks           ->Write();
+        fh_Nclusters         ->Write();
         fh_Nvtx              ->Write();
         fh_Track_Momentum    ->Write();
         fh_eop               ->Write();
@@ -105,6 +112,7 @@ void Hist_dir::AddToFile(TFile* file){
     if(ftype==1){
         fh_Ntracks           ->Write();
         fh_Nvtx              ->Write();
+        fh_Nclusters         ->Write();
         fh_Kaon_Charge       ->Write();
         fh_Event_Type        ->Write();
         fh_Pion_Momentum     ->Write();
@@ -116,6 +124,7 @@ void Hist_dir::AddToFile(TFile* file){
     if(ftype==2){
         fh_Ntracks           ->Write();
         fh_Nvtx              ->Write();
+        fh_Nclusters         ->Write();
         fh_Kaon_Charge       ->Write();
         fh_Mu_charge         ->Write();
         fh_Event_Type        ->Write();
@@ -138,16 +147,19 @@ void Hist_dir::AddToFile(TFile* file){
         fh_yvtxdiff_mue1_mue2->Write();
         fh_yvtxdiff_mue1_e1e2->Write();
         fh_yvtxdiff_mue2_e1e2->Write();
+        fh_cda_mu_e1->Write();
+        fh_cda_mu_e2->Write();
+        fh_cda_e1_e2->Write();
         fh_DCHtime_mu->Write();
-        fh_HodTime_mu->Write();
         fh_DCHtime_e1->Write();
         fh_DCHtime_e2->Write();
+        fh_HodTime_mu->Write();
         fh_HodTime_e1->Write();
         fh_HodTime_e2->Write();
         fh_DCH_timediff_mu_e1->Write();
         fh_DCH_timediff_mu_e2->Write();
-        fh_Hod_timediff_mu_e1->Write();
         fh_DCH_timediff_e1_e2->Write();
+        fh_Hod_timediff_mu_e1->Write();
         fh_Hod_timediff_mu_e2->Write();
         fh_Hod_timediff_e1_e2->Write();
         fh_mee->Write();
@@ -155,12 +167,14 @@ void Hist_dir::AddToFile(TFile* file){
         fh_muee_M->Write();
         fh_missing_mass->Write();
         fh_muee_Pt->Write();
+
     }
 }
 
 Hist_dir::~Hist_dir(){
     if(ftype==0){
         delete fh_Ntracks           ;
+        delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Track_Momentum    ;
         delete fh_eop               ;
@@ -168,6 +182,7 @@ Hist_dir::~Hist_dir(){
     }
     if(ftype==1){
         delete fh_Ntracks           ;
+        delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Kaon_Charge       ;
         delete fh_Event_Type        ;
@@ -179,6 +194,7 @@ Hist_dir::~Hist_dir(){
     }
     if(ftype==2){
         delete fh_Ntracks           ;
+        delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Kaon_Charge       ;
         delete fh_Mu_charge         ;
@@ -219,88 +235,8 @@ Hist_dir::~Hist_dir(){
         delete fh_mee;
         delete fh_muee_M;
         delete fh_missing_mass;
+        delete fh_cda_mu_e1;
+        delete fh_cda_mu_e2;
+        delete fh_cda_e1_e2;
     }
-}
-
-
-void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
-    if(particle.compare("muon") == 0 ){
-        //Particle specific histograms
-        fh_DCHtime_mu->Fill( part.GetDCHtime());
-        fh_Mu_momentum->Fill(part.GetMomentum());
-        fh_Mu_charge->Fill(part.GetCharge() );
-        fh_Mu_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-        fh_Track_Momentum->Fill(part.GetMomentum());
-        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-
-    }
-    if(particle.compare("electron1") == 0 ){
-        fh_Track_Momentum->Fill(part.GetMomentum());
-        fh_Electron_Momentum->Fill(part.GetMomentum());
-        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-        fh_Electron_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-        fh_DCHtime_e1->Fill( part.GetDCHtime());
-    }
-    if(particle.compare("electron2") == 0 ){
-        fh_Track_Momentum->Fill(part.GetMomentum());
-        fh_Electron_Momentum->Fill(part.GetMomentum());
-        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-        fh_Electron_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-        fh_DCHtime_e2->Fill( part.GetDCHtime());
-    }
-    if(particle.compare("pion1") == 0 ){
-        //Particle specific histograms
-        fh_Pion_Momentum->Fill(part.GetMomentum());
-        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-    }
-
-    if(particle.compare("pion2") == 0 ){
-        //Particle specific histograms
-        fh_Pion_Momentum->Fill(part.GetMomentum());
-        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-    }
-
-    if(particle.compare("pion3") == 0 ){
-        //Particle specific histograms
-        fh_Pion_Momentum->Fill(part.GetMomentum());
-        fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
-    }
-}
-
-void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles){
-
-
-    if(particles.compare("mue1") == 0 ){
-        fh_DCH_timediff_mu_e1->Fill( p1.GetDCHtime() - p2.GetDCHtime());
-        fh_Hod_timediff_mu_e1->Fill( p1.GetHodTime() - p2.GetHodTime());
-    }
-    if(particles.compare("mue2") == 0 ){
-        fh_DCH_timediff_mu_e2->Fill( p1.GetDCHtime() - p2.GetDCHtime());
-        fh_Hod_timediff_mu_e2->Fill( p1.GetHodTime() - p2.GetHodTime());
-    }
-    if(particles.compare("e1e2") == 0 ){
-        //TLorentzVector Two_Track_Momentum;
-        Two_Track_Momentum = p1.Momentum + p2.Momentum;
-        fh_mee->Fill( Two_Track_Momentum.M());
-        fh_DCH_timediff_e1_e2->Fill(p1.GetDCHtime() -  p2.GetDCHtime());
-        fh_Hod_timediff_e1_e2->Fill(p1.GetHodTime() - p2.GetHodTime());
-    }
-
-
-}
-void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3){
-    static double massKaonC = 0.493677;
-    //TLorentzVector Three_Track_Momentum;
-    //TLorentzVector Kaon_Momentum;
-    //TLorentzVector Nu_Momentum;
-    Three_Track_Momentum = p1.Momentum + p2.Momentum + p3.Momentum;
-    Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
-    Nu_Momentum = Kaon_Momentum - Three_Track_Momentum;
-
-    fh_missing_mass->Fill(Nu_Momentum.M2());
-    fh_muee_P->Fill(Three_Track_Momentum.P());
-    fh_muee_Pt->Fill(Three_Track_Momentum.Pt());
-    fh_muee_M->Fill(Three_Track_Momentum.M());
-
-    //Make_Cuts();
 }
