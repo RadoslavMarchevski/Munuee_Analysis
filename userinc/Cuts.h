@@ -14,6 +14,12 @@ public:
     double DCH_e1e2;
     double DCH_mue1;
     double DCH_mue2;
+    double DCH_Radius_mu;
+    double DCH_Radius_el1;
+    double DCH_Radius_el2;
+    double DCH_Radius_pi1;
+    double DCH_Radius_pi2;
+    double DCH_Radius_pi3;
 
     double Hod_e1e2;
     double Hod_mue1;
@@ -21,8 +27,9 @@ public:
     double Mu_P;
     double E1_P;
     double E2_P;
-    double muee_P;
     double mee;
+    double muee_P;
+    double muee_M;
     double muee_Pt;
     double zvtx_mue1_mue2;
     double zvtx_mue1_e1e2;

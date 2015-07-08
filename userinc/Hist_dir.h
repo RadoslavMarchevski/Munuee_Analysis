@@ -18,8 +18,9 @@ public:
     void FillCommonHist(superCmpEvent* sevt);
     void FillHist(Charged_Particle& part, std::string particle);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
-    void FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
+    void FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum);
     void FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2,std::string decay_type);
+    void ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
     TLorentzVector& GetThreeTrackMomentum(){return Three_Track_Momentum; };
     TLorentzVector& GetTwoTrackMomentum(){return Two_Track_Momentum; };
     TLorentzVector& GetKaonMomentum(){return Kaon_Momentum; };
@@ -45,7 +46,6 @@ public:
     TH1F* fh_Electron_eop      ;
     TH1F* fh_odd_eop           ;
     TH1F* fh_COmPaCt_Z_Vertex  ;
-    TH1F* fh_Z_Vertex          ;
     TH1F* fh_Mu_Zvtx_min_COmPaCt_Zvtx;
     TH1F* fh_xvtxdiff_mue1_mue2;
     TH1F* fh_xvtxdiff_mue1_e1e2;
@@ -88,6 +88,24 @@ public:
     TH1F* fh_cda_mu_e2;
     TH1F* fh_cda_e1_e2;
     TH1F* fh_cda_mu_e1;
+    TH1F* fh_muon_bx      ;
+    TH1F* fh_muon_by      ;
+    TH1F* fh_electron1_bx ;
+    TH1F* fh_electron1_by ;
+    TH1F* fh_electron2_bx ;
+    TH1F* fh_electron2_by ;
+    TH1F* fh_pion1_bx     ;
+    TH1F* fh_pion1_by     ;
+    TH1F* fh_pion2_bx     ;
+    TH1F* fh_pion2_by     ;
+    TH1F* fh_pion3_bx     ;
+    TH1F* fh_pion3_by     ;
+    TH2F* fh_bx_vs_by_muon;
+    TH2F* fh_bx_vs_by_el1;
+    TH2F* fh_bx_vs_by_el2;
+    TH2F* fh_bx_vs_by_pi1;
+    TH2F* fh_bx_vs_by_pi2;
+    TH2F* fh_bx_vs_by_pi3;
 
 
 private:
@@ -98,4 +116,11 @@ extern Hist_dir* Initial_dir;
 extern Hist_dir* K3pi_selection;
 extern Hist_dir* dir1;
 extern Hist_dir* dir2;
+extern Hist_dir* dir3;
+extern Hist_dir* dir4;
+extern Hist_dir* dir5;
+extern Hist_dir* dir6;
+extern Hist_dir* dir7;
+extern Hist_dir* dir8;
+extern Hist_dir* dir9;
 #endif

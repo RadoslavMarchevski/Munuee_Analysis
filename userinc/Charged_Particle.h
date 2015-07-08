@@ -24,6 +24,7 @@ public:
     const double GetMass()        const {return fMass;}
     const double GetMomentum()    const {return Momentum.P();}
     const double GetEnergyLeftInEcal() const{return EcalEnergy;}
+    const double GetDCHradius() const{return TMath::Sqrt(pow(Position[0],2) + pow(Position[1],2));}
     const double GetDCHtime() const{return DCHtime;}
     const double GetHodTime() const{return HodTime;}
     const double GetClusterTime() const{return ClusterTime;}
@@ -35,6 +36,7 @@ public:
     TVector3 Momentum3;
     TLorentzVector Momentum;
     double EcalEnergy;
+    //double R_DCH;
     double Slopes[3];
     double Position[3];
     double bxdz;

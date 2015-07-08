@@ -24,7 +24,14 @@ int user_exit() {
     Initial_dir->AddToFile(file);
     K3pi_selection->AddToFile(file);
     dir1->AddToFile(file);
+    dir3->AddToFile(file);
+    dir4->AddToFile(file);
+    dir5->AddToFile(file);
+    dir6->AddToFile(file);
+    dir7->AddToFile(file);
+    dir8->AddToFile(file);
     dir2->AddToFile(file);
+    dir9->AddToFile(file);
     printf ("### saving histograms to file run2003_2004.root \n");
     //delete dir1;
     //delete dir2;

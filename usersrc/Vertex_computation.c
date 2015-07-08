@@ -12,7 +12,6 @@
 #include <string>
 
 Charged_Vertex::Charged_Vertex(){
-    momentum = muon.GetMomentum();
     //std::cout << muon.GetMomentum() << std::endl;
     //cda = 0;
     //vertex[3]= {0.};

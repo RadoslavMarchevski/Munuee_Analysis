@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 $edir=$ARGV[0];
 $sdir=$ARGV[1];
 $list=$ARGV[2];
@@ -12,7 +12,7 @@ unless(-d $sdir) {mkdir($sdir,0777);}
 chdir($sdir);
 unless(-e "compact") {symlink("$rdir/compact","compact");}
 unless(-e "scompact.job") {symlink("$rdir/scompact.job","scompact.job");}
-unless(-e "parameters.root") {symlink("$rdir/parameters.root","parameters.root");}
+#unless(-e "parameters.root") {symlink("$rdir/parameters.root","parameters.root");}
 
 #unless(-d "userinc") {mkdir("userinc",0777);}
 #system('cp ../userinc/histograms.txt userinc/histograms.txt');
@@ -30,10 +30,9 @@ close(OUT);
 $pwd=`pwd`;
 chop($pwd);
 #$cmd="cd $pwd; compact -l compact.list -so datasample.scmp";
-#$cmd="scompact_rf.job $pwd $sdir";
-$cmd="scompact.job $pwd";
+$cmd="scompact_rf.job $pwd $sdir";
+#$cmd="scompact.job $pwd";
 
 system("date");
 system('bsub -q 8nh -o job.log -e job.log "'.$cmd.'"');
 system("date");
-

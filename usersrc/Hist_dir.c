@@ -38,8 +38,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_eop               = new TH1F("Track_E/p","Track E/p ;E/p;Nevents",120.,0.,1.2);
         fh_odd_eop           = new TH1F("odd_E/p","E/p for the odd track in the k3pi selection",120,0.,1.2);
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
-        fh_Z_Vertex          = new TH1F("Z_vertex","Reconstructed Z Vtx position ;Z_Vtx[cm];Nevents ",1500.,-5000.,10000.);
- //Reconstructed Vtx difference
+        //Reconstructed Vtx difference
         fh_xvtxdiff_pi1pi2_pi2pi3 = new TH1F("xvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed X vtx; X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
         fh_xvtxdiff_pi1pi2_pi1pi3 = new TH1F("xvtxdiff_pi1pi2_pi1pi3","Difference between  #pi_1 #pi_2 and #pi_1 #pi_3 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
         fh_xvtxdiff_pi1pi3_pi2pi3 = new TH1F("xvtxdiff_pi1pi3_pi2pi3","Difference between  #pi_1 #pi_3 and #pi_2 #pi_3 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
@@ -59,6 +58,17 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_muee_M = new TH1F("3pi_M","Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
+
+        //Pions
+        fh_pion1_bx = new TH1F("pion1_bx","#pi_1 x coordinate on DCH1 before magnet;DCH1_x[cm];Nevents",300,-150.,150.);
+        fh_pion1_by = new TH1F("pion1_by","#pi_1 y coordinate on DCH1 before magnet;DCH1_y[cm];Nevents",300,-150.,150.);
+        fh_pion2_bx = new TH1F("pion2_bx","#pi_2 x coordinate on DCH1 before magnet;DCH1_x[cm];Nevents",300,-150.,150.);
+        fh_pion2_by = new TH1F("pion2_by","#pi_2 y coordinate on DCH1 before magnet;DCH1_y[cm];Nevents",300,-150.,150.);
+        fh_pion3_bx = new TH1F("pion3_bx","#pi_3 x coordinate on DCH1 before magnet;DCH1_x[cm];Nevents",300,-150.,150.);
+        fh_pion3_by = new TH1F("pion3_by","#pi_3 y coordinate on DCH1 before magnet;DCH1_y[cm];Nevents",300,-150.,150.);
+        fh_bx_vs_by_pi1 = new TH2F("bx_vs_by_pi1","#pi_1 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
+        fh_bx_vs_by_pi2 = new TH2F("bx_vs_by_pi2","#pi_2 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
+        fh_bx_vs_by_pi3 = new TH2F("bx_vs_by_pi3","#pi_3 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
@@ -75,7 +85,6 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Electron_eop      = new TH1F("Electron_E/p", "Electron E/p ;E/p;Nevents",120,0.,1.2);
         fh_odd_eop           = new TH1F("odd_E/p","E/p for the odd track in the k3pi selection",120,0.,1.2);
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
-        fh_Z_Vertex          = new TH1F("Z_vertex","Reconstructed Z Vtx position ;Z_Vtx[cm];Nevents ",150.,-5000.,10000.);
         fh_Mu_Zvtx_min_COmPaCt_Zvtx = new TH1F("Mu_Zvtx_min_COmPaCt_Zvtx","Calculated #mu Zvtx - COmPact three track Zvtx;(Z_#mu - Z_vtx)[cm];Nevents ",100,-10000.,10000.);
         //Reconstructed Vtx difference
         fh_xvtxdiff_mue1_mue2 = new TH1F("xvtxdiff_mue1_mue2","Difference between #mu e1 and #mu e2 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
@@ -113,6 +122,18 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_cda_mu_e1 = new TH1F("cda_mu_e1","Closest distance approach between the #mu and e1;cda[cm];Nevents",50, 0., 50.);
         fh_cda_mu_e2 = new TH1F("cda_mu_e2","Closest distance approach between the #mu and e2;cda[cm];Nevents",50, 0., 50.);
         fh_cda_e1_e2 = new TH1F("cda_e1_e2","Closest distance approach between the e1 and e2;cda[cm];Nevents" ,50, 0., 50.);
+        //Drift chambers geometry
+        //Muons
+        fh_muon_bx = new TH1F("muon_bx","#mu x coordinate on DCH1 before magnet;DCH1_x[cm];Nevents",300,-150,150);
+        fh_muon_by = new TH1F("muon_by","#mu y coordinate on DCH1 before magnet;DCH1_y[cm];Nevents",300,-150,150);
+        //Electrons
+        fh_electron1_bx = new TH1F("electron1_bx","el1 x coordinate on DCH1 before magnet;DCH1_x[cm];Nevents",300,-150.,150.);
+        fh_electron1_by = new TH1F("electron1_by","el1 y coordinate on DCH1 before magnet;DCH1_y[cm];Nevents",300,-150.,150.);
+        fh_electron2_bx = new TH1F("electron2_bx","el2 x coordinate on DCH1 before magnet;DCH1_x[cm];Nevents",300,-150.,150.);
+        fh_electron2_by = new TH1F("electron2_by","el2 y coordinate on DCH1 before magnet;DCH1_y[cm];Nevents",300,-150.,150.);
+        fh_bx_vs_by_muon = new TH2F("bx_vs_by_muon","#mu x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
+        fh_bx_vs_by_el1 = new TH2F("bx_vs_by_el1","el1 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
+        fh_bx_vs_by_el2 = new TH2F("bx_vs_by_el2","el2 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
 
     }
 }
@@ -139,7 +160,6 @@ void Hist_dir::AddToFile(TFile* file){
         fh_eop               ->Write();
         fh_odd_eop           ->Write();
         fh_COmPaCt_Z_Vertex  ->Write();
-        fh_Z_Vertex          ->Write();
         fh_zvtxdiff_pi1pi2_pi2pi3->Write();
         fh_zvtxdiff_pi1pi2_pi1pi3->Write();
         fh_zvtxdiff_pi1pi3_pi2pi3->Write();
@@ -152,10 +172,19 @@ void Hist_dir::AddToFile(TFile* file){
         fh_cda_pi1_pi2           ->Write();
         fh_cda_pi1_pi3           ->Write();
         fh_cda_pi2_pi3           ->Write();
+        fh_pion1_bx              ->Write();
+        fh_pion1_by              ->Write();
+        fh_pion2_bx              ->Write();
+        fh_pion2_by              ->Write();
+        fh_pion3_bx              ->Write();
+        fh_pion3_by              ->Write();
         fh_muee_P                ->Write();
         fh_muee_Pt               ->Write();
         fh_muee_M                ->Write();
         fh_missing_mass          ->Write();
+        fh_bx_vs_by_pi1->Write();
+        fh_bx_vs_by_pi2->Write();
+        fh_bx_vs_by_pi3->Write();
     }
     if(ftype==2){
         fh_Ntracks           ->Write();
@@ -172,7 +201,6 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Electron_eop      ->Write();
         fh_odd_eop           ->Write();
         fh_COmPaCt_Z_Vertex  ->Write();
-        fh_Z_Vertex          ->Write();
         fh_Mu_Zvtx_min_COmPaCt_Zvtx->Write();
         fh_zvtxdiff_mue1_mue2->Write();
         fh_zvtxdiff_mue1_e1e2->Write();
@@ -186,6 +214,12 @@ void Hist_dir::AddToFile(TFile* file){
         fh_cda_mu_e1->Write();
         fh_cda_mu_e2->Write();
         fh_cda_e1_e2->Write();
+        fh_muon_bx      ->Write();
+        fh_muon_by      ->Write();
+        fh_electron1_bx ->Write();
+        fh_electron1_by ->Write();
+        fh_electron2_bx ->Write();
+        fh_electron2_by ->Write();
         fh_DCHtime_mu->Write();
         fh_DCHtime_e1->Write();
         fh_DCHtime_e2->Write();
@@ -198,12 +232,14 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Hod_timediff_mu_e1->Write();
         fh_Hod_timediff_mu_e2->Write();
         fh_Hod_timediff_e1_e2->Write();
-        fh_mee->Write();
-        fh_muee_P->Write();
-        fh_muee_M->Write();
+        fh_mee         ->Write();
+        fh_muee_P      ->Write();
+        fh_muee_M      ->Write();
         fh_missing_mass->Write();
-        fh_muee_Pt->Write();
-
+        fh_muee_Pt      ->Write();
+        fh_bx_vs_by_muon->Write();
+        fh_bx_vs_by_el1 ->Write();
+        fh_bx_vs_by_el2 ->Write();
     }
 }
 
@@ -226,7 +262,6 @@ Hist_dir::~Hist_dir(){
         delete fh_eop               ;
         delete fh_odd_eop           ;
         delete fh_COmPaCt_Z_Vertex  ;
-        delete fh_Z_Vertex          ;
         delete fh_zvtxdiff_pi1pi2_pi2pi3   ;
         delete fh_zvtxdiff_pi1pi2_pi1pi3   ;
         delete fh_zvtxdiff_pi1pi3_pi2pi3   ;
@@ -243,6 +278,17 @@ Hist_dir::~Hist_dir(){
         delete fh_muee_Pt               ;
         delete fh_muee_M                ;
         delete fh_missing_mass          ;
+        delete fh_pion1_bx;
+        delete fh_pion1_by;
+        delete fh_pion2_bx;
+        delete fh_pion2_by;
+        delete fh_pion3_bx;
+        delete fh_pion3_by;
+        delete fh_bx_vs_by_pi1;
+        delete fh_bx_vs_by_pi2;
+        delete fh_bx_vs_by_pi3;
+
+
     }
     if(ftype==2){
         delete fh_Ntracks           ;
@@ -259,7 +305,6 @@ Hist_dir::~Hist_dir(){
         delete fh_Electron_eop      ;
         delete fh_odd_eop           ;
         delete fh_COmPaCt_Z_Vertex  ;
-        delete fh_Z_Vertex          ;
         delete fh_Mu_Zvtx_min_COmPaCt_Zvtx;
         delete fh_zvtxdiff_mue1_mue2;
         delete fh_zvtxdiff_mue1_e1e2;
@@ -290,5 +335,14 @@ Hist_dir::~Hist_dir(){
         delete fh_cda_mu_e1;
         delete fh_cda_mu_e2;
         delete fh_cda_e1_e2;
+        delete fh_muon_bx     ;
+        delete fh_muon_by     ;
+        delete fh_electron1_bx;
+        delete fh_electron1_by;
+        delete fh_electron2_bx;
+        delete fh_electron2_by;
+        delete fh_bx_vs_by_muon;
+        delete fh_bx_vs_by_el1;
+        delete fh_bx_vs_by_el2;
     }
 }

@@ -2,11 +2,11 @@
 
 @pcs=(1
       ,2,3,4
-      ,5,6,7,8,9,10);
-      #,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
-      #,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64
-      #,65,66,67,68,69,70
-      #,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99);
+      ,5,6,7,8,9,10
+      ,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
+      ,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64
+      ,65,66,67,68,69,70
+      ,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99);
       #,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124
       #,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150
       #,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175
@@ -36,14 +36,13 @@ $script1="$rdir/pp2nd.pl";
 $script2="$rdir/lxplus.pl";
 $script4="$rdir/pp1nw.pl";
 $script3="$rdir/pp8nh.pl";
-$script2="$rdir/pp2nd.pl";
 
 if($ARGV[0] eq "ss25") {
     $listfile="$rdir/error_ss25/compact.list";
     $tag="ss25";
-} elsif($ARGV[0] eq "ss0123_v46") {
+} elsif($ARGV[0] eq "ss0123_NEW_v1") {
     $listfile="$rdir/SC_SS0123_pass5_tot.list";
-    $tag="ss0123_v46";
+    $tag="ss0123_NEW_v1";
 } elsif($ARGV[0] eq "kminus_kmu3") {
     $listfile="~/cmc/MC_lists/kch_mu3_kminus_100kk_5.03.2013.list";
     $tag="kminus_kmu3";
@@ -122,7 +121,7 @@ if($ARGV[0] eq "ss25") {
 } elsif($ARGV[0] eq "pass5_c_6th") {
     $listfile="$rdir/na48c_ss0123_5k_6k.list";
     $tag="pass5_c_6th";
-}  
+}
 else {
     print "Argument \"$ARGV[0]\" not recognized.\n";
     exit;
@@ -154,14 +153,14 @@ for($i=0;$i<$npc;$i++) {
     unless($pcsw[$i]) {next;}
     if($i==$nfijm) {$nfij++;}
     $nfijw=int($nfij*$pcsw[$i]);
-    $npcw1+=$pcsw[$i];  
+    $npcw1+=$pcsw[$i];
 
     $n2=$n1+$nfijw-1;
     if($npcw1==$npcw) {$n2=$nfi;}
     if($n1>$n2) {next;}
     if($i<300) {
-	$command="$script1 $edir ${tag}$pcs[$i] $listfile $n1 $n2 $rdir ";
-    } 
+	$command="$script3 $edir ${tag}$pcs[$i] $listfile $n1 $n2 $rdir ";
+    }
     elsif($i<150){
 	$command="$script2 $edir ${tag}$pcs[$i] $listfile $n1 $n2 $rdir ";
     }
@@ -174,7 +173,7 @@ for($i=0;$i<$npc;$i++) {
 
 
 # execute
-    print "$command\n";   
+    print "$command\n";
     system("$command");
 #  print "$pc ".($n2-$n1+1)."\n";
 #  system('sleep 5');

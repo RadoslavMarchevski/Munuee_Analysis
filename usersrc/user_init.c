@@ -61,6 +61,13 @@ Hist_dir* Initial_dir;
 Hist_dir* K3pi_selection;
 Hist_dir* dir1;
 Hist_dir* dir2;
+Hist_dir* dir3;
+Hist_dir* dir4;
+Hist_dir* dir5;
+Hist_dir* dir6;
+Hist_dir* dir7;
+Hist_dir* dir8;
+Hist_dir* dir9;
 
 int user_init() {
 /* WARNING: do not alter things before this line */
@@ -72,10 +79,17 @@ int user_init() {
     //0 - Initial
     //1 - K3pi selection
     //2 - Kmunuee selection
-    Initial_dir =  new  Hist_dir("Initial_histograms",0);
+    Initial_dir =  new  Hist_dir("No cuts",0);
     K3pi_selection =  new  Hist_dir("K3pi selection",1);
-    dir1 =  new  Hist_dir("Signal selection_Cut_1",2);
-    dir2 =  new  Hist_dir("Signal selection_Cut_2",2);
+    dir1 =  new  Hist_dir("Munuee index matching",2);
+    dir2 =  new  Hist_dir("K3pi Wrong Sign",2);
+    dir3 =  new  Hist_dir("Munuee DCH Geometry Cut",2);
+    dir4 =  new  Hist_dir("Munuee Momentum Cut",2);
+    dir5 =  new  Hist_dir("Munuee Vertex Cut",2);
+    dir6 =  new  Hist_dir("Munuee Pt Cut",2);
+    dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2);
+    dir8 =  new  Hist_dir("Munuee Timing Cut",2);
+    dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
     //dir2 =  new  Hist_dir("Test2");
 
 

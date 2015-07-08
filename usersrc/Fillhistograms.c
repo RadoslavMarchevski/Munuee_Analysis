@@ -14,6 +14,9 @@
 void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
     if(particle.compare("muon") == 0 ){
         //Particle specific histograms
+        fh_muon_bx->Fill(part.Position[0]);
+        fh_muon_by->Fill(part.Position[1]);
+        fh_bx_vs_by_muon->Fill(part.Position[0],part.Position[1]);
         fh_DCHtime_mu->Fill( part.GetDCHtime());
         fh_Mu_momentum->Fill(part.GetMomentum());
         fh_Mu_charge->Fill(part.GetCharge() );
@@ -23,6 +26,9 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
 
     }
     if(particle.compare("electron1") == 0 ){
+        fh_electron1_bx->Fill(part.Position[0]);
+        fh_electron1_by->Fill(part.Position[1]);
+        fh_bx_vs_by_el1->Fill(part.Position[0],part.Position[1]);
         fh_Track_Momentum->Fill(part.GetMomentum());
         fh_Electron_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
@@ -30,6 +36,9 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_DCHtime_e1->Fill( part.GetDCHtime());
     }
     if(particle.compare("electron2") == 0 ){
+        fh_electron2_bx->Fill(part.Position[0]);
+        fh_electron2_by->Fill(part.Position[1]);
+        fh_bx_vs_by_el2->Fill(part.Position[0],part.Position[1]);
         fh_Track_Momentum->Fill(part.GetMomentum());
         fh_Electron_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
@@ -38,18 +47,27 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
     }
     if(particle.compare("pion1") == 0 ){
         //Particle specific histograms
+        fh_pion1_bx->Fill(part.Position[0]);
+        fh_pion1_by->Fill(part.Position[1]);
+        fh_bx_vs_by_pi1->Fill(part.Position[0],part.Position[1]);
         fh_Pion_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
     }
 
     if(particle.compare("pion2") == 0 ){
         //Particle specific histograms
+        fh_pion2_bx->Fill(part.Position[0]);
+        fh_pion2_by->Fill(part.Position[1]);
+        fh_bx_vs_by_pi2->Fill(part.Position[0],part.Position[1]);
         fh_Pion_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
     }
 
     if(particle.compare("pion3") == 0 ){
         //Particle specific histograms
+        fh_pion3_bx->Fill(part.Position[0]);
+        fh_pion3_by->Fill(part.Position[1]);
+        fh_bx_vs_by_pi3->Fill(part.Position[0],part.Position[1]);
         fh_Pion_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
     }
@@ -76,16 +94,9 @@ void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string p
 
 
 }
-void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3){
-    static double massKaonC = 0.493677;
-    //TLorentzVector Three_Track_Momentum;
-    //TLorentzVector Kaon_Momentum;
-    //TLorentzVector Nu_Momentum;
-    Three_Track_Momentum = p1.Momentum + p2.Momentum + p3.Momentum;
-    Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
-    Nu_Momentum = Kaon_Momentum - Three_Track_Momentum;
+void Hist_dir::FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum){
 
-    fh_Kaon_Charge->Fill(p1.GetCharge() + p2.GetCharge() + p3.GetCharge());
+    //fh_Kaon_Charge->Fill(p1.GetCharge() + p2.GetCharge() + p3.GetCharge());
     fh_missing_mass->Fill(Nu_Momentum.M2());
     fh_muee_P->Fill(Three_Track_Momentum.P());
     fh_muee_Pt->Fill(Three_Track_Momentum.Pt());
@@ -136,4 +147,15 @@ void Hist_dir::FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, dou
         fh_cda_pi2_pi3           ->Fill(cda_e1_e2);
 
     }
+}
+
+void Hist_dir::ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3){
+    static double massKaonC = 0.493677;
+    //TLorentzVector Three_Track_Momentum;
+    //TLorentzVector Kaon_Momentum;
+    //TLorentzVector Nu_Momentum;
+    Three_Track_Momentum = p1.Momentum + p2.Momentum + p3.Momentum;
+    Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
+    Nu_Momentum = Kaon_Momentum - Three_Track_Momentum;
+
 }
