@@ -68,6 +68,7 @@ Hist_dir* dir6;
 Hist_dir* dir7;
 Hist_dir* dir8;
 Hist_dir* dir9;
+Hist_dir* dir10;
 
 int user_init() {
 /* WARNING: do not alter things before this line */
@@ -90,6 +91,7 @@ int user_init() {
     dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2);
     dir8 =  new  Hist_dir("Munuee Timing Cut",2);
     dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
+    dir10=  new  Hist_dir("Munuee 3#pi invariant mass Cut",2);
     //dir2 =  new  Hist_dir("Test2");
 
 

@@ -30,7 +30,7 @@ close(OUT);
 $pwd=`pwd`;
 chop($pwd);
 #$cmd="cd $pwd; compact -l compact.list -so datasample.scmp";
-$cmd="scompact_rf.job $pwd $sdir";
+$cmd="scompact.job $pwd $sdir";
 #$cmd="scompact.job $pwd";
 
 system("date");

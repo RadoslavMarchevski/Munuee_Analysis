@@ -56,7 +56,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     static double massKaonC = 0.493677;
     const double Electron_EoverP_up = 1.05;
     const double Electron_EoverP_down = 0.95;
-    const double Muon_EoverP_up = 0.95;
+    const double Muon_EoverP_up = 0.3;
 
     int Kcharge=0;
     int ngoodtrack=0;
@@ -400,7 +400,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir6->FillHist(dir6->GetThreeTrackMomentum(),dir6->GetNuMomentum());
 
     //-- CUT4 Invariant Mass Cut --
-    if(cutting.mee < 0.140){return 0;}
+    //if(cutting.mee < 0.140){return 0;}
     //--ENDOF CUT4 Invariant Mass Cut --
     dir7->fh_Event_Type->Fill(Event_Type);
     dir7->fh_Kaon_Charge->Fill(Kcharge);
@@ -469,6 +469,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir9->FillHist(electron1,electron2,"e1e2");
     dir9->ComputeThreeTrack(electron1,electron2,muon);
     dir9->FillHist(dir9->GetThreeTrackMomentum(),dir9->GetNuMomentum());
+
+    Charged_Particle munuee_pion1(sevt,sbur,211,imu);
+    Charged_Particle munuee_pion2(sevt,sbur,211,iel1);
+    Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
+    dir10->ComputeThreeTrack(munuee_pion1,munuee_pion2,munuee_pion3);
+    dir10->FillHist(dir9->GetThreeTrackMomentum(),dir9->GetNuMomentum());
 
     return 0;
 }

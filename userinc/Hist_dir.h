@@ -123,4 +123,5 @@ extern Hist_dir* dir6;
 extern Hist_dir* dir7;
 extern Hist_dir* dir8;
 extern Hist_dir* dir9;
+extern Hist_dir* dir10;
 #endif
