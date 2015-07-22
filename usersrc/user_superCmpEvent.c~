@@ -1,0 +1,1492 @@
+/*****************************************************************/
+/* COmPACT user routine: user_superCmpEvent(superCmpEvent *sevt) */
+/*                                                               */
+/* User routine called everytime an event `*sevt' is             */
+/* loaded. A return value of greater than zero denotes           */
+/* an error condition has occured.                               */
+/*                                     BH 13/2/98    RWM 20/6/97 */
+/*****************************************************************/
+
+#include <math.h>
+#include "cmpio.h"
+#include "user.h"
+#include "reader.h"
+#include <constants.h>
+
+
+int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
+  /* WARNING: do not alter things before this line */
+  /*---------- Add user C code here ----------*/
+  static int nuserevt=0;
+  int i,j,k;
+  
+  if(nuserevt<20) 
+    {
+      printSuperCmpEvent(sevt,fprt);
+    }
+  
+  nuserevt++;
+  //printf ("testVariable = %f\n", testVariable);
+  //testVariable++;
+  
+  //##########################################################
+  // Cut definitions
+  //##########################################################
+  //
+  // vertex
+  float min_zvertex = -2500.0;             // min. zvertex position (in cm)
+  float max_zvertex = +8200.0;             // max. zvertex position (in cm)
+  float max_cda      = +2.0;               // max. CDA vertex (in cm)
+  float max_xyVtxRadius = +1.5;            // max. xy vertex radius (in cm)
+  float max_diff_zvtx = +300.0;            // max. difference between neutral and charged vertex (in cm)
+  //
+  // detector acceptance
+  float muv_box_min = 12.5;                // min. MUV track x/y
+  float muv_box_max = 135.0;               // max. MUV track x/y
+  float hod_box_min = 0.0;                 // min. HOD track x/y
+  float hod_box_max = 130.0;               // max. HOD track x/y   AW 090903: war 1300.0
+  float trackdist_lkr_min = 25.0;          // min distance of tracks in LKr 
+  float min_deadcell_distance = 2.0;       // min. cluster distance to dead cell
+  float lkr_radius_min = 15.0;             // min. LKR track radius
+  float lkr_radius_max = 120.0;            // max. LKR track radius  AW 090903: war 1100.0
+  float dch_radius_min = 13.0;             // min. DCH track radius  !! von 16 wieder auf 13, AW 081203
+  float dch_radius_max = 110.0;            // max. DCH track radius  v09
+  float dist_LKr_acc = 5.0;                // distance parameter handed to function LKr_acc.c
+  //
+  // track + cluster parameters
+  float p_track_min = +15.0;               // min. track momentum (AP:10)
+  float p_track_max = +65.0;               // kein max. momentum cut, neu! AW 301003 !! wieder aktiv 041203
+  float track_quality_min = 0.7;           // track quality > -1 !
+  float timediff_track_pi0_max = +4.0;     // max. time difference between track + pi0
+  float timediff_gg_max = +2.0;            // max. time difference between two gammas
+  float egamma_min = 0.0;                  // min. gamma energy         
+  //
+  // criteria to select Ke3c
+  float diff_pipi0_kaonMass_min = 0.015;   // min. difference between pi+pi0 mass and kaon mass
+  float ptSq_max = 0.002;                  // max. pt^2
+  float etot_max = 70.0;                   // max. Etot = ptrack + pi0 energy         
+  float Mmiss2_max = 0.006;                // max. missing mass^2 (electron track assumed)
+  float Mmiss3_max = -0.001;               // max. missing mass^2 (pion track assumed)
+  float eop_max = 0.95;                    // E/p criterion for Ke3 selection         
+  //
+  //##########################################################
+  // End cut definitions
+  //##########################################################
+
+  // fiducial volume parameters
+  double trkatlkr[2];   // track xy-pos at lkr - index x,y
+  double trkathod[2];    // track xy-pos at hod
+  double trkathac[2];    // track xy-pos at hac 
+  double trkatmuv1[2];    // track xy-pos at muv 1
+  double trkatmuv2[2];    // track xy-pos at muv 2
+  double trkatmuv3[2];    // track xy-pos at muv 3
+  double trkatdch[3][2]; // track at DCH 1,2,4 ([0,1,3][x,y]
+  double lkrddeadcell;   // track lkr deadcell distance
+  double lkrradius;         // track lkr radius
+  double dchradius[3];      // track dch 1,2,4 radius
+  
+  double N_track, N_kaon, N_g1, N_g2;           // Normierung für Impuls-Komponenten
+  double bdxdz_track, bdydz_track, bdzdz_track; // Steigungen vor dem Magneten, Track
+  double bdxdz_kaon, bdydz_kaon, bdzdz_kaon;    // Steigungen vor dem Magneten, Kaon
+  double bdxdz_g1, bdydz_g1, bdzdz_g1;          // Steigungen vor dem Magneten, gamma1
+  double bdxdz_g2, bdydz_g2, bdzdz_g2;          // Steigungen vor dem Magneten, gamma2
+  double bx_track, by_track, bz_track;          // x,y,z-Positionen vor dem Magneten, Track
+  double bx_kaon, by_kaon, bz_kaon;             // x,y,z-Positionen vor dem Magneten, Kaon
+  double p1[3], v1[3], p2[3], v2[3];            // Kompakte Variablen für Steigungen und Positionen vorm Magneten 
+  
+  double p_track[4], p_kaon[4];      // Vierervektor von Track + Kaon
+  double p_g1[4], p_g2[4];           // Vierervektoren der beiden gammas
+  double P_pipi[3], P_pipi_fabs;     // Impuls des Pion-Pion Systems im Laborsystem = Dreierimpulsvektor des Kaons	
+  double E_pipi,invMass_pipi;        // Energie des Pion-Pion Systems im Laborsystem + invariante pi-pi Masse 
+  double totalP_track, totalP_kaon;  // Gesamt-Impulse, Track + Kaon
+  double p_elgg[4];                  // Vierervektor des Elektron-Gamma-Gamma Systems im Laborsystem	
+  double p_pigg[4];                  // Vierervektor des Pion-Gamma-Gamma Systems im Laborsystem	
+  double p_track_pion[4];            // Vierervektor von Track, Annahme = Pion
+  double p_mugg[4];                  // Vierervektor des Muon-Gamma-Gamma Systems im Laborsystem	
+  double p_track_muon[4];            // Vierervektor von Track, Annahme = Muon
+  double p_gg[4];                    // Vierervektor des Gamma-Gamma Systems im Laborsystem	
+
+  double k_kaon[3], k_kaon_fabs;   // Vektor der Kaon-Flugrichtung (gegeben durch Target-Position und Kaon-Zerfallsvertex)
+  double L;                        // Länge der Projektion von P_epi auf k_kaon
+  double ptSq;                     // pt squared selbst berechnet            
+  double Mmiss2, Mmiss3;           // missing mass squared (electron bzw. pion track assumed)
+
+  // vertex parameters
+  double r12[3];
+  double det,q1,q2,t1,t2;
+  double x;
+  double vertex[3], cda;
+  unsigned int vertex_OK;
+
+  unsigned int IS_DATA = TRUE;         // set standard to data type
+  unsigned int NO_ELECTRON_FOUND;      // Eop < 0.93 for all tracks - Standard!!
+  unsigned int IS_GOOD_VERTEX;         // cda cut 
+  unsigned int GOOD_TRACKS;            // track cuts
+  unsigned int GOOD_PI0;               // good pi0
+  unsigned int ChFidVolume_ok;         // flag for charged fiducial volume cut
+  unsigned int LKrAcc;
+  
+  unsigned int KMU2_TRIGGER = false;   // flag for Kmu2 trigger = Bit9
+  unsigned int KE2_TRIGGER = false;    // flag for Ke2 trigger = Bit10
+
+  double DCHz = Geom->DCH.z;           // z after magnet (irreführend! genau: direkt vor DCH4, hier sind auch Spurpositionen definiert)
+  double DCHbz = Geom->DCH.bz;         // z before magnet (irreführend! genau: direkt vor DCH1)
+  
+  int tracks[2];                   // track ID's for 2track events
+  int iptrack,intrack;             // positive/negative track ID
+  int elec_trac, pion_trac;        // track id's: Electron/Pion (Ke3)
+  
+  unsigned int print_details1 = false;
+  unsigned int LKR_ACC_1999 = false;     // to use LKr acceptance cuts 1999
+  unsigned int LKR_ACC_2007 = true;     // to use LKr acceptance cuts 2007 as defined by Mauro's routine LKr_acc.c
+  
+  //  printf ("sevt->Nmuon = %d\n", sevt->Nmuon);
+  //printf ("sevt->muon[0].time = %d\n", sevt->newmuon[0].time);
+  //printf ("sevt->Ntrack = %d\n", sevt->Ntrack);
+  //printf ("sevt->Nvtx = %d\n", sevt->Nvtx);
+  
+  if (sevt->Ntrack == 1 && sevt->Ncluster <= 3)
+    {
+      //printf ("### sevt->Nmuon = %d ###\n", sevt->Npmuon);
+      
+      ///////////////////////////////////////////
+      // Track-Zuordnung
+      ///////////////////////////////////////////
+      if (sevt->track[0].q < 0) {	
+	intrack = 1;    // negative track == K- beam 
+	iptrack = 0;
+      } else {
+	iptrack = 1;    // positive track == K+ beam
+	intrack = 0;
+      }
+           
+      //  tracks[0] = intrack;
+      //  tracks[1] = iptrack; 
+      
+      ///////////////////////////////////////////
+      // Korrektur zur Steigung des Strahls -> verwende nicht z-Achse sondern Strahlachse
+      ///////////////////////////////////////////
+      double beamCorrX = 0.;
+      double beamOffsetX = 0.;
+      double beamCorrY = -0.00008;
+      double beamOffsetY = 0.42;
+      
+      if (iptrack == 1)                // K+ beam
+	{
+	  if (magnetCurrent < 0) {	
+	    beamCorrX = -0.0003;
+	    beamOffsetX = -0.8;  
+	  }
+	  else if (magnetCurrent > 0) {	
+	    beamCorrX = 0.000323;
+	    beamOffsetX = 0.378;
+	  }      
+	}
+      
+      if (intrack == 1)                // K- beam
+	{
+	  if (magnetCurrent > 0) {	
+	    beamCorrX = -0.0003;
+	    beamOffsetX = -0.8;  
+	  }
+	  else if (magnetCurrent < 0) {	
+	    beamCorrX = 0.000323;
+	    beamOffsetX = 0.378;
+	  }      
+	}
+      //printf ("iptrack = %i \t intrack = %i\n", iptrack,intrack);
+      
+      //############################################################################################################
+
+      ///////////////////////////////////////////
+      // Get indices of the additional clusters
+      ///////////////////////////////////////////
+      int clusterindex_track;                    // cluster index of track
+      double trackClusterDistLkr;                 // distance between track and additional two clusters at the LKR
+      double trackClusterDistLkr_x;               // x coord. distance
+      double trackClusterDistLkr_y;               // y coord. distance
+      float addClu_trackDist[20];                // Distanz der zusätzlichen Cluster zum track
+
+      int  iAddClu[2];                           // Cluster-Indizes der zusätzlichen Cluster
+      int addCluCtr = 0;                         // Anzahl der zusätzlichen cluster mit dist>10cm zu track an LKr
+      unsigned int OneTrackTwoClusters = false;      // flag für Bedingung: 1 track mit cluster + 2 weitere cluster mit dist>10cm zu track an LKr
+      
+      clusterindex_track = sevt->track[0].iClus;
+      
+      // x,y-Position der Spur an Front des LKr
+      double lkrposX = sevt->track[0].x + 
+	sevt->track[0].dxdz  * (Geom->Lkr.z-DCHz);
+      double lkrposY = sevt->track[0].y + 
+	sevt->track[0].dydz  * (Geom->Lkr.z-DCHz);
+      
+      // Track muss zugewiesenen Cluster haben, Bedingung für Elektron
+      //if (clusterindex_track >= 0)
+      for (i=0; i<sevt->Ncluster; i++)	  
+	{
+	  trackClusterDistLkr_x = lkrposX - sevt->cluster[i].x;	      
+	  trackClusterDistLkr_y = lkrposY - sevt->cluster[i].y;
+	  trackClusterDistLkr = sqrt(SQR(trackClusterDistLkr_x)+SQR(trackClusterDistLkr_y));
+	  
+	  if ( (i != clusterindex_track) && (trackClusterDistLkr > 0.0) ) 
+	    {		  
+	      iAddClu[addCluCtr] = i;
+	      addClu_trackDist[addCluCtr] = trackClusterDistLkr;
+	      
+	      addCluCtr++;
+	      //printf ("addCluCtr = %d \t iAddClu[addCluCtr] = %d\n", addCluCtr, iAddClu[addCluCtr-1]);		
+	    }
+	  //    printf("i = %d \t clusterindex_track = %d \t sevt->cluster[i].energy = %f \t trackClusterDistLkr = %f\n", 
+	  //   i, clusterindex_track, sevt->cluster[i].energy, trackClusterDistLkr);	  
+	}
+      if (addCluCtr == 2)		    
+	OneTrackTwoClusters = true;	  
+      
+      //printf("OneTrackTwoClusters = %d\n", OneTrackTwoClusters);
+      //############################################################################################################
+
+      //////////////////////////////////////////////////
+      /////// Trigger Check
+      //////////////////////////////////////////////////
+      if ( (sevt->trigWord & 0x200)/0x200 == 1)
+	KMU2_TRIGGER = true;
+      if ( (sevt->trigWord & 0x400)/0x400 == 1)
+	KE2_TRIGGER = true;    	  
+
+      // Autopass events haben trigger bits 16-19
+      int L3_AUTOPASS;                                           
+      L3_AUTOPASS = sevt->DETstatus[0].LV3Trig & 0xf0000;
+      //printf ("L3_AUTOPASS = %d\n\n", L3_AUTOPASS);      
+      //############################################################################################################
+
+      //      if (OneTrackTwoClusters && KE2_TRIGGER) {
+      //if (OneTrackTwoClusters && L3_AUTOPASS) {
+      if (OneTrackTwoClusters) {
+	
+	//////////////////////////////////////////////////
+	/////// Vertex-Berechnung
+	//////////////////////////////////////////////////
+	bdxdz_track = sevt->track[0].bdxdz;
+	bdydz_track = sevt->track[0].bdydz;
+	bdzdz_track = 1.;
+	bx_track = sevt->track[0].bx;         // x coordinate before magnet (genauer: direkt (ca. 8cm) vor DCH1)
+	by_track = sevt->track[0].by;         // y coordinate before magnet (genauer: direkt (ca. 8cm) vor DCH1)
+	bz_track = DCHbz - Geom->Magnet.z;
+	
+	v1[0] = bdxdz_track;
+	v1[1] = bdydz_track;
+	v1[2] = bdzdz_track;
+	p1[0] = bx_track;
+	p1[1] = by_track;
+	p1[2] = bz_track;
+	
+	// Kaon mit Flugrichtung entlang z-Achse und p=(0,0,75)GeV 
+	//	bdxdz_kaon = 0.;
+	//	bdydz_kaon = 0.;
+	//	bdzdz_kaon = 1.;
+	//	bx_kaon = 0.;
+	//	by_kaon = 0.;
+	//	bz_kaon = DCHbz - Geom->Magnet.z;
+		
+	// Kaon mit Flugrichtung entlang Strahlachse 
+	bdxdz_kaon = beamCorrX;
+	bdydz_kaon = beamCorrY;
+	bdzdz_kaon = 1.;
+	bx_kaon = beamOffsetX + beamCorrX*DCHbz;
+	by_kaon = beamOffsetY + beamCorrY*DCHbz;
+	bz_kaon = DCHbz - Geom->Magnet.z;
+
+	v2[0] = bdxdz_kaon;
+	v2[1] = bdydz_kaon;
+	v2[2] = bdzdz_kaon;
+	p2[0] = bx_kaon;
+	p2[1] = by_kaon;
+	p2[2] = bz_kaon;
+	
+	for(i=0; i<3; i++) {
+	  r12[i] = p1[i] - p2[i];
+	}
+	
+	x = (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]);
+	det = x*x - ( (SQR(v1[0])+SQR(v1[1])+SQR(v1[2])) * (SQR(v2[0])+SQR(v2[1])+SQR(v2[2])) );
+	
+	if(det!=0.) {
+	  t1 = ( (SQR(v2[0]) + SQR(v2[1]) + SQR(v2[2])) * (v1[0]*r12[0] + v1[1]*r12[1] + v1[2]*r12[2])  -
+		 (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]) * (v2[0]*r12[0] + v2[1]*r12[1] + v2[2]*r12[2]) ) / det;
+	  t2 = ( (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]) * (v1[0]*r12[0] + v1[1]*r12[1] + v1[2]*r12[2]) -
+		 (SQR(v1[0]) + SQR(v1[1]) + SQR(v1[2])) * (v2[0]*r12[0] + v2[1]*r12[1] + v2[2]*r12[2]) ) / det;
+	  
+	  for(i=0; i<3; i++) {
+	    q1 = p1[i] + t1*v1[i];
+	    q2 = p2[i] + t2*v2[i];
+	    vertex[i] = (q1+q2) / 2;
+	    r12[i] = q1 - q2;
+	  }
+	  cda = (double)(sqrt(SQR(r12[0]) + SQR(r12[1]) + SQR(r12[2])));
+	  vertex[2] = vertex[2] + Geom->Magnet.z;	
+	  vertex_OK = TRUE;
+	}
+	else
+	  vertex_OK = FALSE;
+	
+	//      if (print_details1) {	
+	if (0) {	
+	  printf ("######## Vertex #########\n");
+	  printf ("vertex_OK = %d\n", vertex_OK);
+	  printf ("my_vtx[0] = %f \t my_vtx[1] = %f \t my_vtx[2] = %f \t my_cda = %f\n", vertex[0], vertex[1], vertex[2], cda);
+	}
+	
+	//############################################################################################################
+	
+	//////////////////////////////////////////////////
+	/////// Bestimme gutes pi0
+	//////////////////////////////////////////////////
+
+	/////// Berechnung der gamma-gamma-Masse
+	//////////////////////////////////////////////////
+	double Epi0, totalP_track, Etot, mgg;
+	double lkrposX_g1, lkrposY_g1, lkrposX_g2, lkrposY_g2;
+	double energy_g1, energy_g2;
+	
+	energy_g1 = sevt->cluster[iAddClu[0]].energy;
+	energy_g2 = sevt->cluster[iAddClu[1]].energy;
+	Epi0 = energy_g1 + energy_g2;
+	
+	lkrposX_g1 = sevt->cluster[iAddClu[0]].x;
+	lkrposY_g1 = sevt->cluster[iAddClu[0]].y;
+	lkrposX_g2 = sevt->cluster[iAddClu[1]].x;
+	lkrposY_g2 = sevt->cluster[iAddClu[1]].y;
+	
+	mgg = 1 / (Geom->Lkr.z - vertex[2]) * 
+	  sqrt(energy_g1 * energy_g2 * (SQR(lkrposX_g1 - lkrposX_g2) + SQR(lkrposY_g1 - lkrposY_g2)) );
+	
+	double vertex_neut =  Geom->Lkr.z - 
+	  (1/MASS_PI0 * sqrt(energy_g1 * energy_g2 * (SQR(lkrposX_g1 - lkrposX_g2) + SQR(lkrposY_g1 - lkrposY_g2)) ));
+	double diff_zvtx_neut_charged = vertex_neut - vertex[2];
+		
+	totalP_track = sevt->track[0].p;
+	Etot = Epi0 + totalP_track;
+	
+	//printf ("Epi0 = %f \t mgg = %f \t totalP_track = %f \t Etot = %f\n", Epi0, mgg, totalP_track, Etot);
+	
+	/////// Berechnung der gamma-gamma-Zeit
+	//////////////////////////////////////////////////
+	double timediff_gg, time_gg, timediff_track_pi0;      
+	
+	timediff_gg = sevt->cluster[iAddClu[0]].time - sevt->cluster[iAddClu[1]].time;
+	time_gg = (sevt->cluster[iAddClu[0]].time + sevt->cluster[iAddClu[1]].time) / 2;
+
+	timediff_track_pi0 = sevt->track[0].time - time_gg;    // manuelle Offset-Korrektur von 2.4 ns
+	//timediff_track_pi0 = sevt->track[0].time - time_gg -2.4;    // manuelle Offset-Korrektur von 2.4 ns
+	//printf ("timediff_gg = %f \t time_gg = %f \t timediff_track_pi0 = %f\n", timediff_gg, time_gg, timediff_track_pi0);      
+	
+	//if ( fabs(timediff_gg) < timediff_gg_max && fabs(timediff_track_pi0) < timediff_track_pi0_max && 
+	//   energy_g1 > egamma_min && energy_g2 > egamma_min && fabs(mgg - MASS_PI0) < 0.005 )
+	if ( fabs(timediff_gg) < timediff_gg_max && 
+	     energy_g1 > egamma_min && energy_g2 > egamma_min && fabs(mgg - MASS_PI0) < 0.005 )
+	  GOOD_PI0 = TRUE;
+	else
+	  GOOD_PI0 = FALSE;
+	
+	//############################################################################################################
+	
+	//////////////////////////////////////////////////
+	/////// Berechnung von Impulsgrößen
+	//////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////
+	// 4er-Impulse der Teilchen, 1 track und 2 gammas
+	
+	// 4er-Impuls des geladenen Teilchens
+	totalP_track = sevt->track[0].p;
+	N_track = 1. / (sqrt(1. + SQR(bdxdz_track) + SQR(bdydz_track)) );
+	
+	// (Annahme Elektron)
+	p_track[0] = sqrt(SQR(totalP_track)+SQR(MASS_ELEC));
+	p_track[1] = bdxdz_track * totalP_track * N_track;	
+	p_track[2] = bdydz_track * totalP_track * N_track;	
+	p_track[3] = totalP_track * N_track;	
+	
+	// (Annahme Pion)
+	p_track_pion[0] = sqrt(SQR(totalP_track)+SQR(MASS_PIONC));
+	p_track_pion[1] = bdxdz_track * totalP_track * N_track;	
+	p_track_pion[2] = bdydz_track * totalP_track * N_track;	
+	p_track_pion[3] = totalP_track * N_track;	
+
+	// (Annahme Muon)
+	p_track_muon[0] = sqrt(SQR(totalP_track)+SQR(MASS_MUON));
+	p_track_muon[1] = bdxdz_track * totalP_track * N_track;	
+	p_track_muon[2] = bdydz_track * totalP_track * N_track;	
+	p_track_muon[3] = totalP_track * N_track;	
+	
+	// 4er-Impuls von gamma1
+	double dx_g1 = lkrposX_g1 - vertex[0];      
+	double dy_g1 = lkrposY_g1 - vertex[1];
+	double dz_g1 = Geom->Lkr.z- vertex[2];
+	bdxdz_g1     = dx_g1 / dz_g1;
+	bdydz_g1     = dy_g1 / dz_g1;
+	N_g1         = 1. / (sqrt(1. + SQR(bdxdz_g1) + SQR(bdydz_g1)) );
+	
+	p_g1[0] = energy_g1;
+	p_g1[1] = bdxdz_g1 * energy_g1 * N_g1;	
+	p_g1[2] = bdydz_g1 * energy_g1 * N_g1;	
+	p_g1[3] = energy_g1 * N_g1;	
+	
+	// 4er-Impuls von gamma2
+	double dx_g2 = lkrposX_g2 - vertex[0];      
+	double dy_g2 = lkrposY_g2 - vertex[1];
+	double dz_g2 = Geom->Lkr.z- vertex[2];
+	bdxdz_g2     = dx_g2 / dz_g2;
+	bdydz_g2     = dy_g2 / dz_g2;
+	N_g2         = 1. / (sqrt(1. + SQR(bdxdz_g2) + SQR(bdydz_g2)) );
+	
+	p_g2[0] = energy_g2;
+	p_g2[1] = bdxdz_g2 * energy_g2 * N_g2;	
+	p_g2[2] = bdydz_g2 * energy_g2 * N_g2;	
+	p_g2[3] = energy_g2 * N_g2;	
+	
+	// 4er-Impuls des Gamma-Gamma Systems im Laborsystem
+	for (i=0; i<=3; i++)	  
+	  p_gg[i] = (p_g1[i] + p_g2[i]);					
+
+	// 4er-Impuls des Elektron-Gamma-Gamma Systems im Laborsystem (Annahme: track=Elektron)
+	for (i=0; i<=3; i++)	  
+	  p_elgg[i] = (p_track[i] + p_g1[i] + p_g2[i]);					
+
+	// 4er-Impuls des Pion-Gamma-Gamma Systems im Laborsystem (Annahme: track=Pion)
+	for (i=0; i<=3; i++)	  
+	  p_pigg[i] = (p_track_pion[i] + p_g1[i] + p_g2[i]);					
+	
+	// 4er-Impuls des Muon-Gamma-Gamma Systems im Laborsystem (Annahme: track=Muon)
+	for (i=0; i<=3; i++)	  
+	  p_mugg[i] = (p_track_muon[i] + p_g1[i] + p_g2[i]);					
+	
+	double energy_pipi0   = p_pigg[0];
+	double momentum_pipi0 = sqrt(SQR(p_pigg[1])+SQR(p_pigg[2])+SQR(p_pigg[3]));
+	double invMass_pipi0  = sqrt( SQR(energy_pipi0) - SQR(momentum_pipi0));
+	double diff_pipi0_kaonMass = invMass_pipi0 - MASS_KAONC;
+	//	printf("energy_pipi0 = %f \t momentum_pipi0 = %f \t invMass_pipi0 = %f\n", energy_pipi0,momentum_pipi0,invMass_pipi0);
+	
+	double energy_elpi0   = p_elgg[0];
+	double momentum_elpi0 = sqrt(SQR(p_elgg[1])+SQR(p_elgg[2])+SQR(p_elgg[3]));
+	double invMass_elpi0  = sqrt( SQR(energy_elpi0) - SQR(momentum_elpi0));
+	//	printf("energy_elpi0 = %f \t momentum_elpi0 = %f \t invMass_elpi0 = %f\n", energy_elpi0,momentum_elpi0,invMass_elpi0);
+	
+	double energy_mupi0   = p_mugg[0];
+	double momentum_mupi0 = sqrt(SQR(p_mugg[1])+SQR(p_mugg[2])+SQR(p_mugg[3]));
+	double invMass_mupi0  = sqrt( SQR(energy_mupi0) - SQR(momentum_mupi0));
+	//	printf("energy_mupi0 = %f \t momentum_mupi0 = %f \t invMass_mupi0 = %f\n", energy_mupi0,momentum_mupi0,invMass_mupi0);
+	
+	/////////////////////////////////////////////////////////
+	// Vektor der Kaon-Flugrichtung	  
+	k_kaon[0] = (0 + vertex[0]);      // x-Komponente
+	k_kaon[1] = (0 + vertex[1]);      // y-Komponente
+	k_kaon[2] = (12000 + vertex[2]);  // z-Komponente
+	k_kaon_fabs = sqrt(SQR(k_kaon[0]) + SQR(k_kaon[1]) + SQR(k_kaon[2]) );			
+	
+	// Länge der Projektion von p_elgg auf k_kaon = k_kaon*p_elgg/|k_kaon|
+	L = (k_kaon[0]*p_elgg[1] + k_kaon[1]*p_elgg[2] + k_kaon[2]*p_elgg[3]) / (k_kaon_fabs);
+	
+	// pt squared selbst berechnet			
+	ptSq = 0;
+	for (i=0; i<=2; i++)
+	  ptSq = ptSq + (p_elgg[i+1] - k_kaon[i]*L/k_kaon_fabs)*(p_elgg[i+1] - k_kaon[i]*L/k_kaon_fabs);
+		
+	//////////////////////////////////////////////////////////////////////////////////
+	// missing mass squared Mmiss2 (Annahme Kaon mit p=(0,0,75)GeV und track=electron)
+	
+	// 4er-Impuls des Kaons
+	p_kaon[0] = sqrt(SQR(74.2)+SQR(MASS_KAONC));	
+	//	p_kaon[1] = 0.;	
+	//	p_kaon[2] = 0.;	
+	p_kaon[1] = 74.2 * beamCorrX;	
+	p_kaon[2] = 74.2 * beamCorrY;	
+	p_kaon[3] = 74.2;	
+	
+	Mmiss2 = SQR(p_kaon[0] - p_elgg[0]) - SQR(p_kaon[1] - p_elgg[1]) - SQR(p_kaon[2] - p_elgg[2]) - SQR(p_kaon[3] - p_elgg[3]);
+	//printf("p_kaon[0] = %f \t p_kaon[1] = %f \t p_kaon[2] = %f \t p_kaon[3] = %f \t Mmiss2 = %f\n", p_kaon[0],p_kaon[1],p_kaon[2],p_kaon[3],Mmiss2);
+	
+	//Mmiss3 = SQR(p_kaon[0] - p_elgg[0]) - sqrt( SQR(p_kaon[1] - p_elgg[1]) - SQR(p_kaon[2] - p_elgg[2]) - SQR(p_kaon[3] - p_elgg[3]));
+	Mmiss3 = SQR(p_kaon[0] - p_pigg[0]) - SQR(p_kaon[1] - p_pigg[1]) - SQR(p_kaon[2] - p_pigg[2]) - SQR(p_kaon[3] - p_pigg[3]);
+	//Mmiss3 = SQR(p_kaon[0] - p_gg[0]) - SQR(p_kaon[1] - p_gg[1]) - SQR(p_kaon[2] - p_gg[2]) - SQR(p_kaon[3] - p_gg[3]);
+	//printf ("p_elgg[0] = %f \t p_elgg[1] = %f \t p_elgg[2] = %f \t p_elgg[3] = %f\n", p_elgg[0],p_elgg[1],p_elgg[2],p_elgg[3]);
+	//printf ("p_gg[0] = %f \t p_gg[1] = %f \t p_gg[2] = %f \t p_gg[3] = %f\n", p_gg[0],p_gg[1],p_gg[2],p_gg[3]);
+	//printf ("ptSq = %f \t p_elgg[0] = %f \t Mmiss2 = %f \t Mmiss3 = %f \t diff_Miss = %f\n", 
+	//ptSq, p_elgg[0], Mmiss2, Mmiss3, fabs(Mmiss2-Mmiss3));
+	
+	//############################################################################################################
+
+	////////////////////////////////////////////////////
+	// Charged fiducial volume check 
+	////////////////////////////////////////////////////
+	double xyVtxRadius;               // radius of Vertex in xy plane
+
+	double trackDistDch1;              // distance of the two tracks at DCH1
+	double trackDistDch1_x;            // x coord. distance of the two tracks at DCH1
+	double trackDistDch1_y;            // y coord. distance of the two tracks at DCH1
+	
+	double trackDistLkr;              // distance of the two tracks at the LKR
+	double trackDistLkr_x;            // x coord. distance of the two tracks at the LKR
+	double trackDistLkr_y;            // y coord. distance of the two tracks at the LKR
+	
+	double trackDistHod;              // distance of the two tracks at the HOD
+	double trackDistHod_x;            // x coord. distance of the two tracks at the HOD
+	double trackDistHod_y;            // y coord. distance of the two tracks at the HOD
+	
+	double ydchpos[3];
+	double lkrRadius2, dchRadius2;    // dummys for radius squared
+	float trkinlkr[2];                // dummy for accep_() routine (1999 aceptance) which requires floats
+	
+	ChFidVolume_ok = true;
+	
+	ydchpos[0] = Geom->Dch[0].PosChamber.y;
+	ydchpos[1] = Geom->Dch[1].PosChamber.y;
+	ydchpos[2] = Geom->Dch[3].PosChamber.y;
+	
+	// track xy at LKR	
+	trkatlkr[0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Lkr.z-DCHz);
+	trkatlkr[1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Lkr.z-DCHz);
+	trkinlkr[0] = trkatlkr[0];
+	trkinlkr[1] = trkatlkr[1];	
+	// store LKR radius
+	lkrRadius2 = (trkatlkr[0]*trkatlkr[0] + trkatlkr[1]*trkatlkr[1]);
+	lkrradius = sqrt(lkrRadius2);
+	
+	// track xy at HOD	
+	trkathod[0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Hodoscope.z-DCHz);
+	trkathod[1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Hodoscope.z-DCHz);
+	
+	// track xy at HAC	
+	trkathac[0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Hac.z-DCHz);
+	trkathac[1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Hac.z-DCHz);
+
+	// track xy at MUV1
+	trkatmuv1[0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Muv1.z-DCHz);
+	trkatmuv1[1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Muv1.z-DCHz);
+	
+	// track xy at MUV2	
+	trkatmuv2[0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Muv2.z-DCHz);
+	trkatmuv2[1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Muv2.z-DCHz);
+	
+	// track xy at MUV3
+	trkatmuv3[0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Muv3.z-DCHz);
+	trkatmuv3[1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Muv3.z-DCHz);
+	
+	// track xy at DCH 1,2,4
+	trkatdch[0][0] = sevt->track[0].bx + sevt->track[0].bdxdz
+	  * (Geom->Dch[0].PosChamber.z-DCHbz);
+	trkatdch[0][1] = sevt->track[0].by + sevt->track[0].bdydz 
+	  * (Geom->Dch[0].PosChamber.z-DCHbz);
+	trkatdch[1][0] = sevt->track[0].bx + sevt->track[0].bdxdz
+	  * (Geom->Dch[1].PosChamber.z-DCHbz);
+	trkatdch[1][1] = sevt->track[0].by + sevt->track[0].bdydz 
+	  * (Geom->Dch[1].PosChamber.z-DCHbz);
+	trkatdch[2][0] = sevt->track[0].x + sevt->track[0].dxdz
+	  * (Geom->Dch[3].PosChamber.z-DCHz);
+	trkatdch[2][1] = sevt->track[0].y + sevt->track[0].dydz 
+	  * (Geom->Dch[3].PosChamber.z-DCHz);
+	
+	// LKR Track/Deadcell distance cut - LKR status cut
+	lkrddeadcell = sevt->track[0].dDeadCell;
+	if (sevt->track[0].dDeadCell<min_deadcell_distance)
+	  ChFidVolume_ok = false;
+	if (sevt->track[0].iClus>=0)
+	  if (sevt->cluster[sevt->track[0].iClus].status>=4)
+	    ChFidVolume_ok = false;
+	
+	// Check whether track is in detector acceptance 
+	//
+	// MUV + HOD BOX cut
+	/*if ( (((fabs(trkatmuv1[0]) < muv_box_min)
+	       &&(fabs(trkatmuv1[1]) < muv_box_min))
+	      ||(fabs(trkatmuv1[0]) > muv_box_max) 
+	      ||(fabs(trkatmuv1[1]) > muv_box_max))) {ChFidVolume_ok = false;}
+	if ( (((fabs(trkatmuv2[0]) < muv_box_min)
+	       &&(fabs(trkatmuv2[1]) < muv_box_min))
+	      ||(fabs(trkatmuv2[0]) > muv_box_max) 
+	      ||(fabs(trkatmuv2[1]) > muv_box_max))) {ChFidVolume_ok = false;}
+	if ( (((fabs(trkatmuv3[0]) < muv_box_min)
+	       &&(fabs(trkatmuv3[1]) < muv_box_min))
+	      ||(fabs(trkatmuv3[0]) > muv_box_max) 
+	      ||(fabs(trkatmuv3[1]) > muv_box_max))) {ChFidVolume_ok = false;}
+	
+	if ( (((fabs(trkathod[0]) < hod_box_min)
+	       &&(fabs(trkathod[1]) < hod_box_min))
+	      ||(fabs(trkathod[0]) > hod_box_max)
+	      ||(fabs(trkathod[1]) > hod_box_max))) ChFidVolume_ok = false; 		
+	*/
+	
+	// LKr acceptance
+	//
+	if (LKR_ACC_1999) {	    
+	  // Guillaumes standard oktagon acceptance routine
+	  if (!(accep_(&(sbur->nrun),&(trkinlkr[0]),&(trkinlkr[1]))))
+	    ChFidVolume_ok = false;
+	  //printf ("trkinlkr[0][0] = %f \t trkinlkr[0][1] = %f \t ChFidVolume_ok = %d\n", trkinlkr[0][0], trkinlkr[0][1], ChFidVolume_ok);	  
+
+	  // LKR inner radius cut
+	  if (lkrRadius2 < (lkr_radius_min*lkr_radius_min ))
+	    ChFidVolume_ok = false;
+	}
+	else if (LKR_ACC_2007) {	    
+	  // Mauro's routine, returns 1 if track (or cluster) failed LKr acceptance cuts
+	  if (LKr_acc((sbur->nrun),(trkatlkr[0]),(trkatlkr[1]),(dist_LKr_acc)) == 1)
+	    ChFidVolume_ok = false;
+	}
+	else {
+	  // check LKR oktagon acceptance 
+	  if ( (fabs(trkatlkr[0]) >= 113.) || (fabs(trkatlkr[1]) >= 113.) ||
+	       ((fabs(trkatlkr[0])+fabs(trkatlkr[1])) >= 159.8) )
+	    ChFidVolume_ok = false;
+	  
+	  // LKR inner radius cut
+	  if (lkrradius <= 15.)
+	    ChFidVolume_ok = false;
+	  
+	  // exclude the cells of CPD 49, 62, 193, 206
+	  if ( (fabs(trkatlkr[0]) >= 63.2 && fabs(trkatlkr[1]) >= 83.7) ||
+	       (fabs(trkatlkr[0]) >= 52.2 && fabs(trkatlkr[1]) >= 94.7) ||
+	       (sqrt(SQR(fabs(trkatlkr[0]) - 63.2) + SQR(fabs(trkatlkr[1]) - 94.7)) <= 11.) ) 
+	    ChFidVolume_ok = false;
+	  
+	  // exclude outer columns of CPDs (in x), 4-11 (Jura) and 244-251 (Saleve)
+	  if (fabs(trkatlkr[0]) >= 100.)
+	    ChFidVolume_ok = false;
+	}      	  
+	
+	// DCH radius cut       // hier nur inner radius cut, vielleicht auch outer radius ? AW, 21.11.03
+	for (i=0;i<3;i++)
+	  {
+	    dchRadius2 = trkatdch[i][0]*trkatdch[i][0]
+	      +(trkatdch[i][1]-ydchpos[i])*(trkatdch[i][1]-ydchpos[i]);
+	    
+	    dchradius[i] = sqrt(dchRadius2);    // store dch radius
+	    
+	    if ( dchRadius2 < (dch_radius_min*dch_radius_min))
+	      //if ( dchRadius2 < (dch_radius_min*dch_radius_min) || dchRadius2 > (dch_radius_max*dch_radius_max) ) // Cut on outer radius DCH1, v09
+	      ChFidVolume_ok = false;                                                 
+	    /*	
+	      dchradius[i][j] = 
+	      trkatdch[i][j][0]*trkatdch[i][j][0]
+	      +(trkatdch[i][j][1]-ydchpos[i])*(trkatdch[i][j][1]-ydchpos[i]);
+	      
+	      if ( dchradius[i][j] < (dch_radius_min*dch_radius_min))
+	      // if ( dchradius[i][j] < (dch_radius_min*dch_radius_min) || dchradius[0][j] > 3600.) // Cut on outer radius DCH1
+	      ChFidVolume_ok = false;                                                                                 // AW, 17.02.04
+	    */	    
+	  }
+	
+	//LKrAcc = LKr_acc((sbur->nrun),(trkatlkr[0]),(trkatlkr[1]),(dist_LKr_acc));
+	//int accep = accep_(&(sbur->nrun),&(trkatlkr[0]),&(trkatlkr[1]));	
+	//printf ("ChFidVolume_ok = %d \t LKrAcc = %d \t accep = %d\n", ChFidVolume_ok, LKrAcc, accep);      
+
+	int   l, m, n;
+
+	for (i=0; i<16; i++)
+	  for (j=0; j<16; j++)
+	    {
+	      k = i*16 + j;
+	      if (trkatlkr[0] <= CPDpos_leftDownCorner[k][0] && trkatlkr[0] > (CPDpos_leftDownCorner[k][0]-CPDlength) &&
+		  trkatlkr[1] >= CPDpos_leftDownCorner[k][1] && trkatlkr[1] < (CPDpos_leftDownCorner[k][1]+CPDlength) )
+		{		  
+		  //printf ("CPD %d: position left down corner = %.2f, \t%.2f \t track position = %.2f, \t %.2f\n", 
+		  //  k, CPDpos_leftDownCorner[k][0], CPDpos_leftDownCorner[k][1], trkatlkr[0], trkatlkr[1]);
+		  CPDindex = k;		  
+		}	      
+	    }
+	
+	for (m=0; m<8; m++)
+	  for (n=0; n<8; n++)
+	    {
+	      l = m*8 + n;
+	      CELLpos_leftDownCorner[CPDindex][l][0] = CPDpos_leftDownCorner[CPDindex][0] - (7-m)*CELLlength;
+	      CELLpos_leftDownCorner[CPDindex][l][1] = CPDpos_leftDownCorner[CPDindex][1] + (7-n)*CELLlength;
+	      //printf ("CELL %d in CPD %d: position left down corner = %.2f, \t%.2f\n", 
+	      //      l, CPDindex, CELLpos_leftDownCorner[CPDindex][l][0], CELLpos_leftDownCorner[CPDindex][l][1]);
+
+	      if (trkatlkr[0] <= CELLpos_leftDownCorner[CPDindex][l][0] && trkatlkr[0] > (CELLpos_leftDownCorner[CPDindex][l][0]-CELLlength) &&
+		  trkatlkr[1] >= CELLpos_leftDownCorner[CPDindex][l][1] && trkatlkr[1] < (CELLpos_leftDownCorner[CPDindex][l][1]+CELLlength) )
+		{		  
+		  //printf ("Cell %d in CPD %d: position left down corner = %.2f, \t%.2f \t track position = %.2f, \t %.2f\n", 
+		  //  l, CPDindex, CELLpos_leftDownCorner[CPDindex][l][0], CELLpos_leftDownCorner[CPDindex][l][1], trkatlkr[0], trkatlkr[1]);
+		  CELLindex = l;		  
+		}
+	    }
+	//printf ("CDPindex = %d \t CELLindex = %d\n\n", CPDindex, CELLindex);
+	
+	
+	// reject CPDs with highest inefficiency, test for v14
+	/*if (CPDindex==89 || CPDindex==116 || CPDindex==117 || CPDindex==118 || CPDindex==132 || CPDindex==133 || 
+	    CPDindex==137 || CPDindex==153 || CPDindex==177 || CPDindex==178 || CPDindex==179)
+	  ChFidVolume_ok = false;
+	*/
+
+	//############################################################################################################
+	
+	////////////////////////////////////////////////////
+	// transverse radius of vertex in xy plane 
+	// + distance of the two tracks at DCH1 and the LKR
+	////////////////////////////////////////////////////
+	//	xyVtxRadius = sqrt(SQR(vertex[0])+SQR(vertex[1]));
+	xyVtxRadius = sqrt( SQR(vertex[0]-(beamOffsetX+beamCorrX*vertex[2])) + SQR(vertex[1]-(beamOffsetY+beamCorrY*vertex[2])) );
+
+	if (print_details1) {	
+	  printf ("ChFidVolume_ok = %d \t xyVtxRadius = %f\n", ChFidVolume_ok, xyVtxRadius);      
+	}
+	//############################################################################################################
+	
+	///////////////////////////////////////////
+	// Define Good Tracks
+	///////////////////////////////////////////
+	if ( (sevt->track[0].p > p_track_min) && 
+	     (sevt->track[0].p < p_track_max) && 
+	     (sevt->track[0].quality>track_quality_min)
+	     )
+	  GOOD_TRACKS = TRUE;
+	else
+	  GOOD_TRACKS = FALSE;
+		
+	if (print_details1) {	
+	  printf ("GOOD_TRACKS = %d\n", GOOD_TRACKS );
+	  printf ("track[0].p = %f \t track[0].quality = %f\n", sevt->track[0].p, sevt->track[0].quality);
+	}
+	//############################################################################################################
+	
+	///////////////////////////////////////////////////////////////
+	//===========================================================//
+	//              -- --- ke3 selection: ------                 //
+	//===========================================================//
+	///////////////////////////////////////////////////////////////
+	
+	double eop_track;             // E/p for the track
+	double p_track, e_track;   // momentum and energy of the track
+	double cluster_pos[2];
+	int    clui_track;            // cluster index associated to the track
+	double timediff_track_clust;  // difference between track time and its cluster time
+	
+	p_track    = sevt->track[0].p;
+	clui_track = sevt->track[0].iClus;
+	if (clui_track >= 0) {	    
+	  e_track    = sevt->cluster[clui_track].energy;
+	  //e_track    = sevt->cluster[clui_track].energy / EopCorr[CPDindex][CELLindex];  // Ke3 E/p-Korrektur für jede Zelle!!! --> v272
+	  eop_track  = e_track / p_track;
+	  cluster_pos[0] = sevt->cluster[clui_track].x;
+	  cluster_pos[1] = sevt->cluster[clui_track].y;
+	  //timediff_track_clust = sevt->track[0].time - sevt->cluster[clui_track].time -2.4; // manuelle Offset-Korrektur von 2.4 ns
+	  timediff_track_clust = sevt->track[0].time - sevt->cluster[clui_track].time; // keine Offset-Korrektur --> superCompact!	  
+	  
+	}
+	else {
+	  e_track    = -1.;
+	  eop_track  = e_track / p_track;
+	  cluster_pos[0] = 0.;
+	  cluster_pos[1] = 0.;	    
+	}
+	//printf("eop_track = %f\n\n", eop_track);
+	
+	// look for electron
+	if (eop_track < eop_max)
+	  NO_ELECTRON_FOUND = TRUE;
+	else
+	  NO_ELECTRON_FOUND = FALSE;
+		
+	n2track_inBurst++;
+	n2track_total++;
+
+	//	printf ("CPD %d: position left down corner = %.2f, \t%.2f\n", 133, CPDpos_leftDownCorner[133][0], CPDpos_leftDownCorner[133][1]);   
+	//printf ("burst number = %d \t burstCounter = %d\n", noBursts,burstCounter);
+
+	//############################################################################################################
+	
+	//////////////////////////////////////////////////////////////////////////
+	//                                                                      //
+	//                         allgemeine cuts                              //
+	//                                                                      //
+	//////////////////////////////////////////////////////////////////////////
+	
+	//-------//
+	// cut01 //  --> 1 track mit cluster + 2 weitere cluster mit dist>10cm zu track an LKr 
+	//-------//
+		
+	cut01_eop->Fill(eop_track);
+	cut01_zvtx->Fill(vertex[2] / 100.);
+	cut01_cda->Fill(cda);
+	cut01_p->Fill(p_track);
+	cut01_pt2->Fill(ptSq);
+	cut01_rad_xyvtx->Fill(xyVtxRadius);
+	cut01_rad_dch1->Fill(dchradius[0]);
+	cut01_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+	cut01_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+	cut01_timediff_gg->Fill(timediff_gg);
+	cut01_timediff_track_pi0->Fill(timediff_track_pi0);
+	cut01_eClust->Fill(energy_g1);
+	cut01_eClust->Fill(energy_g2);
+	for (i=0; i<addCluCtr; i++)
+	  cut01_clustTrackDist->Fill(addClu_trackDist[i]);
+	cut01_mgg->Fill(mgg);
+	cut01_etot->Fill(Etot);
+	cut01_Mmiss2->Fill(Mmiss2);
+	cut01_Mmiss3->Fill(Mmiss3);
+	cut01_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+	cut01_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+	if (eop_track > 0.95)
+	  cut01_eop_gt_095_timediff_track_clust->Fill(timediff_track_clust);		      
+
+	//-------//
+	// cut02 //  -->  good vertex = z vertex + cda + xy-vertex cut + diff. between neutral and charged vertex
+	//-------//	
+	if (vertex[2] > min_zvertex && vertex[2] < max_zvertex && cda < max_cda && 
+	    xyVtxRadius < max_xyVtxRadius && fabs(diff_zvtx_neut_charged) < max_diff_zvtx) {	  
+	  
+	  cut02_eop->Fill(eop_track);
+	  cut02_zvtx->Fill(vertex[2] / 100.);
+	  cut02_cda->Fill(cda);
+	  cut02_p->Fill(p_track);
+	  cut02_pt2->Fill(ptSq);
+	  cut02_rad_xyvtx->Fill(xyVtxRadius);
+	  cut02_rad_dch1->Fill(dchradius[0]);
+	  cut02_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+	  cut02_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+	  cut02_timediff_gg->Fill(timediff_gg);
+	  cut02_timediff_track_pi0->Fill(timediff_track_pi0);
+	  cut02_eClust->Fill(energy_g1);
+	  cut02_eClust->Fill(energy_g2);
+	  for (i=0; i<addCluCtr; i++)
+	    cut02_clustTrackDist->Fill(addClu_trackDist[i]);
+	  cut02_mgg->Fill(mgg);
+	  cut02_etot->Fill(Etot);
+	  cut02_Mmiss2->Fill(Mmiss2);
+	  cut02_Mmiss3->Fill(Mmiss3);
+	  cut02_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+	  cut02_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+	  cut02_trackQuality->Fill(sevt->track[0].quality);
+	
+	  //-------//
+	  // cut03 //  -->  good tracks = track momentum + quality + charged fiducial volume cut
+	  //-------//	  
+	  //if (GOOD_TRACKS && ChFidVolume_ok && e_track > 10.0) { 
+	  if (GOOD_TRACKS && ChFidVolume_ok) { 
+	    
+	    cut03_eop->Fill(eop_track);
+	    cut03_zvtx->Fill(vertex[2] / 100.);
+	    cut03_cda->Fill(cda);
+	    cut03_p->Fill(p_track);
+	    cut03_pt2->Fill(ptSq);
+	    cut03_rad_xyvtx->Fill(xyVtxRadius);
+	    cut03_rad_dch1->Fill(dchradius[0]);
+	    cut03_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+	    cut03_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+	    cut03_timediff_gg->Fill(timediff_gg);
+	    cut03_timediff_track_pi0->Fill(timediff_track_pi0);
+	    cut03_eClust->Fill(energy_g1);
+	    cut03_eClust->Fill(energy_g2);
+	    for (i=0; i<addCluCtr; i++)
+	      cut03_clustTrackDist->Fill(addClu_trackDist[i]);
+	    cut03_mgg->Fill(mgg);
+	    cut03_etot->Fill(Etot);
+	    cut03_Mmiss2->Fill(Mmiss2);
+	    cut03_Mmiss3->Fill(Mmiss3);
+	    cut03_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+	    cut03_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+
+	    //-------//
+	    // cut04 //  -->  good pi0 = timing + gamma-gamma-Masse + min. gamma-Energie
+	    //-------//	    
+	    if (GOOD_PI0) {
+	      
+	      cut04_eop->Fill(eop_track);
+	      cut04_zvtx->Fill(vertex[2] / 100.);
+	      cut04_cda->Fill(cda);
+	      cut04_p->Fill(p_track);
+	      cut04_pt2->Fill(ptSq);
+	      cut04_rad_xyvtx->Fill(xyVtxRadius);
+	      cut04_rad_dch1->Fill(dchradius[0]);
+	      cut04_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+	      cut04_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+	      cut04_timediff_gg->Fill(timediff_gg);
+	      cut04_timediff_track_pi0->Fill(timediff_track_pi0);
+	      cut04_eClust->Fill(energy_g1);
+	      cut04_eClust->Fill(energy_g2);
+	      for (i=0; i<addCluCtr; i++)
+		cut04_clustTrackDist->Fill(addClu_trackDist[i]);
+	      cut04_eClust_clustTrackDist->Fill(energy_g1,addClu_trackDist[0]);
+	      cut04_eClust_clustTrackDist->Fill(energy_g2,addClu_trackDist[1]);
+	      cut04_mgg->Fill(mgg);
+	      cut04_etot->Fill(Etot);
+	      cut04_Mmiss2->Fill(Mmiss2);
+	      cut04_Mmiss3->Fill(Mmiss3);
+	      cut04_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+	      cut04_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+	      cut04_invMass_elpi0->Fill(invMass_elpi0);
+
+	      // Klassifiziere Zerfälle
+	      // 1. E/p > 0.95 + Etot < 69 --> Ke3
+	      // 2. E/p < 0.20 + Etot < 69 --> Kmu3
+	      // 3. E/p 0.3-0.8 + Etot > 73 --> pi+pi0
+	      if (!NO_ELECTRON_FOUND && Etot < 69.) {
+		cut04_Mmiss2_ke3->Fill(Mmiss2);
+		cut04_Mmiss3_ke3->Fill(Mmiss3);
+		cut04_invMass_elpi0_ke3->Fill(invMass_elpi0);
+		//printf("cut04 - isKe3 - energy_elpi0 = %f \t momentum_elpi0 = %f \t invMass_elpi0 = %f\n", energy_elpi0,momentum_elpi0,invMass_elpi0);
+	      }	      
+	      if (eop_track < 0.2 && Etot < 69.) {		
+		cut04_Mmiss2_kmu3->Fill(Mmiss2);
+		cut04_Mmiss3_kmu3->Fill(Mmiss3);
+		cut04_invMass_elpi0_kmu3->Fill(invMass_elpi0);
+		//printf("cut04 - isKmu3 - energy_elpi0 = %f \t momentum_elpi0 = %f \t invMass_elpi0 = %f \t invMass_mupi0 = %f\n", 
+		// energy_elpi0,momentum_elpi0,invMass_elpi0,invMass_mupi0);
+	      }	      
+	      if (eop_track > 0.3 && eop_track < 0.8 && Etot > 73.) {		
+		cut04_Mmiss2_pipi0->Fill(Mmiss2);
+		cut04_Mmiss3_pipi0->Fill(Mmiss3);
+		cut04_pt2_pipi0->Fill(ptSq);
+		cut04_invMass_elpi0_pipi0->Fill(invMass_elpi0);
+		//printf("cut04 - isPiPi0 - energy_elpi0 = %f \t momentum_elpi0 = %f \t invMass_elpi0 = %f \t invMass_pipi0 = %f\n", 
+		//     energy_elpi0,momentum_elpi0,invMass_elpi0,invMass_pipi0);
+		//printf ("p_kaon[0] - p_elgg[0] = %f \t p_kaon[0] - p_pigg[0] = %f\n", p_kaon[0]-p_elgg[0], p_kaon[0]-p_pigg[0]);
+	      }	      
+
+	      // Klassifiziere pi+pi0pi0 mit einem verlorenen pi0
+	      if (Mmiss3 > 0.008) {		
+		//printf ("### high Mmiss3, Mmiss2 = %f \t Mmiss3 = %f\n", Mmiss2, Mmiss3);		
+		cut04_Mmiss2_pipi0pi0->Fill(Mmiss2);
+	      }
+	      
+	      //printf ("vertex_neut = %f \t vertex[2] = %f \t diff_zvtx = %f\n", vertex_neut, vertex[2], diff_zvtx_neut_charged);
+	      
+	      //-------//
+	      // cut05 //  -->  Etot < 69GeV
+	      //-------//
+	      if ( fabs(diff_pipi0_kaonMass) > diff_pipi0_kaonMass_min) {
+		
+		cut05_eop->Fill(eop_track);
+		cut05_zvtx->Fill(vertex[2] / 100.);
+		cut05_cda->Fill(cda);
+		cut05_p->Fill(p_track);
+		cut05_pt2->Fill(ptSq);
+		cut05_rad_xyvtx->Fill(xyVtxRadius);
+		cut05_rad_dch1->Fill(dchradius[0]);
+		cut05_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+		cut05_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+		cut05_timediff_gg->Fill(timediff_gg);
+		cut05_timediff_track_pi0->Fill(timediff_track_pi0);
+		cut05_eClust->Fill(energy_g1);
+		cut05_eClust->Fill(energy_g2);
+		for (i=0; i<addCluCtr; i++)
+		  cut05_clustTrackDist->Fill(addClu_trackDist[i]);
+		cut05_mgg->Fill(mgg);
+		cut05_etot->Fill(Etot);
+		cut05_Mmiss2->Fill(Mmiss2);
+		cut05_Mmiss3->Fill(Mmiss3);
+		cut05_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+		cut05_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+
+		//-------//
+		// cut06 //  -->  pt^2 > 0.0025
+		//-------//
+		if (ptSq > ptSq_max) {
+		  
+		  cut06_eop->Fill(eop_track);
+		  cut06_zvtx->Fill(vertex[2] / 100.);
+		  cut06_cda->Fill(cda);
+		  cut06_p->Fill(p_track);
+		  cut06_pt2->Fill(ptSq);
+		  cut06_rad_xyvtx->Fill(xyVtxRadius);
+		  cut06_rad_dch1->Fill(dchradius[0]);
+		  cut06_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+		  cut06_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+		  cut06_timediff_gg->Fill(timediff_gg);
+		  cut06_timediff_track_pi0->Fill(timediff_track_pi0);
+		  cut06_eClust->Fill(energy_g1);
+		  cut06_eClust->Fill(energy_g2);
+		  for (i=0; i<addCluCtr; i++)
+		    cut06_clustTrackDist->Fill(addClu_trackDist[i]);
+		  cut06_mgg->Fill(mgg);
+		  cut06_etot->Fill(Etot);
+		  cut06_Mmiss2->Fill(Mmiss2);
+		  cut06_Mmiss3->Fill(Mmiss3);
+		  cut06_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+		  cut06_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+
+		  //-------//
+		  // cut07 //  -->  Etot cut
+		  //-------//
+		  if (Etot < etot_max) {
+		    
+		    cut07_eop->Fill(eop_track);
+		    cut07_zvtx->Fill(vertex[2] / 100.);
+		    cut07_cda->Fill(cda);
+		    cut07_p->Fill(p_track);
+		    cut07_pt2->Fill(ptSq);
+		    cut07_rad_xyvtx->Fill(xyVtxRadius);
+		    cut07_rad_dch1->Fill(dchradius[0]);
+		    cut07_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+		    cut07_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+		    cut07_timediff_gg->Fill(timediff_gg);
+		    cut07_timediff_track_pi0->Fill(timediff_track_pi0);
+		    cut07_eClust->Fill(energy_g1);
+		    cut07_eClust->Fill(energy_g2);
+		    for (i=0; i<addCluCtr; i++)
+		      cut07_clustTrackDist->Fill(addClu_trackDist[i]);
+		    cut07_mgg->Fill(mgg);
+		    cut07_etot->Fill(Etot);
+		    cut07_Mmiss2->Fill(Mmiss2);		    
+		    cut07_Mmiss3->Fill(Mmiss3);
+		    cut07_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+		    cut07_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+		    
+		    //-------//
+		    // cut08 //  -->  Missing mass cut + reject remaining pi+pi0pi0 (Mmiss3 ca. +0.018)
+		    //-------//	    
+		    if ( fabs(Mmiss2) < Mmiss2_max && Mmiss3 < Mmiss3_max ) {		      
+		      /*
+		      if (eop_track < 0.1)
+			{			  
+			  printf ("e_track = %f \t p_track = %f \t energy_g1 = %f \t energy_g2 = %f\n", e_track, p_track, energy_g1, energy_g2);		      
+			  
+			  printf ("trigWord = %d\n", sevt->trigWord);
+			  printf ("Bit0 = %d \t Bit2 = %d \t Bit3 = %d \t Bit7 = %d\n",  
+				  sevt->trigWord & 0x1, sevt->trigWord & 0x4, sevt->trigWord & 0x8, sevt->trigWord & 0x80);
+			  printf ("Bit9 = %d \t Bit10 = %d \t Bit14 = %d \t Bit15 = %d\n",  
+				  sevt->trigWord & 0x200/0x200, (sevt->trigWord & 0x400)/0x400, sevt->trigWord & 0x4000, sevt->trigWord & 0x8000);
+			}
+		      */
+		      cut08_eop->Fill(eop_track);
+		      cut08_zvtx->Fill(vertex[2] / 100.);
+		      cut08_cda->Fill(cda);
+		      cut08_p->Fill(p_track);
+		      cut08_eop_vs_e->Fill(eop_track,e_track);
+		      cut08_eop_vs_p->Fill(eop_track,p_track);
+		      cut08_pt2->Fill(ptSq);
+		      cut08_rad_xyvtx->Fill(xyVtxRadius);
+		      cut08_rad_dch1->Fill(dchradius[0]);
+		      cut08_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+		      cut08_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+		      cut08_timediff_gg->Fill(timediff_gg);
+		      cut08_timediff_track_pi0->Fill(timediff_track_pi0);
+		      cut08_eClust->Fill(energy_g1);
+		      cut08_eClust->Fill(energy_g2);
+		      for (i=0; i<addCluCtr; i++)
+			cut08_clustTrackDist->Fill(addClu_trackDist[i]);
+		      cut08_eClust_clustTrackDist->Fill(energy_g1,addClu_trackDist[0]);
+		      cut08_eClust_clustTrackDist->Fill(energy_g2,addClu_trackDist[1]);
+		      cut08_mgg->Fill(mgg);
+		      cut08_etot->Fill(Etot);
+		      cut08_Mmiss2->Fill(Mmiss2);
+		      cut08_Mmiss3->Fill(Mmiss3);
+		      cut08_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+		      cut08_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+		      
+		      // Klassifiziere Zerfälle
+		      // 1. E/p > 0.95 + Etot < 69 --> Ke3
+		      // 2. E/p < 0.20 + Etot < 69 --> Kmu3
+		      // 3. E/p 0.3-0.8 + Etot > 73 --> pi+pi0
+		      if (!NO_ELECTRON_FOUND && Etot < 69.) {
+			cut08_Mmiss2_ke3->Fill(Mmiss2);
+			cut08_Mmiss3_ke3->Fill(Mmiss3);
+		      }	      
+		      if (eop_track < 0.2 && Etot < 69.) {		
+			cut08_Mmiss2_kmu3->Fill(Mmiss2);
+			cut08_Mmiss3_kmu3->Fill(Mmiss3);
+		      }
+		      if (eop_track > 0.3 && eop_track < 0.8 && Etot > 73.) {		
+			cut08_Mmiss2_pipi0->Fill(Mmiss2);
+			cut08_Mmiss3_pipi0->Fill(Mmiss3);
+			//printf ("p_kaon[0] - p_elgg[0] = %f \t p_kaon[0] - p_pigg[0] = %f\n", p_kaon[0]-p_elgg[0], p_kaon[0]-p_pigg[0]);
+		      }	      
+		      
+		      // Klassifiziere pi+pi0pi0 mit einem verlorenen pi0
+		      if (Mmiss3 > 0.008) {		
+			//printf ("### high Mmiss3, Mmiss2 = %f \t Mmiss3 = %f\n", Mmiss2, Mmiss3);		
+			cut08_Mmiss2_pipi0pi0->Fill(Mmiss2);
+		      }
+		      
+		      // Einträge zur CPD-Ineffizienz
+		      if (eop_track > 0.6) 		
+			{			  
+			  ineff10000Ke3[0]++;
+			  CPDineff50000Ke3[CPDindex][0]++;
+			  counter50000Ke3++;
+			  
+			  CPDineff[CPDindex][0]++;			  
+			  if (p_track < 20.)
+			    CPDineff[CPDindex][10]++;
+			  if (p_track >= 20. && p_track < 25.)
+			    CPDineff[CPDindex][20]++;
+			  if (p_track >= 25. && p_track < 35.)
+			    CPDineff[CPDindex][30]++;
+			  if (p_track >= 35.)
+			    CPDineff[CPDindex][40]++;			  
+			  
+			  CELLineff[CPDindex][CELLindex][0]++;			  
+
+
+			  // E/p für jede Zelle !  --> ### v27 ###
+			  sprintf (eopCellHistoName, "eopCell/eop_cpd%i_cell%i", CPDindex, CELLindex);
+			  TH1F* CellHisto = (TH1F*)file1->Get(eopCellHistoName);
+			  CellHisto->Fill(eop_track);
+			}
+		      
+		      
+		      // plotte 2dim Position für ineff. Elektron-Tracks
+		      if (eop_track > 0.6 && eop_track <= 0.95) 
+			{			  
+			  cut08_eop_060_095_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]);
+                          cut08_eop_060_095_trkxy_lkr_cell->Fill(trkatlkr[0],trkatlkr[1]);
+
+			  ineff10000Ke3[2]++;
+			  CPDineff50000Ke3[CPDindex][2]++;
+			  
+			  CPDineff[CPDindex][2]++;
+			  if (p_track < 20.)
+			    CPDineff[CPDindex][12]++;
+			  if (p_track >= 20. && p_track < 25.)
+			    CPDineff[CPDindex][22]++;
+			  if (p_track >= 25. && p_track < 35.)
+			    CPDineff[CPDindex][32]++;
+			  if (p_track >= 35.)
+			    CPDineff[CPDindex][42]++;			  
+			
+			  CELLineff[CPDindex][CELLindex][1]++;			  
+			  
+			  // für ineff. tracks: Abstand zu pi0 cluster
+			  for (i=0; i<addCluCtr; i++)
+			    cut08_eop_060_095_clustTrackDist->Fill(addClu_trackDist[i]);
+			  cut08_eop_060_095_eClust_clustTrackDist->Fill(energy_g1,addClu_trackDist[0]);
+			  cut08_eop_060_095_eClust_clustTrackDist->Fill(energy_g2,addClu_trackDist[1]);
+			}
+		      
+		      // für Elektron-Tracks: plotte Zeitverteilung (track time - cluster time) um Koinzidenzen mit zufälligen Clustern zu finden
+		      if (eop_track > 0.95) 		
+			{
+			  cut08_eop_gt_095_timediff_track_clust->Fill(timediff_track_clust);
+
+			  ineff10000Ke3[1]++;
+			  CPDineff50000Ke3[CPDindex][1]++;
+			  
+			  CPDineff[CPDindex][1]++;
+			  if (p_track < 20.)
+			    CPDineff[CPDindex][11]++;
+			  if (p_track >= 20. && p_track < 25.)
+			    CPDineff[CPDindex][21]++;
+			  if (p_track >= 25. && p_track < 35.)
+			    CPDineff[CPDindex][31]++;
+			  if (p_track >= 35.)
+			    CPDineff[CPDindex][41]++;			  
+			}
+		      
+		      // falls 10000 Ke3: Berechne Ineffizienz und schreibe in entsprechendes file
+		      if (ineff10000Ke3[0] == 10000)
+			{
+			  ineff10000Ke3[3] = ineff10000Ke3[2] / ineff10000Ke3[0] * 100;
+			  ineff10000Ke3[4] = sqrt(ineff10000Ke3[2]) / ineff10000Ke3[0] * 100;
+			  fprintf (ineff10000Ke3File, "%d\t%d\t%d\t%d\t%.3f\t%.3f\n", 
+				   runNo, int(ineff10000Ke3[0]), int(ineff10000Ke3[1]), int(ineff10000Ke3[2]), ineff10000Ke3[3], ineff10000Ke3[4]);
+
+
+			  for (i=0; i<10; i++)
+			    ineff10000Ke3[i] = 0;			  
+			}
+
+		      // falls 50000 Ke3: Berechne Ineffizienz für einzelne CPDs und schreibe in entsprechendes file
+		      if (counter50000Ke3 == 50000)
+			{
+			  for (i=0; i<16; i++)
+			    for (j=0; j<16; j++)
+			      {
+				k = i*16 + j;
+				CPDineff50000Ke3[k][3] = CPDineff50000Ke3[k][2] / CPDineff50000Ke3[k][0] * 100;
+				CPDineff50000Ke3[k][4] = sqrt(CPDineff50000Ke3[k][2]) / CPDineff50000Ke3[k][0] *100;
+
+				fprintf (singleCPDineff50000Ke3File, "%d\t%d\t%d\t%d\t%d\t%d\t%.3f\t%.3f\n", 
+					 runNo, counter50000Ke3, k, int(CPDineff50000Ke3[k][0]), int(CPDineff50000Ke3[k][1]), int(CPDineff50000Ke3[k][2]), 
+					 CPDineff50000Ke3[k][3], CPDineff50000Ke3[k][4]);
+			      }
+			  
+			  for (i=0; i<256; i++)
+			    for (j=0; j<10; j++)
+			      CPDineff50000Ke3[i][j] = 0.;
+			  
+			  counter50000Ke3 = 0;			
+			}
+		      
+		      // E/p for bad cells (for comparison good cell cpd/ch 153/23)
+		      if (CPDindex == 54 && CELLindex == 24)
+			{			  
+			  checkBadCell_54_24_cut08_eop->Fill(eop_track);
+			  checkBadCell_54_24_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 75 && CELLindex == 43)
+			{			  
+			  checkBadCell_75_43_cut08_eop->Fill(eop_track);
+			  checkBadCell_75_43_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 89 && CELLindex == 13)
+			{			  
+			  checkBadCell_89_13_cut08_eop->Fill(eop_track);
+			  checkBadCell_89_13_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 122 && CELLindex == 17)
+			{			  
+			  checkBadCell_122_17_cut08_eop->Fill(eop_track);
+			  checkBadCell_122_17_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 184 && CELLindex == 19)
+			{			  
+			  checkBadCell_184_19_cut08_eop->Fill(eop_track);
+			  checkBadCell_184_19_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 184 && CELLindex == 20)
+			{			  
+			  checkBadCell_184_20_cut08_eop->Fill(eop_track);
+			  checkBadCell_184_20_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 184 && CELLindex == 22)
+			{			  
+			  checkBadCell_184_22_cut08_eop->Fill(eop_track);
+			  checkBadCell_184_22_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      if (CPDindex == 153 && CELLindex == 23)
+			{			  
+			  checkBadCell_153_23_cut08_eop->Fill(eop_track);
+			  checkBadCell_153_23_cut08_eop_vs_e->Fill(eop_track,e_track);
+			}
+		      
+      		      nKe3_inBurst++;
+		      nKe3_total++;		    
+		      n2track_inBurst_cut05++;
+		      n2track_total_cut05++;
+		      
+		      // sollte jetzt reines sample von Ke3 (sowie Kmu3) haben !!!!!!!!!
+		      
+		      // #############################################################
+		      // E/p Spektrum für Elektronen/Positronen 
+		      // #############################################################
+		      //
+		      // Histo fuer alle Elektron-Tracks ohne Psum cut
+		      finalEvents_Eop_Ke3_el_psum00->Fill(eop_track);
+		      //
+		      // E/p als Funktion von Elektron-Impuls, 5 Bins zwischen 15 und 65 GeV
+		      if (p_track < 25.)		
+			checkKe3_Eop_electron_p_015->Fill(eop_track);
+		      if (p_track >= 25. && (p_track < 35.))		
+			checkKe3_Eop_electron_p_025->Fill(eop_track);
+		      if (p_track >= 35. && (p_track < 45.))		
+			checkKe3_Eop_electron_p_035->Fill(eop_track);
+		      if (p_track >= 45. && (p_track < 55.))		
+			checkKe3_Eop_electron_p_045->Fill(eop_track);
+		      if (p_track >= 55. && (p_track < 65.))		
+			checkKe3_Eop_electron_p_055->Fill(eop_track);
+		      //
+		      // E/p als Funktion von Elektron-Impuls, 10 Bins zwischen 15 und 65 GeV
+		      if (p_track < 20.)		
+			checkKe3_Eop_electron_p_015_020->Fill(eop_track);
+		      if (p_track >= 20. && (p_track < 25.))		
+			checkKe3_Eop_electron_p_020_025->Fill(eop_track);
+		      if (p_track >= 25. && (p_track < 30.))		
+			checkKe3_Eop_electron_p_025_030->Fill(eop_track);
+		      if (p_track >= 30. && (p_track < 35.))		
+			checkKe3_Eop_electron_p_030_035->Fill(eop_track);
+		      if (p_track >= 35. && (p_track < 40.))		
+			checkKe3_Eop_electron_p_035_040->Fill(eop_track);
+		      if (p_track >= 40. && (p_track < 45.))		
+			checkKe3_Eop_electron_p_040_045->Fill(eop_track);
+		      if (p_track >= 45. && (p_track < 50.))		
+			checkKe3_Eop_electron_p_045_050->Fill(eop_track);
+		      if (p_track >= 50. && (p_track < 55.))		
+			checkKe3_Eop_electron_p_050_055->Fill(eop_track);
+		      if (p_track >= 55. && (p_track < 60.))		
+			checkKe3_Eop_electron_p_055_060->Fill(eop_track);
+		      if (p_track >= 60. && (p_track < 65.))		
+			checkKe3_Eop_electron_p_060_065->Fill(eop_track);
+		      //
+		      // E/p als Funktion von Elektron-Impuls, 5 Bins zwischen 15 und 25 GeV
+		      if (p_track < 17.)		
+			checkKe3_Eop_electron_p_015_017->Fill(eop_track);
+		      if (p_track >= 17. && (p_track < 19.))		
+			checkKe3_Eop_electron_p_017_019->Fill(eop_track);
+		      if (p_track >= 19. && (p_track < 21.))		
+			checkKe3_Eop_electron_p_019_021->Fill(eop_track);
+		      if (p_track >= 21. && (p_track < 23.))		
+			checkKe3_Eop_electron_p_021_023->Fill(eop_track);
+		      if (p_track >= 23. && (p_track < 25.))		
+			checkKe3_Eop_electron_p_023_025->Fill(eop_track);
+		      //
+		      // E/p als Funktion von LKR-Radius, in Bins von 10 cm
+		      if (lkrradius >= 15. && lkrradius < 25.)
+			checkKe3_Eop_electron_lkrrad_015_025->Fill(eop_track);
+		      if (lkrradius >= 25. && lkrradius < 35.)
+			checkKe3_Eop_electron_lkrrad_025_035->Fill(eop_track);
+		      if (lkrradius >= 35. && lkrradius < 45.)
+			checkKe3_Eop_electron_lkrrad_035_045->Fill(eop_track);
+		      if (lkrradius >= 45. && lkrradius < 55.)
+			checkKe3_Eop_electron_lkrrad_045_055->Fill(eop_track);
+		      if (lkrradius >= 55. && lkrradius < 65.)
+			checkKe3_Eop_electron_lkrrad_055_065->Fill(eop_track);
+		      if (lkrradius >= 65. && lkrradius < 75.)
+			checkKe3_Eop_electron_lkrrad_065_075->Fill(eop_track);
+		      if (lkrradius >= 75. && lkrradius < 85.)
+			checkKe3_Eop_electron_lkrrad_075_085->Fill(eop_track);
+		      if (lkrradius >= 85. && lkrradius < 95.)
+			checkKe3_Eop_electron_lkrrad_085_095->Fill(eop_track);
+		      if (lkrradius >= 95. && lkrradius < 120.)
+			checkKe3_Eop_electron_lkrrad_095_120->Fill(eop_track);
+		      //
+		      // E/p als Funktion von LKR-Radius, in Bins von 5 cm
+		      if (lkrradius >= 15. && lkrradius < 20.)
+			checkKe3_Eop_electron_lkrrad_015_020->Fill(eop_track);
+		      if (lkrradius >= 20. && lkrradius < 25.)
+			checkKe3_Eop_electron_lkrrad_020_025->Fill(eop_track);
+		      if (lkrradius >= 25. && lkrradius < 30.)
+			checkKe3_Eop_electron_lkrrad_025_030->Fill(eop_track);
+		      if (lkrradius >= 30. && lkrradius < 35.)
+			checkKe3_Eop_electron_lkrrad_030_035->Fill(eop_track);
+		      if (lkrradius >= 35. && lkrradius < 40.)
+			checkKe3_Eop_electron_lkrrad_035_040->Fill(eop_track);
+		      if (lkrradius >= 40. && lkrradius < 45.)
+			checkKe3_Eop_electron_lkrrad_040_045->Fill(eop_track);
+		      if (lkrradius >= 45. && lkrradius < 50.)
+			checkKe3_Eop_electron_lkrrad_045_050->Fill(eop_track);
+		      if (lkrradius >= 50. && lkrradius < 55.)
+			checkKe3_Eop_electron_lkrrad_050_055->Fill(eop_track);
+		      if (lkrradius >= 55. && lkrradius < 60.)
+			checkKe3_Eop_electron_lkrrad_055_060->Fill(eop_track);
+		      if (lkrradius >= 60. && lkrradius < 65.)
+			checkKe3_Eop_electron_lkrrad_060_065->Fill(eop_track);
+		      if (lkrradius >= 65. && lkrradius < 70.)
+			checkKe3_Eop_electron_lkrrad_065_070->Fill(eop_track);
+		      if (lkrradius >= 70. && lkrradius < 75.)
+			checkKe3_Eop_electron_lkrrad_070_075->Fill(eop_track);
+		      if (lkrradius >= 75. && lkrradius < 80.)
+			checkKe3_Eop_electron_lkrrad_075_080->Fill(eop_track);
+		      if (lkrradius >= 80. && lkrradius < 85.)
+			checkKe3_Eop_electron_lkrrad_080_085->Fill(eop_track);
+		      if (lkrradius >= 85. && lkrradius < 90.)
+			checkKe3_Eop_electron_lkrrad_085_090->Fill(eop_track);
+		      if (lkrradius >= 90. && lkrradius < 95.)
+			checkKe3_Eop_electron_lkrrad_090_095->Fill(eop_track);
+		      if (lkrradius >= 95. && lkrradius < 100.)
+			checkKe3_Eop_electron_lkrrad_095_100->Fill(eop_track);
+		      if (lkrradius >= 100. && lkrradius < 120.)
+			checkKe3_Eop_electron_lkrrad_100_120->Fill(eop_track);
+		      //
+		      // E/p als Funktion von LKR-Radius, in Bins von 4 cm im Bereich 40-64 cm
+		      if (lkrradius >= 40. && lkrradius < 44.)
+			checkKe3_Eop_electron_lkrrad_040_044->Fill(eop_track);
+		      if (lkrradius >= 44. && lkrradius < 48.)
+			checkKe3_Eop_electron_lkrrad_044_048->Fill(eop_track);
+		      if (lkrradius >= 48. && lkrradius < 52.)
+			checkKe3_Eop_electron_lkrrad_048_052->Fill(eop_track);
+		      if (lkrradius >= 52. && lkrradius < 56.)
+			checkKe3_Eop_electron_lkrrad_052_056->Fill(eop_track);
+		      if (lkrradius >= 56. && lkrradius < 60.)
+			checkKe3_Eop_electron_lkrrad_056_060->Fill(eop_track);
+		      if (lkrradius >= 60. && lkrradius < 64.)
+			checkKe3_Eop_electron_lkrrad_060_064->Fill(eop_track);
+		      //
+		      //  E/p als kombinierte Funktion von LKR-Radius + Elektron-Impuls
+		      if (lkrradius >= 30. && lkrradius < 35.) 
+			{
+			  if (p_track < 20.)		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_015_020->Fill(eop_track);
+			  if (p_track >= 20. && (p_track < 25.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_020_025->Fill(eop_track);
+			  if (p_track >= 25. && (p_track < 30.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_025_030->Fill(eop_track);
+			  if (p_track >= 30. && (p_track < 35.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_030_035->Fill(eop_track);
+			  if (p_track >= 35. && (p_track < 40.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_035_040->Fill(eop_track);
+			  if (p_track >= 40. && (p_track < 45.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_040_045->Fill(eop_track);
+			  if (p_track >= 45. && (p_track < 50.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_045_050->Fill(eop_track);
+			  if (p_track >= 50. && (p_track < 55.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_050_055->Fill(eop_track);
+			  if (p_track >= 55. && (p_track < 60.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_055_060->Fill(eop_track);
+			  if (p_track >= 60. && (p_track < 65.))		
+			    checkKe3_Eop_electron_lkrrad_030_035_p_060_065->Fill(eop_track);			
+			}
+		      if (lkrradius >= 35. && lkrradius < 40.)
+			{
+			  if (p_track < 20.)		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_015_020->Fill(eop_track);
+			  if (p_track >= 20. && (p_track < 25.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_020_025->Fill(eop_track);
+			  if (p_track >= 25. && (p_track < 30.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_025_030->Fill(eop_track);
+			  if (p_track >= 30. && (p_track < 35.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_030_035->Fill(eop_track);
+			  if (p_track >= 35. && (p_track < 40.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_035_040->Fill(eop_track);
+			  if (p_track >= 40. && (p_track < 45.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_040_045->Fill(eop_track);
+			  if (p_track >= 45. && (p_track < 50.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_045_050->Fill(eop_track);
+			  if (p_track >= 50. && (p_track < 55.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_050_055->Fill(eop_track);
+			  if (p_track >= 55. && (p_track < 60.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_055_060->Fill(eop_track);
+			  if (p_track >= 60. && (p_track < 65.))		
+			    checkKe3_Eop_electron_lkrrad_035_040_p_060_065->Fill(eop_track);			
+			}
+		      
+		      
+		      /////////////////////////////// Ende allgemeine cuts //////////////////////////////////////////
+		      		      
+		      //-------//
+		      // cut09 //  -->  electron found = track with E/p > 0.95
+		      //-------//
+		      if (IS_DATA && !NO_ELECTRON_FOUND) {		  		      
+			
+			cut09_eop->Fill(eop_track);
+			cut09_zvtx->Fill(vertex[2] / 100.);
+			cut09_cda->Fill(cda);
+			cut09_p->Fill(p_track);
+			cut09_pt2->Fill(ptSq);
+			cut09_rad_xyvtx->Fill(xyVtxRadius);
+			cut09_rad_dch1->Fill(dchradius[0]);
+			cut09_trkxy_lkr->Fill(trkatlkr[0],trkatlkr[1]); 		  
+			cut09_cluxy_lkr->Fill(cluster_pos[0],cluster_pos[1]); 		  
+			cut09_timediff_gg->Fill(timediff_gg);
+			cut09_timediff_track_pi0->Fill(timediff_track_pi0);
+			cut09_eClust->Fill(energy_g1);
+			cut09_eClust->Fill(energy_g2);
+			for (i=0; i<addCluCtr; i++)
+			  cut09_clustTrackDist->Fill(addClu_trackDist[i]);
+			cut09_eClust_clustTrackDist->Fill(energy_g1,addClu_trackDist[0]);
+			cut09_eClust_clustTrackDist->Fill(energy_g2,addClu_trackDist[1]);
+			cut09_mgg->Fill(mgg);
+			cut09_etot->Fill(Etot);
+			cut09_Mmiss2->Fill(Mmiss2);
+			cut09_Mmiss3->Fill(Mmiss3);
+			cut09_diff_zvtx->Fill(diff_zvtx_neut_charged / 100.);
+			cut09_diff_mpipi0_mkaon->Fill(diff_pipi0_kaonMass);
+					      
+		      } // cut09			  		  		  
+		    } // cut08			  		  		  
+		  } // cut07
+		} // cut06
+	      }// cut 05
+	    } // cut04
+	  } // cut03
+	} // cut02
+      
+      } // OneTrackTwoClusters = 1 track mit cluster + 2 weitere cluster mit dist>10cm zu track an LKr
+    } // 1 track and 3 clusters 
+
+  /*----------- End of user C code -----------*/
+  return 0;
+}
