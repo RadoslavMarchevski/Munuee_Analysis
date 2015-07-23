@@ -1,0 +1,146 @@
+*COmPACT* (Sat Nov 15 12:16:00 2014) - readflist: 2 filenames found and read
+*COmPACT* (Sat Nov 15 12:16:00 2014) - ****************************************
+*COmPACT* (Sat Nov 15 12:16:00 2014) - *                                      *
+*COmPACT* (Sat Nov 15 12:16:00 2014) - * Setting up compact for use with ROOT *
+*COmPACT* (Sat Nov 15 12:16:00 2014) - *                                      *
+*COmPACT* (Sat Nov 15 12:16:00 2014) - ****************************************
+*COmPACT* (Sat Nov 15 12:16:00 2014) - filename /castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_06_30_37.scmp offset 0
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:16:11 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:16:11 2014) - Retry 1 will start in 10 seconds
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:16:31 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:16:31 2014) - Retry 2 will start in 10 seconds
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:16:51 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:16:51 2014) - Retry 3 will start in 10 seconds
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:17:11 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:17:11 2014) - Retry 4 will start in 10 seconds
+**COmPACT Warning** (Sat Nov 15 12:17:21 2014) - openCompact: Unable to open input file after 5 tries
+*COmPACT* (Sat Nov 15 12:17:21 2014) -  Could not open file - try to skip to next one 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - ***************************************************
+*COmPACT* (Sat Nov 15 12:17:21 2014) - *                                                  
+*COmPACT* (Sat Nov 15 12:17:21 2014) - *                 SQL database opened              
+*COmPACT* (Sat Nov 15 12:17:21 2014) - *     version 3 (upd. Mon Jun 10 18:05:59 2013)
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * Available database tables are:                   
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_akl 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_clk 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_dch 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_hac 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_hodc 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_hodn 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_kab 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_lkr 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_mbx 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_muv 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_nut 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_phys 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> bb_pmb 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_akl 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_clk 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_dch 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_hac 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_hodc 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_hodn 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_kab 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_lkr 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_mbx 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_muv 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_nut 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_phys 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> br_pmb 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> cog 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> db_ver 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> eb_corr 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> kab_mom_corr 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> kab_mom_corr_mc 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> mass 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> mccog 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> mcmass 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> mcpkaon 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> pkaon 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> run_att 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> sample 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_akl 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_aks 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_dch 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_hac 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_kab_extra 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_lkr 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_lkr_akl 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_lkr_hac 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_lkr_nhod 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_lkr_tag 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_muv 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_nhod 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - * -----------------------------> toff_tag 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - *                                                  
+*COmPACT* (Sat Nov 15 12:17:21 2014) - ************************************************** 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/database/database.db
+*COmPACT* (Sat Nov 15 12:17:21 2014) - ************************************************** 
+*COmPACT* (Sat Nov 15 12:17:21 2014) - *  Initializing DB scale factors                   
+*COmPACT* (Sat Nov 15 12:17:21 2014) - ------------Using the following scale factors------------
+*COmPACT* (Sat Nov 15 12:17:21 2014) - mass:  1000000.0 1000000.0 1000000.0 1000000.0
+*COmPACT* (Sat Nov 15 12:17:21 2014) - cog:  10000.0 10000.0 10000.0 10000.0 10000.0 10000.0 10000.0 10000.0
+*COmPACT* (Sat Nov 15 12:17:21 2014) -  File for lkr HIKS 2000 opened successfully: /afs/cern.ch/na48/offline2/compact/compact-7.3/compact/GeomFiles//lkrcalhi2k.dat
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+Warning in <TH1F::Sumw2>: Sum of squares of weights structure already created
+*COmPACT* (Sat Nov 15 12:17:22 2014) - filename /castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_06_48_15.scmp offset 0
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:17:32 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:17:32 2014) - Retry 1 will start in 10 seconds
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:17:52 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:17:52 2014) - Retry 2 will start in 10 seconds
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+XrdSec: No authentication protocols are available.
+rfio_fopen: Permission denied
+rfio_fopen: Permission denied
+**COmPACT Warning** (Sat Nov 15 12:18:12 2014) - openCompact: Unable to open input file (errno=13)
+**COmPACT Warning** (Sat Nov 15 12:18:12 2014) - Retry 3 will start in 10 seconds
+**COmPACT Warning** (Sat Nov 15 12:18:23 2014) - Success after 3 retries
+*COmPACT* (Sat Nov 15 12:18:24 2014) - openCompact: Version 7.2 SuperCompact file, named /castor/cern.ch/user/n/na48cali/public/na48prod/2003/repro/SC/pass5/goldcmp22_2003_06_15_06_48_15.scmp opened
+*COmPACT* (Sat Nov 15 12:18:30 2014) - closeCompact: Closing input file
+*COmPACT* (Sat Nov 15 12:18:39 2014) - ************ COmPACT finished ************
+*COmPACT* (Sat Nov 15 12:18:39 2014) - Total number of  bursts read :       30
+*COmPACT* (Sat Nov 15 12:18:39 2014) - Total number of  events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of CMP  events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of KE3  events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of KMU3 events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of MC   events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of SCMP events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of SMC  events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) -   Number of HCMP events read :        0
+*COmPACT* (Sat Nov 15 12:18:39 2014) - ******************************************

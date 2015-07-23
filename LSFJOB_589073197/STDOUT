@@ -1,0 +1,25 @@
+@(#)CERN job starter $Date: 2010/06/23 14:22:16 $
+Working directory is </pool/lsf/rmarchev/589073197> on <>
+
+Error: option -o is not a supported option.
+dlopen error: /afs/cern.ch/sw/lcg/app/releases/ROOT/5.32.00/i686-slc5-gcc43-opt/root/lib/libTreePlayer.so: wrong ELF class: ELFCLASS32
+Load Error: Failed to load Dynamic link library /afs/cern.ch/sw/lcg/app/releases/ROOT/5.32.00/i686-slc5-gcc43-opt/root/lib/libTreePlayer.so
+dlopen error: /afs/cern.ch/sw/lcg/app/releases/ROOT/5.32.00/i686-slc5-gcc43-opt/root/lib/libReflex.so: wrong ELF class: ELFCLASS32
+Load Error: Failed to load Dynamic link library /afs/cern.ch/sw/lcg/app/releases/ROOT/5.32.00/i686-slc5-gcc43-opt/root/lib/libReflex.so
+Error in <TCint::AutoLoad>: failure loading dependent library libReflex.so for class ROOT::Cintex::Cintex
+dlopen error: /afs/cern.ch/sw/lcg/app/releases/ROOT/5.32.00/i686-slc5-gcc43-opt/root/lib/libCintex.so: wrong ELF class: ELFCLASS32
+Load Error: Failed to load Dynamic link library /afs/cern.ch/sw/lcg/app/releases/ROOT/5.32.00/i686-slc5-gcc43-opt/root/lib/libCintex.so
+Error in <TCint::AutoLoad>: failure loading library libCintex.so for class ROOT::Cintex::Cintex
+Error: Function Enable() is not defined in current scope  (tmpfile):1:
+*** Interpreter error recovered ***
+hadd Target file: ss0123_v37.root
+hadd Source file 1: ss0123101/run2007.root
+Error in <TFile::TFile>: file ss0123101/run2007.root does not exist
+Error in <TFileMerger::AddFile>: cannot open file ss0123101/run2007.root
+hadd exiting due to error in ss0123101/run2007.root
+
+Job finished at Mon Nov 10 12:11:40 CET 2014 on node 
+ under linux version Scientific Linux CERN SLC release 6.6 (Carbon)
+
+CERN statistics: This process used approximately : 0:00:02 KSI2K hours (2 KSI2K seconds)
+                 This process corresponds to     : 0:00:09 HS06  hours (9 HS06  seconds)

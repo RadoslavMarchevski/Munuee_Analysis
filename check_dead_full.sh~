@@ -1,0 +1,6 @@
+#!/bin/bash
+fnumber1=$1
+fnumber2=$2
+
+for i in `seq $fnumber1 $fnumber2`
+echo "/afs/cern.ch/user/r/rmarchev/compact/reader/check_dead.sh $i"

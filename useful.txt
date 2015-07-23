@@ -1,0 +1,16 @@
+//Running jobs --version --Nevents --queue --name --1stlist --2ndlist
+./wrapper_exrun_v1.sh v1 -1 short kmnee 1 3
+source /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/x86_64/root/5.30.06-i686-slc5-gcc4.3/bin/thisroot.sh
+
+Mount mogon folder to local PC
+sudo usermode -a -G fuse rmarchev
+su rmarchev
+sshfs rmarchev@mogon.zdv.uni-mainz.de:/folder_tobelinked localfolder
+
+rdesktop rds.zdv.uni-mainz.de -d uni-mainz -u rmarchev -f?
+wetap73.physik.uni-mainz.de
+mogonetap1
+sshfs rmarchev@lxplus.cern.ch:/afs/cern.ch/user/r/rmarchev/compact/
+/localscratch/Lxplus/
+fusermount -u mountpoint
+cd /localscratch/Work  !!!!

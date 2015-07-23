@@ -20,11 +20,19 @@
 #include <string>
 #include <vector>
 #include <math.h>
+<<<<<<< HEAD
 #include "MC_Charged_Particle.h"
 #include "Hist_dir.h"
 
 superMcEvent* mcevent;
 superCmpEvent* sevt;
+=======
+
+#include "Hist_dir.h"
+
+superMcEvent* mcevent;
+
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 
 
@@ -57,6 +65,7 @@ char rootfilename[200];
 float EopCorr[100][256][64]; // ab v65: corrections for different (sub-) periods (up to 100)
 int   periodFlag;            // ab v65: period to be defined in superBurst.c
 
+<<<<<<< HEAD
 
 int  Particle_type[20];
 int  Npart;
@@ -67,6 +76,8 @@ TLorentzVector True_Momentum[20];
 //TLorentzVector mc_Three_Track_Momentum;
 //TLorentzVector mc_Two_Track_Momentum;
 
+=======
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 Hist_dir* Initial_dir;
 Hist_dir* K3pi_selection;
 Hist_dir* dir1;

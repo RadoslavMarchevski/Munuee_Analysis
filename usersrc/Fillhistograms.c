@@ -17,6 +17,7 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_muon_bx->Fill(part.Position[0]);
         fh_muon_by->Fill(part.Position[1]);
         fh_bx_vs_by_muon->Fill(part.Position[0],part.Position[1]);
+<<<<<<< HEAD
         if(part.cluster_exists){
             fh_mu_cluster_x->Fill(part.cluster_position[0]);
             fh_mu_cluster_y->Fill(part.cluster_position[1]);
@@ -26,6 +27,8 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         }
         fh_muv2_trk_cl_diff->Fill(part.MUV2_distance_trk_cl);
         fh_muv_x_y_position->Fill(part.MUV2_position[0],part.MUV2_position[1]);
+=======
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
         fh_DCHtime_mu->Fill( part.GetDCHtime());
         fh_Mu_momentum->Fill(part.GetMomentum());
         fh_Mu_charge->Fill(part.GetCharge() );
@@ -37,12 +40,15 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
     if(particle.compare("electron1") == 0 ){
         fh_electron1_bx->Fill(part.Position[0]);
         fh_electron1_by->Fill(part.Position[1]);
+<<<<<<< HEAD
         fh_el1_cluster_x->Fill(part.cluster_position[0]);
         fh_el1_cluster_y->Fill(part.cluster_position[1]);
         fh_el1_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
         fh_el1_cluster_time->Fill(part.GetClusterTime());
         fh_el1_dtrk_cl->Fill(part.GetDistanceTrackCluster());
         fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
+=======
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
         fh_bx_vs_by_el1->Fill(part.Position[0],part.Position[1]);
         fh_Track_Momentum->Fill(part.GetMomentum());
         fh_Electron_Momentum->Fill(part.GetMomentum());
@@ -54,12 +60,15 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_electron2_bx->Fill(part.Position[0]);
         fh_electron2_by->Fill(part.Position[1]);
         fh_bx_vs_by_el2->Fill(part.Position[0],part.Position[1]);
+<<<<<<< HEAD
         fh_el2_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
         fh_el2_cluster_x->Fill(part.cluster_position[0]);
         fh_el2_cluster_y->Fill(part.cluster_position[1]);
         fh_el2_cluster_time->Fill(part.GetClusterTime());
         fh_el2_dtrk_cl->Fill(part.GetDistanceTrackCluster());
         fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
+=======
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
         fh_Track_Momentum->Fill(part.GetMomentum());
         fh_Electron_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
@@ -111,9 +120,12 @@ void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string p
         fh_mee->Fill( Two_Track_Momentum.M());
         fh_DCH_timediff_e1_e2->Fill(p1.GetDCHtime() -  p2.GetDCHtime());
         fh_Hod_timediff_e1_e2->Fill(p1.GetHodTime() - p2.GetHodTime());
+<<<<<<< HEAD
         fh_el1_el2_cluster_timediff->Fill(p1.GetClusterTime() - p2.GetClusterTime());
         fh_DCH1_distance_e1e2->Fill( sqrt( pow(p1.Position[0] - p2.Position[0], 2 ) + pow(p1.Position[1] - p2.Position[1],2)));
         fh_Lkr_distance_e1e2->Fill( sqrt( pow(p1.extrapolated_track_Lkr[0] - p2.extrapolated_track_Lkr[0], 2 ) + pow(p1.extrapolated_track_Lkr[1] - p2.extrapolated_track_Lkr[1],2)));
+=======
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     }
 
 
@@ -121,9 +133,13 @@ void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string p
 void Hist_dir::FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum){
 
     //fh_Kaon_Charge->Fill(p1.GetCharge() + p2.GetCharge() + p3.GetCharge());
+<<<<<<< HEAD
 
     fh_missing_mass->Fill(Nu_Momentum.M2());
 
+=======
+    fh_missing_mass->Fill(Nu_Momentum.M2());
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     fh_muee_P->Fill(Three_Track_Momentum.P());
     fh_muee_Pt->Fill(Three_Track_Momentum.Pt());
     fh_muee_M->Fill(Three_Track_Momentum.M());
@@ -131,6 +147,7 @@ void Hist_dir::FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_M
     //Make_Cuts();
 }
 
+<<<<<<< HEAD
 void Hist_dir::FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum){
     /* std::cout << muon.Vect().Angle(Two_Track_Momentum.Vect()) << "AND "; */
     //std::cout << "With E= " << Two_Track_Momentum.E() << "With p= " << Two_Track_Momentum.P() ;
@@ -153,6 +170,8 @@ void Hist_dir::FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum)
     //Make_Cuts();
 }
 
+=======
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 void Hist_dir::FillCommonHist(superCmpEvent* sevt){
     int    ntrack = sevt->Ntrack; // number of tracks
     int    nclust = sevt->Ncluster; // number of clusters
@@ -204,7 +223,12 @@ void Hist_dir::ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Char
     //TLorentzVector Nu_Momentum;
     Three_Track_Momentum = p1.Momentum + p2.Momentum + p3.Momentum;
     Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
+<<<<<<< HEAD
     Nu_Momentum   = Kaon_Momentum - Three_Track_Momentum;
     MuNu_Momentum = Kaon_Momentum - Two_Track_Momentum;
     //std::cout  << "Using combined vectors" << MuNu_Momentum.Angle(Two_Track_Momentum.Vect()) << std::endl;
+=======
+    Nu_Momentum = Kaon_Momentum - Three_Track_Momentum;
+
+>>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 }
