@@ -15,10 +15,7 @@
 #include <stdio.h>
 #include <math.h>
 //User defined libraries
-<<<<<<< HEAD
 #include "MC_Charged_Particle.h"
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 #include "Charged_Particle.h"
 #include "Hist_dir.h"
 #include "Cuts.h"
@@ -30,13 +27,10 @@ TVector3* clpos;
 void cleanup();
 Cuts make_cuts(Hist_dir* dir1, Charged_Particle& muon, Charged_Particle& electron1, Charged_Particle& electron2,double* Vertex_mu_e1,double* Vertex_mu_e2,double* Vertex_e1_e2, std::string decay_type);
 
-<<<<<<< HEAD
 void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, float* DKaon,float* part_production, float* part_decay);
 
 void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, TLorentzVector p4, float* DKaon,float* part_production, float* part_decay);
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     /* WARNING: do not alter things before this line */
@@ -68,10 +62,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     const double Electron_EoverP_up = 1.05;
     const double Electron_EoverP_down = 0.95;
     const double Muon_EoverP_up = 0.3;
-<<<<<<< HEAD
-=======
-
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     int Kcharge=0;
     int ngoodtrack=0;
     int Nelectrons=0;
@@ -99,7 +89,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             sbur->BadB.HodC== 1|| sbur->BadB.Phys== 1){
             sbur->BadB.Skip=1;
         }
-<<<<<<< HEAD
 
     Initial_dir->FillCommonHist(sevt);
     if(IS_MC){
@@ -121,15 +110,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     }
 //Looping over the number of tracks for each event
-=======
-    Initial_dir->FillCommonHist(sevt);
-
-    if(nvtx != 1){return 0;}
-    if(ntrack != 3 ) {return 0;}
-    if(COmPaCt_Z_Vertex < -2000. || COmPaCt_Z_Vertex > 8000.){return 0;}
-
-    //Looping over the number of tracks for each event
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     for (int i=0; i<ntrack; i++) {
         Kcharge += sevt->track[i].q;
         Track_Momentum          = sevt->track[i].p;
@@ -157,7 +137,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 Nmuons++;
             }
 
-<<<<<<< HEAD
         }// ENDIF IS_DATA
 
         //Particle identification for K to 3 pi charged
@@ -197,24 +176,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             }
         }
 
-=======
-
-            //Particle identification for K to 3 pi charged
-            if( Track_Momentum > 10. ){
-                if(pi1<0){
-                    pi1 = i;
-                } else if(pi2<0){
-                    pi2 = i;
-                } else if(pi3<0){
-                    pi3 = i;
-                }
-
-                NK3pi_pions++;
-            }//ENDIF K3pi selection
-
-
-        }// ENDIF IS_DATA
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     }//end for i
     //Kmunuee selection
     Charged_Particle muon(sevt,sbur,-13,imu);
@@ -279,10 +240,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         K3pi_selection->ComputeThreeTrack(pion1,pion2,pion3);
         Cuts cut_k3pi = make_cuts(K3pi_selection,pion1,pion2,pion3,Vertex_pi1_pi2,Vertex_pi1_pi3,Vertex_pi2_pi3,"K3pi");
         ////Cuts
-<<<<<<< HEAD
-=======
-        //73-3-10
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
         //-- CUT1 Momentum cut ---
         if(cut_k3pi.muee_P > 54. &&
            cut_k3pi.muee_P < 66. &&
@@ -344,7 +301,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 //-------------------------KMUNUEE SIGNAL SELECTION ----------------------------------------
     //Signal particle identification
     if(imu == -1 || iel1 == -1 || iel2 == -1){return 0;}
-<<<<<<< HEAD
     if(!electron1.cluster_exists || !electron2.cluster_exists){return 0;}
     dir1->FillCommonHist(sevt);
     dir1->fh_Event_Type->Fill(Event_Type);
@@ -357,12 +313,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
         }
     }
-=======
-
-    dir1->FillCommonHist(sevt);
-    dir1->fh_Event_Type->Fill(Event_Type);
-    dir1->fh_Kaon_Charge->Fill(Kcharge);
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     if(Kcharge*electron1.GetCharge()==-1)
         dir1->fh_odd_eop->Fill(electron1.GetEnergyLeftInEcal()/ electron1.GetMomentum());
     else if(Kcharge*electron2.GetCharge()==-1)
@@ -401,20 +351,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir1->FillHist(muon,electron1,"mue1");
     dir1->FillHist(muon,electron2,"mue2");
     dir1->FillHist(electron1,electron2,"e1e2");
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     //Fill histograms for the three tracks. Calculates three track vector
     //and fills the histograms with the variables of interest (momentum,mass ..).
     dir1->ComputeThreeTrack(electron1,electron2,muon);
 
     dir1->FillHist(dir1->GetThreeTrackMomentum(),dir1->GetNuMomentum());
-<<<<<<< HEAD
     dir1->FillAngle(muon.Momentum,dir1->GetTwoTrackMomentum());
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     //Producing cut variable in more readable way with the class
     //described in Cuts.h;
@@ -432,7 +376,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        cutting.DCH_Radius_el2 > 110
         ){return 0;}
     //-- CUT1 DCH Geometry Cut --
-<<<<<<< HEAD
 
     if(IS_MC){
         FillMC(dir3, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -442,8 +385,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     dir3->fh_Event_Type->Fill(Event_Type);
     dir3->fh_Kaon_Charge->Fill(Kcharge);
     dir3->FillCommonHist(sevt);
@@ -456,10 +397,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->FillHist(electron1,electron2,"e1e2");
     dir3->ComputeThreeTrack(electron1,electron2,muon);
     dir3->FillHist(dir3->GetThreeTrackMomentum(),dir3->GetNuMomentum());
-<<<<<<< HEAD
     dir3->FillAngle(muon.Momentum,dir3->GetTwoTrackMomentum());
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     //-- CUT2 Momentum cut ---
     if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
@@ -468,7 +406,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(cutting.muee_P > 66){return 0;}
     //--ENDOF CUT2 Momentum cut ---
 
-<<<<<<< HEAD
     if(IS_MC){
         FillMC(dir4, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -477,8 +414,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     dir4->fh_Event_Type->Fill(Event_Type);
     dir4->fh_Kaon_Charge->Fill(Kcharge);
     dir4->FillCommonHist(sevt);
@@ -491,10 +426,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir4->FillHist(electron1,electron2,"e1e2");
     dir4->ComputeThreeTrack(electron1,electron2,muon);
     dir4->FillHist(dir4->GetThreeTrackMomentum(),dir4->GetNuMomentum());
-<<<<<<< HEAD
     dir4->FillAngle(muon.Momentum,dir4->GetTwoTrackMomentum());
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     //-- CUT3 Vertex Cut --
     if(fabs(cutting.zvtx_mue1_mue2) > 500 ||
@@ -508,7 +440,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_mue2_e1e2) > 500
         ){return 0;}
     //--ENDOF CUT3 Vertex Cut --
-<<<<<<< HEAD
 
     if(IS_MC){
         FillMC(dir5, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -518,8 +449,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     dir5->fh_Event_Type->Fill(Event_Type);
     dir5->fh_Kaon_Charge->Fill(Kcharge);
     dir5->FillCommonHist(sevt);
@@ -532,15 +461,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir5->FillHist(electron1,electron2,"e1e2");
     dir5->ComputeThreeTrack(electron1,electron2,muon);
     dir5->FillHist(dir5->GetThreeTrackMomentum(),dir5->GetNuMomentum());
-<<<<<<< HEAD
     dir5->FillAngle(muon.Momentum,dir5->GetTwoTrackMomentum());
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     //-- CUT3 Transverse Momentum Cut --
     if(cutting.muee_Pt < 0.022 ){return 0;}
     //--ENDOF CUT3 Transverse Momentum Cut --
-<<<<<<< HEAD
 
     if(IS_MC){
         FillMC(dir6, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -550,8 +475,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     dir6->fh_Event_Type->Fill(Event_Type);
     dir6->fh_Kaon_Charge->Fill(Kcharge);
     dir6->FillCommonHist(sevt);
@@ -564,7 +487,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir6->FillHist(electron1,electron2,"e1e2");
     dir6->ComputeThreeTrack(electron1,electron2,muon);
     dir6->FillHist(dir6->GetThreeTrackMomentum(),dir6->GetNuMomentum());
-<<<<<<< HEAD
     dir6->FillAngle(muon.Momentum,dir6->GetTwoTrackMomentum());
 
     //-- CUT4 Invariant Mass Cut --
@@ -579,12 +501,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-=======
-
-    //-- CUT4 Invariant Mass Cut --
-    //if(cutting.mee < 0.140){return 0;}
-    //--ENDOF CUT4 Invariant Mass Cut --
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     dir7->fh_Event_Type->Fill(Event_Type);
     dir7->fh_Kaon_Charge->Fill(Kcharge);
     dir7->FillCommonHist(sevt);
@@ -597,26 +513,17 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir7->FillHist(electron1,electron2,"e1e2");
     dir7->ComputeThreeTrack(electron1,electron2,muon);
     dir7->FillHist(dir7->GetThreeTrackMomentum(),dir7->GetNuMomentum());
-<<<<<<< HEAD
     dir7->FillAngle(muon.Momentum,dir7->GetTwoTrackMomentum());
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     //-- CUT5 Timing cut ---
     if(fabs(cutting.DCH_e1e2) > 10. ||
        fabs(cutting.DCH_mue1) > 10. ||
        fabs(cutting.DCH_mue2) > 10. ||
-<<<<<<< HEAD
        fabs(cutting.Hod_e1e2) > 2.  ||
        fabs(cutting.Hod_mue1) > 2.  ||
-=======
-       fabs(cutting.Hod_e1e2) > 2. ||
-       fabs(cutting.Hod_mue1) > 2. ||
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
        fabs(cutting.Hod_mue2) > 2.
         ){return 0;}
     //-- ENDOF CUT5 Timing cut ---
 
-<<<<<<< HEAD
     if(IS_MC){
         FillMC(dir7, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -625,8 +532,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     dir8->fh_Event_Type->Fill(Event_Type);
     dir8->fh_Kaon_Charge->Fill(Kcharge);
     dir8->FillCommonHist(sevt);
@@ -639,7 +544,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir8->FillHist(electron1,electron2,"e1e2");
     dir8->ComputeThreeTrack(electron1,electron2,muon);
     dir8->FillHist(dir8->GetThreeTrackMomentum(),dir8->GetNuMomentum());
-<<<<<<< HEAD
     dir8->FillAngle(muon.Momentum,dir8->GetTwoTrackMomentum());
 
     //K3pi wrong sign selection
@@ -661,13 +565,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             }
         }
 
-=======
-
-    //K3pi wrong sign selection
-    if(electron1.GetCharge()==electron2.GetCharge() &&
-       electron1.GetCharge()!=muon.GetCharge()
-        ){
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
         dir2->fh_Event_Type->Fill(Event_Type);
         dir2->fh_Kaon_Charge->Fill(Kcharge);
         dir2->FillCommonHist(sevt);
@@ -682,7 +579,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         dir2->FillHist(dir2->GetThreeTrackMomentum(),dir2->GetNuMomentum());
     }
 
-<<<<<<< HEAD
     //-- CUT6 muon charge  cut ---
     if(muon.GetCharge()*Kcharge != 1){return 0;}
     //-- END OF CUT6 muon charge  cut ---
@@ -694,9 +590,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
         }
     }
-=======
-    if(muon.GetCharge()*Kcharge != 1){return 0;}
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     dir9->fh_Event_Type->Fill(Event_Type);
     dir9->fh_Kaon_Charge->Fill(Kcharge);
@@ -710,15 +603,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir9->FillHist(electron1,electron2,"e1e2");
     dir9->ComputeThreeTrack(electron1,electron2,muon);
     dir9->FillHist(dir9->GetThreeTrackMomentum(),dir9->GetNuMomentum());
-<<<<<<< HEAD
     dir9->FillAngle(muon.Momentum,dir9->GetTwoTrackMomentum());
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     Charged_Particle munuee_pion1(sevt,sbur,211,imu);
     Charged_Particle munuee_pion2(sevt,sbur,211,iel1);
     Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
-<<<<<<< HEAD
 
     if(IS_MC){
         FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -747,10 +636,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir10->ComputeThreeTrack(electron1,electron2,muon);
     dir10->FillHist(dir10->GetThreeTrackMomentum(),dir10->GetNuMomentum());
     dir10->FillAngle(muon.Momentum,dir10->GetTwoTrackMomentum());
-=======
-    dir10->ComputeThreeTrack(munuee_pion1,munuee_pion2,munuee_pion3);
-    dir10->FillHist(dir9->GetThreeTrackMomentum(),dir9->GetNuMomentum());
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     return 0;
 }
@@ -774,12 +659,9 @@ Cuts make_cuts(Hist_dir* dir1,Charged_Particle& muon, Charged_Particle& electron
     cutting.Hod_e1e2 = electron2.GetHodTime() - electron1.GetHodTime();
     cutting.Hod_mue1 = muon.GetHodTime() - electron1.GetHodTime();
     cutting.Hod_mue2 = muon.GetHodTime() - electron2.GetHodTime();
-<<<<<<< HEAD
     cutting.cluster_e1e2 = electron1.GetClusterTime() - electron2.GetClusterTime();
     //cutting.cluster_mue1 = muon.GetClusterTime() - electron1.GetClusterTime();
     //cutting.cluster_mue2 = muon.GetClusterTime() - electron2.GetClusterTime();
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     cutting.Mu_P     = muon.GetMomentum();
     cutting.E1_P     = electron1.GetMomentum();
     cutting.E2_P     = electron2.GetMomentum();
@@ -821,7 +703,6 @@ Cuts make_cuts(Hist_dir* dir1,Charged_Particle& muon, Charged_Particle& electron
 
     return cutting;
 }
-<<<<<<< HEAD
 
 void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, float* DKaon, float* part_production, float* part_decay){
     TLorentzVector mc_Two_Track_Momentum;
@@ -858,5 +739,3 @@ void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector 
 
 
 }
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb

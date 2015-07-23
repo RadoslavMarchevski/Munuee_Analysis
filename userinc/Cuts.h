@@ -1,10 +1,7 @@
 #ifndef __Cuts_h_
 #define __Cuts_h_
 #include "Charged_Particle.h"
-<<<<<<< HEAD
 #include "MC_Charged_Particle.h"
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 #include "Hist_dir.h"
 #include "user_NEW.h"
 #include "Cuts.h"
@@ -26,12 +23,9 @@ public:
     double DCH_Radius_pi3;
 
     double Hod_e1e2;
-<<<<<<< HEAD
     double cluster_e1e2;
     double cluster_mue1;
     double cluster_mue2;
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     double Hod_mue1;
     double Hod_mue2;
     double Mu_P;

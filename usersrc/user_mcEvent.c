@@ -18,7 +18,6 @@ int user_mcEvent(Burst *bur,mcEvent *evt) {
   static int nuserevt=0;
   int icorr, i;
 
-<<<<<<< HEAD
   //if(nuserevt<20)
   //  {
   //    printMcEvent(evt,fprt);
@@ -31,20 +30,6 @@ int user_mcEvent(Burst *bur,mcEvent *evt) {
 */
 /*
   icorr=0; Dont use corrected variables
-=======
-  if(nuserevt<20)
-    {
-      printMcEvent(evt,fprt);
-      nuserevt++;
-    }
-
-  
-/* 
-   Uncomment following lines to call the hodotime and tagtime functions 
-*/
-/*
-  icorr=0; Dont use corrected variables 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
   USER_HODOTIME(bur,evt->cmpevt,&icorr);
   USER_TAGTIME(bur,evt->cmpevt);
 */

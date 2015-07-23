@@ -52,7 +52,6 @@ extern int   periodFlag;            // ab v65: period to be defined in superBurs
 #include <string>
 #include <vector>
 #include <math.h>
-<<<<<<< HEAD
 //#include "MC_Charged_Particle.h"
 
 using namespace std;
@@ -66,8 +65,3 @@ extern float  DKaon[3];
 extern TLorentzVector True_Momentum[20];
 //extern TLorentzVector mc_Three_Track_Momentum;
 //extern TLorentzVector mc_Two_Track_Momentum;
-=======
-using namespace std;
-extern superMcEvent* mcevent;
-//extern superCmpEvent* sevt;
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb

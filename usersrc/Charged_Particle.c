@@ -26,17 +26,13 @@ Charged_Particle::Charged_Particle(superCmpEvent* sevt, superBurst *sburst, int 
     else if(fPID == 211)/*Pi+*/{
         fMass = 0.13957018;
     }
-<<<<<<< HEAD
     else if(fPID == 321)/*K+*/{
         fMass = 0.493677;
     }
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     else {
         std::cout << "+++ ERROR +++ ERROR +++ NO OR WRONG CHARGED PARTICLE TYPE CHOOSEN +++ ERROR +++ ERROR" << std::endl;
     }
 
-<<<<<<< HEAD
     icluster = -1;
     imuon    = -1;
     cluster_exists   = false;
@@ -55,20 +51,10 @@ Charged_Particle::Charged_Particle(superCmpEvent* sevt, superBurst *sburst, int 
     if(imuon != -1){
         MakeMUVExtrapolation();
     }
-=======
-    EcalEnergy = fSevt->cluster[sevt->track[pindex].iClus].energy;
-
-    CalculateMomentum();
-    MakeTime();
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 }
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 void Charged_Particle::CalculateMomentum(){
     //Call routine for vertex
     //Alpha and beta corrections
@@ -103,7 +89,6 @@ void Charged_Particle::CalculateMomentum(){
 void Charged_Particle::MakeTime(){
     DCHtime = fSevt->track[fpindex].time;
     HodTime = fSevt->track[fpindex].hodTime;
-<<<<<<< HEAD
     ClusterTime = fSevt->cluster[icluster].time;
 }
 
@@ -142,7 +127,4 @@ void Charged_Particle::MakeMUVExtrapolation(){
     extrapolated_track_MUV2[1] = fSevt->track[fpindex].y + (MUV2_position[2] - DCHz) * dydz;
 
     MUV2_distance_trk_cl = sqrt( pow(MUV2_position[0] - extrapolated_track_MUV2[0],2) + pow(MUV2_position[1] - extrapolated_track_MUV2[1],2) ) ;
-=======
-    ClusterTime = fSevt->cluster[fSevt->track[fpindex].iClus].time;
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 }

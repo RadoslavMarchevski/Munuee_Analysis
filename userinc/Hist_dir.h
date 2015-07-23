@@ -6,13 +6,9 @@
 #include <iostream>
 #include <string>
 #include "Charged_Particle.h"
-<<<<<<< HEAD
 #include "MC_Charged_Particle.h"
 #include "Cuts.h"
 
-=======
-#include "Cuts.h"
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 class Hist_dir {
 public:
     //Three type of directories one for monitoring of some main
@@ -25,31 +21,20 @@ public:
     void FillHist(Charged_Particle& part, std::string particle);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
     void FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum);
-<<<<<<< HEAD
     void FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum);
     //void FillAngle();
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     void FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2,std::string decay_type);
     void ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
     TLorentzVector& GetThreeTrackMomentum(){return Three_Track_Momentum; };
     TLorentzVector& GetTwoTrackMomentum(){return Two_Track_Momentum; };
     TLorentzVector& GetKaonMomentum(){return Kaon_Momentum; };
-<<<<<<< HEAD
     TLorentzVector& GetMuNuMomentum(){return MuNu_Momentum; };
     TLorentzVector& GetNuMomentum(){return Nu_Momentum; };
-=======
-    TLorentzVector& GetNuMomentum(){return Nu_Momentum; };
-
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     TLorentzVector Kaon_Momentum;
     TLorentzVector Two_Track_Momentum;
     TLorentzVector Three_Track_Momentum;
     TLorentzVector Nu_Momentum;
-<<<<<<< HEAD
     TLorentzVector MuNu_Momentum;
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
     TH1I* fh_Ntracks           ;
     TH1I* fh_Nclusters         ;
@@ -126,7 +111,6 @@ public:
     TH2F* fh_bx_vs_by_pi1;
     TH2F* fh_bx_vs_by_pi2;
     TH2F* fh_bx_vs_by_pi3;
-<<<<<<< HEAD
     TH1F* fh_el1_cluster_x;
     TH1F* fh_el1_cluster_y;
     TH1F* fh_el2_cluster_x;
@@ -169,17 +153,12 @@ public:
     TH1F* fh_mc_four_track_1234_mass;
     TH1F* fh_missing_mass_z_variable;
 
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 
 private:
     std::string fDir;
     int ftype;
-<<<<<<< HEAD
     double mKaon;
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 };
 extern Hist_dir* Initial_dir;
 extern Hist_dir* K3pi_selection;

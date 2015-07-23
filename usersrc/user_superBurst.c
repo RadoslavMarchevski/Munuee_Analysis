@@ -18,13 +18,8 @@ int user_superBurst(superBurst *sbur) {
 /*---------- Add user C code here ----------*/
     sbur->BadB.Skip = 0; /* see user_superBurst.example.c to learn to use it */
 
-<<<<<<< HEAD
     noBursts++;            // total number of bursts
     burstCounter++;        // counter set to 0 in superEob if certain number of bursts reached to write the root file
-=======
-    //noBursts++;            // total number of bursts
-    //burstCounter++;        // counter set to 0 in superEob if certain number of bursts reached to write the root file
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
     magnetCurrent =  sbur->MNP33current;
     runNo = sbur->nrun;
 
