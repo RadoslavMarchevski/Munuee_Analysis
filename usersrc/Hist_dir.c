@@ -34,12 +34,15 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_P1_Pzvtx = new TH1F("mc_P1_Pzvtx","MC Particle 1 production Z vertex",150,-4000.,11000.);
         fh_mc_P1_mass = new TH1F("mc_P1_mass","MC Particle 1 Mass",550,0.,0.55);
         fh_mc_P1_momentum = new TH1F("mc_P1_momentum","MC Particle 1 Momentum",100,0.,100.);
+        fh_mc_P1_dist_prod_dec = new TH1F("mc_P1_dist_prod_dec","MC Particle1 distance between production and decay vertex; P1Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
         fh_mc_P2_Pzvtx = new TH1F("mc_P2_Pzvtx","MC Particle 2 production Z vertex",150,-4000.,11000.);
         fh_mc_P2_mass = new TH1F("mc_P2_mass","MC Particle 2 Mass",1100,0.,0.55);
         fh_mc_P2_momentum = new TH1F("mc_P2_momentum","MC Particle 2 Momentum",100,0.,100.);
+        fh_mc_P2_dist_prod_dec = new TH1F("mc_P2_dist_prod_dec","MC Particle2 distance between production and decay vertex; P2Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
         fh_mc_P3_Pzvtx = new TH1F("mc_P3_Pzvtx","MC Particle 3 production Z vertex",150,-4000.,11000.);
         fh_mc_P3_mass = new TH1F("mc_P3_mass","MC Particle 3 Mass",1100,0.,0.55);
         fh_mc_P3_momentum = new TH1F("mc_P3_momentum","MC Particle 3 Momentum",100,0.,100.);
+        fh_mc_P3_dist_prod_dec = new TH1F("mc_P3_dist_prod_dec","MC Particle3 distance between production and decay vertex; P3Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
         fh_mc_P4_Pzvtx = new TH1F("mc_P4_Pzvtx","MC Particle 4 production Z vertex",150,-4000.,11000.);
         fh_mc_three_track_123_momentum = new TH1F("mc_three_track_123_momentum","MC Momentum of the track 1+2+3",100,0.,100.);
         fh_mc_three_track_123_mass = new TH1F("mc_three_track_123_mass","MC Mass of the track 1+2+3 ",700,0,0.7);
@@ -137,12 +140,12 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Hod_timediff_e1_e2 = new TH1F("Hod_timediff_e1_e2","Hodoscope time difference between e1 and e2 ;Hodtimediff[ns];Nevents",100,-50.,50.);
         //ENDOF Time matching
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
+        fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
         fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",200,0,2.);
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{#mu e e}[GeV];Nevents",100,0.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss}[GeV^2];Nevents",100,-0.05,0.05);
-        fh_missing_mass_z_variable = new TH1F("missing_mass_z_variable","Missing mass squared in terms of the z variable;z;Nevents",25,0,0.5);
         fh_cda_mu_e1 = new TH1F("cda_mu_e1","Closest distance approach between the #mu and e1;cda[cm];Nevents",50, 0., 50.);
         fh_cda_mu_e2 = new TH1F("cda_mu_e2","Closest distance approach between the #mu and e2;cda[cm];Nevents",50, 0., 50.);
         fh_cda_e1_e2 = new TH1F("cda_e1_e2","Closest distance approach between the e1 and e2;cda[cm];Nevents" ,50, 0., 50.);
@@ -175,7 +178,9 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mu_cluster_x_y = new TH2F("mu_cluster_x_y","Cluster position x vs y;cl_x[cm];cl_y[cm]",400,-200.,200.,400,-200.,-200.);
         fh_deadcell_distance = new TH1F("deadcell_distance","Distance to deadcell",150,0.,150.);
         fh_muv2_trk_cl_diff = new TH1F("muv2_trk_cl_diff","Difference between extrapolated track and MUV2 cluster position;Trk_cl_diff[cm];Nevents",200,0.,200.);
-        fh_muv_x_y_position = new TH2F("muv_x_y_position","MUV2 hitmap x vs y;Track_x[cm];Track_y[cm]",400,-200.,200.,400,-200.,200.);
+        fh_muv_xpos = new TH1F("muv_xpos","Muon X position at MUV2",20,-200.,200.);
+        fh_muv_ypos = new TH1F("muv_ypos","Muon Y position at MUV1",20,-200.,200.);
+        fh_muv_x_y_position = new TH2F("muv_x_y_position","MUV2 hitmap x vs y;Track_x[cm];Track_y[cm]",40,-200.,200.,400,-200.,200.);
         fh_DCH1_distance_e1e2 = new TH1F("DCH1_distance_e1e2","Distance between the two electrons in the DCH1",200,0,200.);
         fh_Lkr_distance_e1e2 = new TH1F("Lkr_distance_e1e2","Distance between the two electrons in the Lkr",200,0,200.);
         fh_angle_el_mu = new TH1F("angle_el_mu","Angle between e+e- plane and the #mu",200,0.0,0.2);
@@ -188,18 +193,21 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_P2_Pzvtx = new TH1F("mc_P2_Pzvtx","MC Particle 2 production Z vertex",150,-4000.,11000.);
         fh_mc_P2_mass = new TH1F("mc_P2_mass","MC Particle 2 Mass",1100,0.,0.55);
         fh_mc_P2_momentum = new TH1F("mc_P2_momentum","MC Particle 2 Momentum",100,0.,100.);
+        fh_mc_P1_dist_prod_dec = new TH1F("mc_P1_dist_prod_dec","MC Particle1 distance between production and decay vertex; P1Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
+        fh_mc_P2_dist_prod_dec = new TH1F("mc_P2_dist_prod_dec","MC Particle2 distance between production and decay vertex; P2Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
+        fh_mc_P3_dist_prod_dec = new TH1F("mc_P3_dist_prod_dec","MC Particle3 distance between production and decay vertex; P3Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
         fh_mc_P3_Pzvtx = new TH1F("mc_P3_Pzvtx","MC Particle 3 production Z vertex",150,-4000.,11000.);
         fh_mc_P3_mass = new TH1F("mc_P3_mass","MC Particle 3 Mass",1100,0.,0.55);
         fh_mc_P3_momentum = new TH1F("mc_P3_momentum","MC Particle 3 Momentum",100,0.,100.);
         fh_mc_P4_Pzvtx = new TH1F("mc_P4_Pzvtx","MC Particle 4 production Z vertex",150,-4000.,11000.);
         fh_mc_three_track_123_momentum = new TH1F("mc_three_track_123_momentum","MC Momentum of the track 1+2+3",100,0.,100.);
-        fh_mc_three_track_123_mass = new TH1F("mc_three_track_123_mass","MC Mass of the track 1+2+3 ",700,0,0.7);
+        fh_mc_three_track_123_mass = new TH1F("mc_three_track_123_mass","MC Mass of the track 1+2+3 ",70,0,0.7);
         fh_mc_two_track_23_momentum = new TH1F("mc_two_track_23_momentum","MC Momentum of the track 2+3",100,0.,100.);
-        fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3 ",700,0,0.7);
+        fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3 ",70,0,0.7);
         fh_mc_P4_mass = new TH1F("mc_P4_mass","MC Particle 4 Mass",550,0.,0.55);
         fh_mc_P4_momentum = new TH1F("mc_P4_momentum","MC Particle 4 Momentum",100,0.,100.);
         fh_mc_four_track_1234_momentum = new TH1F("mc_four_track_1234_momentum","MC Momentum of the track 1+2+3+4",100,0.,100.);
-        fh_mc_four_track_1234_mass = new TH1F("mc_four_track_1234_mass","MC Mass of the track 1+2+3+4 ",700,0,0.7);
+        fh_mc_four_track_1234_mass = new TH1F("mc_four_track_1234_mass","MC Mass of the track 1+2+3+4 ",70,0,0.7);
 
     }
 }
@@ -320,6 +328,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Hod_timediff_mu_e2->Write();
         fh_Hod_timediff_e1_e2->Write();
         fh_mee         ->Write();
+        fh_mee_z_variable->Write();
         fh_muee_P      ->Write();
         fh_muee_M      ->Write();
         fh_missing_mass->Write();
@@ -344,6 +353,8 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mu_cluster_x_y->Write();
         fh_deadcell_distance->Write();
         fh_muv2_trk_cl_diff->Write();
+        fh_muv_xpos->Write();
+        fh_muv_ypos->Write();
         fh_muv_x_y_position->Write();
         fh_DCH1_distance_e1e2->Write();
         fh_Lkr_distance_e1e2->Write();
@@ -368,7 +379,10 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_four_track_1234_momentum->Write();
         fh_mc_four_track_1234_mass->Write();
 
-    fh_missing_mass_z_variable->Write();
+
+    fh_mc_P1_dist_prod_dec->Write();
+    fh_mc_P2_dist_prod_dec->Write();
+    fh_mc_P3_dist_prod_dec->Write();
     }
 }
 
@@ -531,7 +545,12 @@ Hist_dir::~Hist_dir(){
         delete fh_mc_P4_momentum;
         delete fh_mc_four_track_1234_momentum;
         delete fh_mc_four_track_1234_mass;
-    delete fh_angle_el_mu;
-    delete fh_missing_mass_z_variable;
+        delete fh_angle_el_mu;
+        delete fh_mee_z_variable;
+        delete fh_muv_xpos;
+        delete fh_muv_ypos;
+    delete fh_mc_P1_dist_prod_dec;
+    delete fh_mc_P2_dist_prod_dec;
+    delete fh_mc_P3_dist_prod_dec;
     }
 }

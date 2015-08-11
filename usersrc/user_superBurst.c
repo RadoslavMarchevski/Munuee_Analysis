@@ -29,7 +29,13 @@ int user_superBurst(superBurst *sbur) {
         sbur->BadB.Skip = 1;
     if (sbur->BadB.Dch!=0)    // exclude bad DCH bursts
         sbur->BadB.Skip = 1;
-
+    if (IS_DATA)
+        if( sbur->BadB.Lkr == 1||
+            sbur->BadB.Mbx == 1||
+            sbur->BadB.Muv == 1||
+            sbur->BadB.HodC== 1){
+            sbur->BadB.Skip=1;
+        }
 
     //if (sbur->time != 1190177600)
     //sbur->BadB.Skip = 1;

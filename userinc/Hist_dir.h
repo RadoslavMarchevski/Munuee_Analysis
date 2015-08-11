@@ -151,8 +151,13 @@ public:
     TH1F* fh_mc_P4_momentum;
     TH1F* fh_mc_four_track_1234_momentum;
     TH1F* fh_mc_four_track_1234_mass;
-    TH1F* fh_missing_mass_z_variable;
+    TH1F* fh_mee_z_variable;
 
+    TH1F* fh_muv_xpos;
+    TH1F* fh_muv_ypos;
+    TH1F* fh_mc_P1_dist_prod_dec;
+    TH1F* fh_mc_P2_dist_prod_dec;
+    TH1F* fh_mc_P3_dist_prod_dec;
 
 
 private:

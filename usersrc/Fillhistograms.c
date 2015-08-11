@@ -25,6 +25,8 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
             fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
         }
         fh_muv2_trk_cl_diff->Fill(part.MUV2_distance_trk_cl);
+        fh_muv_xpos->Fill(part.MUV2_position[0]);
+        fh_muv_ypos->Fill(part.MUV2_position[1]);
         fh_muv_x_y_position->Fill(part.MUV2_position[0],part.MUV2_position[1]);
         fh_DCHtime_mu->Fill( part.GetDCHtime());
         fh_Mu_momentum->Fill(part.GetMomentum());
@@ -148,7 +150,7 @@ void Hist_dir::FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum)
     // cos_theta = ( pow(MuNu_Momentum.M(),2) + pow(Two_Track_Momentum.M(),2) - pow(mKaon,2) + 2*MuNu_Momentum.E()*Two_Track_Momentum.M())/ (2*MuNu_Momentum.P()*Two_Track_Momentum.P()) ;
     fh_angle_el_mu->Fill(MuNu_Momentum.Angle(Two_Track_Momentum.Vect()));
     //fh_angle_el_mu->Fill(cos_theta);
-    fh_missing_mass_z_variable->Fill( Two_Track_Momentum.M()*Two_Track_Momentum.M() / (mKaon*mKaon));
+    fh_mee_z_variable->Fill( Two_Track_Momentum.M()*Two_Track_Momentum.M() / (mKaon*mKaon));
 //std::cout  << "Just muon and ee = " << muon.Angle(Two_Track_Momentum.Vect()) << std::endl;
     //Make_Cuts();
 }
