@@ -32,6 +32,7 @@ int user_exit() {
     dir2->AddToFile(file);
     dir9->AddToFile(file);
     dir10->AddToFile(file);
+    dir11->AddToFile(file);
     printf ("### saving histograms to file run2003_2004.root \n");
     //delete dir1;
     //delete dir2;

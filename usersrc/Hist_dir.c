@@ -65,6 +65,10 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_eop               = new TH1F("Track_E/p","Track E/p ;E/p;Nevents",120.,0.,1.2);
         fh_odd_eop           = new TH1F("odd_E/p","E/p for the odd track in the k3pi selection",120,0.,1.2);
         fh_EoP_vs_p_odd_tr = new TH2F("EoP_vs_p_odd_tr","E/p vs Momentum for the odd track",120,0.,1.2, 20,0., 100.);
+        fh_lda3_p1 = new TH1F("lda3_p1","lda3 variable for pion 1", 200,0.,2);
+        fh_lda3_p2 = new TH1F("lda3_p2","lda3 variable for pion 2", 200,0.,2);
+        fh_lda3_p3 = new TH1F("lda3_p3","lda3 variable for pion 3", 200,0.,2);
+
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
         //Reconstructed Vtx difference
         fh_xvtxdiff_pi1pi2_pi2pi3 = new TH1F("xvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed X vtx; X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
@@ -217,6 +221,10 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_P4_momentum = new TH1F("mc_P4_momentum","MC Particle 4 Momentum",100,0.,100.);
         fh_mc_four_track_1234_momentum = new TH1F("mc_four_track_1234_momentum","MC Momentum of the track 1+2+3+4",100,0.,100.);
         fh_mc_four_track_1234_mass = new TH1F("mc_four_track_1234_mass","MC Mass of the track 1+2+3+4 ",70,0,0.7);
+        fh_lda3_e1 = new TH1F("lda3_e1","lda3 variable for electron 1", 200,0.,2);
+        fh_lda3_e2 = new TH1F("lda3_e2","lda3 variable for electron 2", 200,0.,2);
+        fh_Mee_before = new TH1F("z_vtx_before","ComPaCt z vtx before z vtx cut",150,-4000.,11000.);
+
 
     }
 }
@@ -263,6 +271,10 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Pion_Momentum     ->Write();
         fh_eop               ->Write();
         fh_odd_eop           ->Write();
+        fh_EoP_vs_p_odd_tr    ->Write();
+        fh_lda3_p1->Write();
+        fh_lda3_p2->Write();
+        fh_lda3_p3->Write() ;
         fh_COmPaCt_Z_Vertex  ->Write();
         fh_zvtxdiff_pi1pi2_pi2pi3->Write();
         fh_zvtxdiff_pi1pi2_pi1pi3->Write();
@@ -397,7 +409,11 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_P2_dist_prod_dec->Write();
         fh_mc_P3_dist_prod_dec->Write();
 
-    fh_EoP_vs_p_odd_tr->Write();
+
+        fh_lda3_e1->Write();
+        fh_lda3_e2->Write();
+        fh_Mee_before->Write();
+
     }
 }
 
@@ -564,12 +580,18 @@ Hist_dir::~Hist_dir(){
         delete fh_mee_z_variable;
         delete fh_muv_xpos;
         delete fh_muv_ypos;
-    delete fh_mc_P1_dist_prod_dec;
-    delete fh_mc_P2_dist_prod_dec;
-    delete fh_mc_P3_dist_prod_dec;
-    delete fh_mc_two_track_23_mass_z_variable;
-    delete fh_Muee_M_3pi_assumption;
-    delete fh_Lkr_extrap_tracks_x_vs_y;
-    delete fh_EoP_vs_p_odd_tr;
+        delete fh_mc_P1_dist_prod_dec;
+        delete fh_mc_P2_dist_prod_dec;
+        delete fh_mc_P3_dist_prod_dec;
+        delete fh_mc_two_track_23_mass_z_variable;
+        delete fh_Muee_M_3pi_assumption;
+        delete fh_Lkr_extrap_tracks_x_vs_y;
+        delete fh_EoP_vs_p_odd_tr;
+        delete fh_lda3_e1;
+        delete fh_lda3_e2;
+        delete fh_lda3_p1;
+    delete fh_Mee_before;
+    delete fh_lda3_p2;
+    delete fh_lda3_p3;
     }
 }

@@ -22,6 +22,7 @@ public:
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
     void FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum);
     void FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum);
+    void Fill3pi(TLorentzVector Three_Track_Momentum );
     //void FillAngle();
     void FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2,std::string decay_type);
     void ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Charged_Particle& p3);
@@ -158,6 +159,16 @@ public:
     TH1F* fh_mc_P1_dist_prod_dec;
     TH1F* fh_mc_P2_dist_prod_dec;
     TH1F* fh_mc_P3_dist_prod_dec;
+    TH1F* fh_mc_two_track_23_mass_z_variable;
+    TH1F* fh_Muee_M_3pi_assumption;
+    TH2F* fh_Lkr_extrap_tracks_x_vs_y;
+    TH2F* fh_EoP_vs_p_odd_tr;
+    TH1F* fh_lda3_e1;
+    TH1F* fh_lda3_e2;
+    TH1F* fh_Mee_before;
+    TH1F* fh_lda3_p1;
+    TH1F* fh_lda3_p2;
+    TH1F* fh_lda3_p3;
 
 
 private:
@@ -177,4 +188,5 @@ extern Hist_dir* dir7;
 extern Hist_dir* dir8;
 extern Hist_dir* dir9;
 extern Hist_dir* dir10;
+extern Hist_dir* dir11;
 #endif

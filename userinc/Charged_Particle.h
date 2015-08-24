@@ -27,6 +27,7 @@ public:
     const double GetMomentum()    const {return Momentum.P();}
     const double GetEnergyLeftInEcal() const{return EcalEnergy;}
     const double GetDCHradius() const{return TMath::Sqrt(pow(Position[0],2) + pow(Position[1],2));}
+    const double GetLkrRadius() const{return TMath::Sqrt(pow(extrapolated_track_Lkr[0],2) + pow(extrapolated_track_Lkr[1],2));}
     const double GetDCHtime() const{return DCHtime;}
     const double GetHodTime() const{return HodTime;}
     double* GetClusterPosition() {return cluster_position;}

@@ -22,6 +22,42 @@ public:
     double DCH_Radius_pi2;
     double DCH_Radius_pi3;
 
+    double Lkr_x_el1 ;
+    double Lkr_x_el2 ;
+    double Lkr_x_mu  ;
+    double Lkr_y_el1 ;
+    double Lkr_y_el2 ;
+    double Lkr_y_mu  ;
+    double Lkr_cut_el1;
+    double Lkr_cut_el2;
+    double Lkr_cut_mu;
+
+    double MUV_x_el1 ;
+    double MUV_x_el2 ;
+    double MUV_x_mu  ;
+    double MUV_y_el1 ;
+    double MUV_y_el2 ;
+    double MUV_y_mu  ;
+
+
+    double MUV_x_pi1 ;
+    double MUV_x_pi2 ;
+    double MUV_x_pi3 ;
+    double MUV_y_pi1 ;
+    double MUV_y_pi2 ;
+    double MUV_y_pi3 ;
+
+    double Lkr_x_pi1 ;
+    double Lkr_x_pi2 ;
+    double Lkr_x_pi3 ;
+    double Lkr_y_pi1 ;
+    double Lkr_y_pi2 ;
+    double Lkr_y_pi3  ;
+    double Lkr_cut_pi1;
+    double Lkr_cut_pi2;
+    double Lkr_cut_pi3;
+
+
     double Hod_e1e2;
     double cluster_e1e2;
     double cluster_mue1;

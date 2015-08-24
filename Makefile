@@ -384,8 +384,9 @@ UFSRCS = fuser_init.F \
          fuser_superEob.F \
          fuser_cmpEvent.F \
          fuser_exit.F \
-		 fuser_hyperBurst.F\
-		 fuser_hyperCmpEvent.F
+	 fuser_hyperBurst.F\
+	 fuser_hyperCmpEvent.F\
+
 
 UFOBJS = $(UFSRCS:.F=.o)
 
@@ -422,7 +423,8 @@ UCASRCS = lkraccep_2007.c
 UCAOBJS = $(UCASRCS:.c=.o)
 
 UFASRCS = closap_double.F \
-          Blue_Tack.F
+          Blue_Tack.F \
+          lda3.F
 
 UFAOBJS = $(UFASRCS:.F=.o)
 
