@@ -343,10 +343,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
             if(Kcharge*pion1.GetCharge()==-1 && sevt->track[pi1].iMuon != -1){
                 K3pi_selection->fh_odd_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum());
+                K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum(), pion1.GetMomentum());
             } else if(Kcharge*pion2.GetCharge()==-1 && sevt->track[pi2].iMuon != -1) {
                 K3pi_selection->fh_odd_eop->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum());
+                K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum(), pion2.GetMomentum());
             } else if(Kcharge*pion3.GetCharge()==-1 && sevt->track[pi3].iMuon != -1){
                 K3pi_selection->fh_odd_eop->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum());
+                K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum(), pion3.GetMomentum());
+
             }
         }
     }

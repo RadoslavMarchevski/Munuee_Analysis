@@ -64,6 +64,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Pion_Momentum     = new TH1F("Pion_Momentum","Pion Momentum for the K3pi selection;#pi_P[GeV];Nevents",100,0.,100.);
         fh_eop               = new TH1F("Track_E/p","Track E/p ;E/p;Nevents",120.,0.,1.2);
         fh_odd_eop           = new TH1F("odd_E/p","E/p for the odd track in the k3pi selection",120,0.,1.2);
+        fh_EoP_vs_p_odd_tr = new TH2F("EoP_vs_p_odd_tr","E/p vs Momentum for the odd track",120,0.,1.2, 20,0., 100.);
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
         //Reconstructed Vtx difference
         fh_xvtxdiff_pi1pi2_pi2pi3 = new TH1F("xvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed X vtx; X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
@@ -396,6 +397,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_P2_dist_prod_dec->Write();
         fh_mc_P3_dist_prod_dec->Write();
 
+    fh_EoP_vs_p_odd_tr->Write();
     }
 }
 
@@ -568,5 +570,6 @@ Hist_dir::~Hist_dir(){
     delete fh_mc_two_track_23_mass_z_variable;
     delete fh_Muee_M_3pi_assumption;
     delete fh_Lkr_extrap_tracks_x_vs_y;
+    delete fh_EoP_vs_p_odd_tr;
     }
 }
