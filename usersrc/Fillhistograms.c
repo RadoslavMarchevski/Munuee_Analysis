@@ -25,9 +25,11 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
             fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
         }
         fh_muv2_trk_cl_diff->Fill(part.MUV2_distance_trk_cl);
-        fh_muv_xpos->Fill(part.MUV2_position[0]);
-        fh_muv_ypos->Fill(part.MUV2_position[1]);
-        fh_muv_x_y_position->Fill(part.MUV2_position[0],part.MUV2_position[1]);
+        fh_muv_xpos->Fill(part.extrapolated_track_MUV2[0]);
+        fh_muv_ypos->Fill(part.extrapolated_track_MUV2[1]);
+        fh_muv_x_y_position->Fill(part.extrapolated_track_MUV2[0],part.extrapolated_track_MUV2[1]);
+        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
+
         fh_DCHtime_mu->Fill( part.GetDCHtime());
         fh_Mu_momentum->Fill(part.GetMomentum());
         fh_Mu_charge->Fill(part.GetCharge() );
@@ -44,6 +46,8 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_el1_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
         fh_el1_cluster_time->Fill(part.GetClusterTime());
         fh_el1_dtrk_cl->Fill(part.GetDistanceTrackCluster());
+        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
+
         fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
         fh_bx_vs_by_el1->Fill(part.Position[0],part.Position[1]);
         fh_Track_Momentum->Fill(part.GetMomentum());
@@ -67,6 +71,7 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
         fh_Electron_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
         fh_DCHtime_e2->Fill( part.GetDCHtime());
+        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
     }
     if(particle.compare("pion1") == 0 ){
         //Particle specific histograms
@@ -75,6 +80,8 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_bx_vs_by_pi1->Fill(part.Position[0],part.Position[1]);
         fh_Pion_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_muv_x_y_position->Fill(part.extrapolated_track_MUV2[0],part.extrapolated_track_MUV2[1]);
+        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
     }
 
     if(particle.compare("pion2") == 0 ){
@@ -84,6 +91,9 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_bx_vs_by_pi2->Fill(part.Position[0],part.Position[1]);
         fh_Pion_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_muv_x_y_position->Fill(part.extrapolated_track_MUV2[0],part.extrapolated_track_MUV2[1]);
+        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
+
     }
 
     if(particle.compare("pion3") == 0 ){
@@ -93,6 +103,8 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_bx_vs_by_pi3->Fill(part.Position[0],part.Position[1]);
         fh_Pion_Momentum->Fill(part.GetMomentum());
         fh_eop->Fill(part.GetEnergyLeftInEcal()/ part.GetMomentum() );
+        fh_muv_x_y_position->Fill(part.extrapolated_track_MUV2[0],part.extrapolated_track_MUV2[1]);
+        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
     }
 }
 
@@ -209,4 +221,8 @@ void Hist_dir::ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Char
     Nu_Momentum   = Kaon_Momentum - Three_Track_Momentum;
     MuNu_Momentum = Kaon_Momentum - Two_Track_Momentum;
     //std::cout  << "Using combined vectors" << MuNu_Momentum.Angle(Two_Track_Momentum.Vect()) << std::endl;
+}
+
+void Hist_dir::Fill3pi(TLorentzVector Three_Track_Momentum ){
+    fh_Muee_M_3pi_assumption->Fill(Three_Track_Momentum.M());
 }

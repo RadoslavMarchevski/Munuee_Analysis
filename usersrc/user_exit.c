@@ -29,7 +29,6 @@ int user_exit() {
     dir5->AddToFile(file);
     dir6->AddToFile(file);
     dir7->AddToFile(file);
-    dir8->AddToFile(file);
     dir2->AddToFile(file);
     dir9->AddToFile(file);
     dir10->AddToFile(file);

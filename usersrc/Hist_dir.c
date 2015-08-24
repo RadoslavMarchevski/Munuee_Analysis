@@ -45,9 +45,10 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_P3_dist_prod_dec = new TH1F("mc_P3_dist_prod_dec","MC Particle3 distance between production and decay vertex; P3Zvtx_{Production - Decay};Nevents",-150,-4000,11000);
         fh_mc_P4_Pzvtx = new TH1F("mc_P4_Pzvtx","MC Particle 4 production Z vertex",150,-4000.,11000.);
         fh_mc_three_track_123_momentum = new TH1F("mc_three_track_123_momentum","MC Momentum of the track 1+2+3",100,0.,100.);
-        fh_mc_three_track_123_mass = new TH1F("mc_three_track_123_mass","MC Mass of the track 1+2+3 ",700,0,0.7);
+        fh_mc_three_track_123_mass = new TH1F("mc_three_track_123_mass","MC Mass of the track 1+2+3 ",50,0,0.5);
         fh_mc_two_track_23_momentum = new TH1F("mc_two_track_23_momentum","MC Momentum of the track 2+3",100,0.,100.);
-        fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3 ",700,0,0.7);
+        fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3 ",50,0,0.5);
+        fh_mc_two_track_23_mass_z_variable = new TH1F("mc_two_track_23_mass_z_variable","MC Mass of the track 2+3 in terms of the z variable;z;Nevents",25,0,0.5);
         fh_mc_P4_mass = new TH1F("mc_P4_mass","MC Particle 4 Mass",550,0.,0.55);
         fh_mc_P4_momentum = new TH1F("mc_P4_momentum","MC Particle 4 Momentum",100,0.,100.);
         fh_mc_four_track_1234_momentum = new TH1F("mc_four_track_1234_momentum","MC Momentum of the track 1+2+3+4",100,0.,100.);
@@ -79,9 +80,9 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_cda_pi2_pi3 = new TH1F("cda_pi2_pi3","Closest distance approach between the #pi_2 and #pi_3;cda[cm];Nevents" ,50, 0., 50.);
         //ENDOF Vertex Reconstruction
 
-        fh_muee_P = new TH1F("3pi_P","Three track momentum ;P_{3#pi}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F("3pi_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",200,0,2.);
-        fh_muee_M = new TH1F("3pi_M","Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
+        fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{3#pi}[GeV];Nevents",100,0.,100);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",200,0,2.);
+        fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
 
@@ -95,6 +96,9 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_bx_vs_by_pi1 = new TH2F("bx_vs_by_pi1","#pi_1 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
         fh_bx_vs_by_pi2 = new TH2F("bx_vs_by_pi2","#pi_2 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
         fh_bx_vs_by_pi3 = new TH2F("bx_vs_by_pi3","#pi_3 x vs y coordinate on DCH1 before the magnet;DCH_x[cm];DCH_y[cm]",300,-150.,150.,300,-150,150);
+        fh_Lkr_extrap_tracks_x_vs_y = new TH2F("Lkr_extrap_tracks_x_vs_y","Extrapolated tracks to the Lkr ;Lkr_x[cm];Lkr_y[cm]",400,-200., 200., 400, -200., 200.);
+        fh_muv_x_y_position = new TH2F("muv_x_y_position","MUV2 extrapolated position x vs y;Track_x[cm];Track_y[cm]",400,-200.,200.,400,-200.,200.);
+
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
@@ -144,6 +148,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
         fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",200,0,2.);
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{#mu e e}[GeV];Nevents",100,0.,1.);
+        fh_Muee_M_3pi_assumption = new TH1F("Muee_M_3pi_assumption","Three track invariant mass with 3 #pi assumtion ;M_{3#pi};Nevents",100,0.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss}[GeV^2];Nevents",100,-0.05,0.05);
         fh_cda_mu_e1 = new TH1F("cda_mu_e1","Closest distance approach between the #mu and e1;cda[cm];Nevents",50, 0., 50.);
@@ -178,11 +183,13 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mu_cluster_x_y = new TH2F("mu_cluster_x_y","Cluster position x vs y;cl_x[cm];cl_y[cm]",400,-200.,200.,400,-200.,-200.);
         fh_deadcell_distance = new TH1F("deadcell_distance","Distance to deadcell",150,0.,150.);
         fh_muv2_trk_cl_diff = new TH1F("muv2_trk_cl_diff","Difference between extrapolated track and MUV2 cluster position;Trk_cl_diff[cm];Nevents",200,0.,200.);
-        fh_muv_xpos = new TH1F("muv_xpos","Muon X position at MUV2",20,-200.,200.);
-        fh_muv_ypos = new TH1F("muv_ypos","Muon Y position at MUV1",20,-200.,200.);
-        fh_muv_x_y_position = new TH2F("muv_x_y_position","MUV2 hitmap x vs y;Track_x[cm];Track_y[cm]",40,-200.,200.,400,-200.,200.);
+        fh_muv_xpos = new TH1F("muv_xpos","Muon X position at MUV2",400,-200.,200.);
+        fh_muv_ypos = new TH1F("muv_ypos","Muon Y position at MUV1",400,-200.,200.);
+        fh_muv_x_y_position = new TH2F("muv_x_y_position","MUV2 extrapolated position x vs y;Track_x[cm];Track_y[cm]",400,-200.,200.,400,-200.,200.);
+
         fh_DCH1_distance_e1e2 = new TH1F("DCH1_distance_e1e2","Distance between the two electrons in the DCH1",200,0,200.);
         fh_Lkr_distance_e1e2 = new TH1F("Lkr_distance_e1e2","Distance between the two electrons in the Lkr",200,0,200.);
+        fh_Lkr_extrap_tracks_x_vs_y = new TH2F("Lkr_extrap_tracks_x_vs_y","Extrapolated tracks to the Lkr ;Lkr_x[cm];Lkr_y[cm]",400,-200., 200., 400, -200., 200.);
         fh_angle_el_mu = new TH1F("angle_el_mu","Angle between e+e- plane and the #mu",200,0.0,0.2);
 
         //MC true histograms
@@ -203,7 +210,8 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_three_track_123_momentum = new TH1F("mc_three_track_123_momentum","MC Momentum of the track 1+2+3",100,0.,100.);
         fh_mc_three_track_123_mass = new TH1F("mc_three_track_123_mass","MC Mass of the track 1+2+3 ",70,0,0.7);
         fh_mc_two_track_23_momentum = new TH1F("mc_two_track_23_momentum","MC Momentum of the track 2+3",100,0.,100.);
-        fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3 ",70,0,0.7);
+        fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3;M_{ee}[GeV]; ",50,0,0.5);
+        fh_mc_two_track_23_mass_z_variable = new TH1F("mc_two_track_23_mass_z_variable","MC Mass of the track 2+3 in terms of the z variable;z;Nevents",25,0,0.5);
         fh_mc_P4_mass = new TH1F("mc_P4_mass","MC Particle 4 Mass",550,0.,0.55);
         fh_mc_P4_momentum = new TH1F("mc_P4_momentum","MC Particle 4 Momentum",100,0.,100.);
         fh_mc_four_track_1234_momentum = new TH1F("mc_four_track_1234_momentum","MC Momentum of the track 1+2+3+4",100,0.,100.);
@@ -237,6 +245,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_three_track_123_mass->Write();
         fh_mc_two_track_23_momentum->Write();
         fh_mc_two_track_23_mass->Write();
+        fh_mc_two_track_23_mass_z_variable->Write();
         fh_mc_P4_Pzvtx->Write();
         fh_mc_P4_mass->Write();
         fh_mc_P4_momentum->Write();
@@ -279,6 +288,8 @@ void Hist_dir::AddToFile(TFile* file){
         fh_bx_vs_by_pi1->Write();
         fh_bx_vs_by_pi2->Write();
         fh_bx_vs_by_pi3->Write();
+        fh_Lkr_extrap_tracks_x_vs_y->Write();
+        fh_muv_x_y_position->Write();
 
     }
     if(ftype==2){
@@ -331,6 +342,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mee_z_variable->Write();
         fh_muee_P      ->Write();
         fh_muee_M      ->Write();
+        fh_Muee_M_3pi_assumption->Write();
         fh_missing_mass->Write();
         fh_muee_Pt      ->Write();
         fh_bx_vs_by_muon->Write();
@@ -358,6 +370,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_muv_x_y_position->Write();
         fh_DCH1_distance_e1e2->Write();
         fh_Lkr_distance_e1e2->Write();
+        fh_Lkr_extrap_tracks_x_vs_y->Write();
         fh_angle_el_mu->Write();
         fh_mc_KDzvtx->Write();
         fh_mc_P1_Pzvtx->Write();
@@ -373,16 +386,16 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_three_track_123_mass->Write();
         fh_mc_two_track_23_momentum->Write();
         fh_mc_two_track_23_mass->Write();
+        fh_mc_two_track_23_mass_z_variable->Write();
         fh_mc_P4_Pzvtx->Write();
         fh_mc_P4_mass->Write();
         fh_mc_P4_momentum->Write();
         fh_mc_four_track_1234_momentum->Write();
         fh_mc_four_track_1234_mass->Write();
+        fh_mc_P1_dist_prod_dec->Write();
+        fh_mc_P2_dist_prod_dec->Write();
+        fh_mc_P3_dist_prod_dec->Write();
 
-
-    fh_mc_P1_dist_prod_dec->Write();
-    fh_mc_P2_dist_prod_dec->Write();
-    fh_mc_P3_dist_prod_dec->Write();
     }
 }
 
@@ -552,5 +565,8 @@ Hist_dir::~Hist_dir(){
     delete fh_mc_P1_dist_prod_dec;
     delete fh_mc_P2_dist_prod_dec;
     delete fh_mc_P3_dist_prod_dec;
+    delete fh_mc_two_track_23_mass_z_variable;
+    delete fh_Muee_M_3pi_assumption;
+    delete fh_Lkr_extrap_tracks_x_vs_y;
     }
 }

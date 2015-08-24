@@ -13,21 +13,12 @@ DEBUG = yes
 # Is zlib installed on your system?
 ZLIBSYS = no
 # To use rfio, in particular on the PC farm, set USE_RFIO=yes
-<<<<<<< HEAD
 USE_RFIO=no
 #Do you want to use the libraries stored on public afs ?
 # If not, (PUBLIC_AFS = no) libraries in subdirectories from compact
 # is assumed
 # Change following line to use "local" libraries
 PUBLIC_AFS = no
-=======
-USE_RFIO=yes
-#Do you want to use the libraries stored on public afs ?
-# If not, (PUBLIC_AFS = no) libraries in subdirectories from compact 
-# is assumed	
-# Change following line to use "local" libraries
-PUBLIC_AFS = yes
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 # Uncomment the following line if you want to enable the run-time fix
 # for LKR time offsets
@@ -43,13 +34,9 @@ USE_ROOT=yes
 .SUFFIXES = .o .c .cc .C .h .f .F .a .d .Fd
 
 # CFortran include directory
-<<<<<<< HEAD
 #CFORINC  = -I/cern/pro/include/cfortran
 # if EPEL used on Scientific Linux
 CFORINC  = -I/usr/include/cernlib/2006
-=======
-CFORINC  = -I/cern/pro/include/cfortran
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 # Setup ZLIB variables to point to correct location
 
@@ -65,11 +52,7 @@ MKDIR    = mkdir -p
 endif
 
 VERSION  = 7.3
-<<<<<<< HEAD
 SUBVERSION = .1
-=======
-SUBVERSION = .2
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 ifeq ($(USE_RFIO),yes)
 ZLIBTYPE=-rfio
@@ -82,7 +65,6 @@ ifeq ($(OSTYPE),Linux)
 ISSLC3 = $(shell cat /etc/redhat-release |grep -ic "Scientific Linux CERN release 3")
 ISSLC4 = $(shell cat /etc/redhat-release |grep -ic "Scientific Linux CERN SLC release 4")
 ISSLC5 = $(shell cat /etc/redhat-release |grep -ic "Scientific Linux CERN SLC release 5")
-<<<<<<< HEAD
 ISSLC6 = $(shell cat /etc/redhat-release |grep -ic "Scientific Linux release 6")
 ifeq ($(ISSLC6),1)
 LINVER = -slc6
@@ -90,16 +72,6 @@ LINVER = -slc6
 GFORLIBS = -L/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32 -lgfortran
 #32 bit libshift library not linked to libshift.so, use the binary
 LIBSHIFT = -L. $(shell ls /usr/lib/libshift.* | head -1)
-=======
-ISSLC6 = $(shell cat /etc/redhat-release |grep -ic "Scientific Linux CERN SLC release 6")
-
-ifeq ($(ISSLC6),1)
-LINVER = -slc6
-#GFORTRAN needed on lxplus/lxbatch since CERNLIB is compiled with gfortran
-GFORLIBS = -L/usr/lib/gcc/x86_64-redhat-linux/4.4.7/32 -lgfortran
-#32 bit libshift library not linked to libshift.so, use the binary
-LIBSHIFT = -liowrapper -lXrdPosixPreload -lXrdPosix -L. $(shell ls /usr/lib/libshift.* | head -1)
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 else
 ifeq ($(ISSLC5),1)
 LINVER = -slc5
@@ -110,11 +82,7 @@ LIBSHIFT = $(shell ls /usr/lib/libshift.* | head -1)
 else
 ifeq ($(ISSLC3),1)
 LINVER = -slc3
-<<<<<<< HEAD
 else
-=======
-else 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 ifeq ($(ISSLC4),1)
 LINVER = -slc4
 else
@@ -122,11 +90,7 @@ LINVER = -rh7.3
 endif #($(ISSLC4),1)
 endif #ifeq ($(ISSLC3),1)
 LIBSHIFT = -lshift
-<<<<<<< HEAD
 GFORLIBS =
-=======
-GFORLIBS = 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 endif #ifeq ($(ISSLC5),1)
 endif #ifeq ($(ISSLC6),1)
 SQLITETYPE =
@@ -176,11 +140,7 @@ ifeq ($(PUBLIC_AFS),yes)
 # for the database
    DBINCDIR = /afs/cern.ch/user/c/cdbase1/public/cdbase/code/inc
 ifeq ($(findstring cerncs2,$(HOSTNAME)),cerncs2)
-<<<<<<< HEAD
    DBLIBDIR = /afs/cern.ch/user/c/cdbase1/public/cdbase/code/.sun4x_55/lib
-=======
-   DBLIBDIR = /afs/cern.ch/user/c/cdbase1/public/cdbase/code/.sun4x_55/lib   
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 else
    DBLIBDIR = /afs/cern.ch/user/c/cdbase1/public/cdbase/code/lib
 endif
@@ -192,17 +152,10 @@ endif
 ifeq ($(DEBUG),yes)
    RLIB = -lreader-gdb.$(VERSION)$(SUBVERSION)
    CLIB =  $(LIBSHIFT) -lcompact-gdb.$(VERSION)$(SUBVERSION)
-<<<<<<< HEAD
 else
    RLIB = -lreader.$(VERSION)$(SUBVERSION)
    CLIB = $(LIBSHIFT) -lcompact.$(VERSION)$(SUBVERSION)
 endif
-=======
-else   
-   RLIB = -lreader.$(VERSION)$(SUBVERSION)
-   CLIB = $(LIBSHIFT) -lcompact.$(VERSION)$(SUBVERSION)
-endif   
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
    LDIRS    = -L$(LIBDIR) -L$(DBLIBDIR)
 
 # If libraries not taken from afs
@@ -231,23 +184,15 @@ else
 endif
 
 LIBS     =   $(CLIB) $(SYSLIBS) $(RLIB) $(ZLIB) $(4SQRT) $(DBLIB) -lm $(SQLITELIB)
-<<<<<<< HEAD
 DEFINES  =
-=======
-DEFINES  = 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 CPPFLAGS = -I. -I$(UINCDIR) -I$(CINCDIR) -I$(RINCDIR) -I$(RAINCDIR)  -I$(ZINCDIR) \
            -I$(DBINCDIR) -I$(SQLITEINCDIR) $(ROOTCFLAGS) $(F77DEF) $(SYSDEFS) $(DEFINES)
 CPPFLAGS += -I/usr/local/include/shift -I/usr/include/shift $(CFORINC)
 #CERNLIBS = `/cern/pro/bin/cernlib mathlib packlib`
-<<<<<<< HEAD
 #CERNLIBS = -L/cern/pro/lib -lmathlib -lpacklib -lnsl -lcrypt -ldl
 # if EPEL used in Scientific Linux
 CERNLIBS = -L/usr/lib/cernlib/2006/lib -lmathlib -lpacklib -lnsl -lcrypt -ldl
 
-=======
-CERNLIBS = -L/cern/pro/lib -lmathlib -lpacklib -lnsl -lcrypt -ldl
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 ifeq ($(FIX_LKR_TIME),yes)
 DEFINES += -DFIX_LKR_TIME
@@ -255,7 +200,6 @@ endif
 
 # Set this to be the GNU C compiler
 ifeq ($(USE_ROOT),yes)
-<<<<<<< HEAD
 CC     = g++
 else
 CC     = gcc
@@ -265,17 +209,6 @@ ifeq ($(DEBUG),yes)
 CFLAGS = -m32 -DCOMPACT7 $(ROOTCFLAGS)
 else
 CFLAGS = -m32 -O -DCOMPACT7 $(ROOTCFLAGS)
-=======
-CC     = g++ -g 
-else
-CC     = gcc 
-endif
-# Set any GCC compiler flags here.
-ifeq ($(DEBUG),yes)
-CFLAGS = -m32 -DCOMPACT7 -Wall $(ROOTCFLAGS)
-else
-CFLAGS = -m32 -O -DCOMPACT7 -Wall $(ROOTCFLAGS)
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 endif
 # Set this to be your F77 compiler
 FC     = g77
@@ -289,16 +222,11 @@ FC     = g77
 # current locations work for 'standard' CERN machines.
 #----------------------------Linux-------------------------------------
 ifeq ($(OSTYPE),Linux)
-<<<<<<< HEAD
 # Following 3 lines are compiler options when using Portland Group
-=======
-# Following 3 lines are compiler options when using Portland Group 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 # fortran compiler: pgf77
 # Can be used on pcna48df3 for instance
 # Uncomment these 3 lines and comment the other 3
 #F77LIBS = -L /usr/local/pgi/linux86/lib -lpgftnrtl -lpgc -lf2c -lm -lc
-<<<<<<< HEAD
 #FC    = pgf77
 #FFLAGS = -O -Mextend -f77libs
 
@@ -309,18 +237,6 @@ ifeq ($(OSTYPE),Linux)
 #
 F77LIBS =
 #FC    = f77
-=======
-#FC    = pgf77 
-#FFLAGS = -O -Mextend -f77libs 
-
-# Following 3 lines are compiler options when using g77 
-# fortran compiler: f77 is in fact calling g77.
-# Can be used on pcna48df1 for instance
-# Uncomment these 3 lines and comment the other 3 (above)
-# 
-F77LIBS = 
-#FC    = f77 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 # for offline PC farm, use g77
 #FC = g77
 ifeq ($(DEBUG),yes)
@@ -334,15 +250,9 @@ CFORINC := -Df2cFortran $(CFORINC)
 CLDFLAGS  = -Wl,-V
 # IWS (following Steffen's advice) 07-01-98 CPP = /lib/cpp
 CPP = gcc -E
-<<<<<<< HEAD
 # redhat 5.1
 #SYSLIBS = -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.90.27
 # redhat 6.1
-=======
-# redhat 5.1 
-#SYSLIBS = -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.90.27
-# redhat 6.1 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 SYSLIBS = -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66 $(GFORLIBS)
 endif
 #----------------------------DEC Alpha---------------------------------
@@ -376,11 +286,7 @@ endif
 #ifeq ($(DEBUG),yes)
 #FFLAGS    = -e -g
 #else
-<<<<<<< HEAD
 #FFLAGS    = -e
-=======
-#FFLAGS    = -e  
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 #endif
 SYSLIBS   = -lnsl
 CERNLIBS += -lsocket -lposix4
@@ -415,11 +321,7 @@ CPP = gcc -E
 endif
 #-----------------------------AIX--------------------------------------
 ifeq ($(OSTYPE),AIX)
-<<<<<<< HEAD
 F77LIBS =
-=======
-F77LIBS = 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 FC = g77
 ifeq ($(DEBUG),yes)
 #FFLAGS = -k -P -g -DCOMPACT7
@@ -489,27 +391,16 @@ UFOBJS = $(UFSRCS:.F=.o)
 
 UCSRCS = user_init.c \
          user_burst.c \
-<<<<<<< HEAD
          user_superBurst.c \
-=======
-         Charged_Particle.c \
-         Hist_dir.c \
-	 Fillhistograms.c \
-         user_superBurst.c \
-         Cuts.c \
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
          user_cmpEvent.c \
          user_ke3Event.c \
          user_kmu3Event.c \
          user_mcEvent.c \
          user_superCmpEvent_NEW.c \
-<<<<<<< HEAD
 	 Charged_Particle.c \
          Hist_dir.c \
          Fillhistograms.c \
          Cuts.c \
-=======
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
          user_superMcEvent.c \
          user_cmpFilter.c \
          user_ke3Filter.c \
@@ -521,7 +412,6 @@ UCSRCS = user_init.c \
          user_eob.c \
          user_superEob.c \
          user_exit.c \
-<<<<<<< HEAD
 	 user_hyperBurst.c\
 	 user_hyperCmpEvent.c
 
@@ -531,35 +421,18 @@ UCASRCS = lkraccep_2007.c
 
 UCAOBJS = $(UCASRCS:.c=.o)
 
-=======
-         user_hyperBurst.c\
-	 user_hyperCmpEvent.c
-
-UCOBJS = $(UCSRCS:.c=.o)
-UCASRCS = lkraccep_2007.c
-
-UCAOBJS = $(UCASRCS:.c=.o)
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 UFASRCS = closap_double.F \
           Blue_Tack.F
 
 UFAOBJS = $(UFASRCS:.F=.o)
 
-<<<<<<< HEAD
 UAOBJS = $(UFAOBJS) $(UCAOBJS)
-=======
-UAOBJS = $(UFAOBJS) $(UCAOBJS) 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 DEPENDS   = $(SRCS:%.c=$(DEPDIR)/%.d)
 UFDEPENDS = $(UFSRCS:%.F=$(DEPDIR)/%.d)
 UCDEPENDS = $(UCSRCS:%.c=$(DEPDIR)/%.d)
 UFADEPENDS = $(UFASRCS:%.F=$(DEPDIR)/%.d)
-<<<<<<< HEAD
 UCADEPENDS = $(UCASRCS:%.c=$(DEPDIR)/%.d)
-=======
-UCADEPENDS = $(UCASRCS:%.c=$(DEPDIR)/%.d) 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 ifeq ($(F77DEF),-DCOMPACT_F77)
  UOBJS=$(UFOBJS)
@@ -625,11 +498,7 @@ $(UFOBJS):
 
 $(UCAOBJS):
 	@ [ ! -d $(OBJDIR) ] && $(MKDIR) $(OBJDIR) || true
-<<<<<<< HEAD
 	$(CC) $(CFLAGS) $(CFORINC) $(CPPFLAGS) -c $< -o $(OBJDIR)/$(*F).o
-=======
-	$(CC) $(CFLAGS) $(CFORINC) $(CPPFLAGS) -c $< -o $(OBJDIR)/$(*F).o 
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 $(UFAOBJS):
 	@ [ ! -d $(OBJDIR) ] && $(MKDIR) $(OBJDIR) || true
@@ -638,27 +507,15 @@ $(UFAOBJS):
 
 ### This targets are needed to correctly recompile when changeing from C to F and back
 #$(OBJS): $(LASTCMP)
-<<<<<<< HEAD
 #$(LASTCMP):
 #	$(RM) $(OTHERCMP)
 #	$(TOUCH) $(LASTCMP)
-=======
-$(LASTCMP):
-	$(RM) $(OTHERCMP)
-	$(TOUCH) $(LASTCMP)
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 
 # This dummy dependency forces others to be recompiled everytime. This
 # is used to ensure the COmPACT library is always uptodate.
 FORCE:
 
 # $Log: Makefile,v $
-<<<<<<< HEAD
-=======
-# Revision 1.37  2014/02/27 09:57:09  venelin
-# A hack to use the new libiowrapper (which uses XROOTD)
-#
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
 # Revision 1.36  2013/05/17 16:13:04  venelin
 # Fix compilation of compact on SLC6
 #
@@ -771,13 +628,3 @@ FORCE:
 # Revision 1.5  2002/07/17 00:19:50  andrew
 # Removed a comment which prevented linkiing
 #
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
->>>>>>> 434503a23b9e52f2ae2a1b9612608c6ffdc3ceeb
