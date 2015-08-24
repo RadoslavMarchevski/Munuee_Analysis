@@ -430,19 +430,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         ){return 0;}
 
     if(cutting.Lkr_cut_el1  < 15.     ||
-       cutting.Lkr_cut_el2  < 15.     ||
-       cutting.Lkr_cut_mu   < 15.
+       cutting.Lkr_cut_el2  < 15.    // ||
+       //cutting.Lkr_cut_mu   < 15.
         ){return 0;}
     if(   fabs(cutting.Lkr_x_el1) > 113 ||
           fabs(cutting.Lkr_x_el2) > 113 ||
-          fabs(cutting.Lkr_x_mu ) > 113 ||
+          //fabs(cutting.Lkr_x_mu ) > 113 ||
           fabs(cutting.Lkr_y_el1) > 113 ||
-          fabs(cutting.Lkr_y_el2) > 113 ||
-          fabs(cutting.Lkr_y_mu ) > 113
+          fabs(cutting.Lkr_y_el2) > 113 //||
+          //fabs(cutting.Lkr_y_mu ) > 113
         ) {return 0;}
     if( (fabs(cutting.Lkr_x_el1) + fabs(cutting.Lkr_y_el1) ) > 159.8 ||
-        (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8 ||
-        (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
+        (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8 //||
+        //(fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
         ){return 0;}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
