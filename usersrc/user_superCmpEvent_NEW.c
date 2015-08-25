@@ -296,7 +296,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            cut_k3pi.muee_P < 66. &&
 
            //--ENDOF CUT1 Momentum cut ---
-           //-- CUT2 Timing cut ---
+           //-- CUT2 Timing cut --- (DATA only)
            fabs(cut_k3pi.DCH_e1e2) < 10.&&
            fabs(cut_k3pi.DCH_mue1) < 10.&&
            fabs(cut_k3pi.DCH_mue2) < 10.&&
@@ -304,6 +304,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            fabs(cut_k3pi.Hod_mue1) < 2. &&
            fabs(cut_k3pi.Hod_mue2) < 2. &&
            //-- ENDOF CUT2 Timing cut ---
+
            //-- CUT3 Vertex Cut --
            fabs(cut_k3pi.zvtx_pi1pi2_pi2pi3) < 500 &&
            fabs(cut_k3pi.zvtx_pi1pi2_pi1pi3) < 500 &&
@@ -315,10 +316,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            fabs(cut_k3pi.yvtx_pi1pi2_pi1pi3) < 500 &&
            fabs(cut_k3pi.yvtx_pi1pi3_pi2pi3) < 500 &&
            //--ENDOF CUT3 Vertex Cut --
+
            //-- CUT4 Three track invariant mass Cut --
            cut_k3pi.muee_M > 0.4886 &&
            cut_k3pi.muee_M < 0.4985 &&
            //-- ENDOF CUT4 Three track invariant mass Cut --
+
            //-- CUT5 DCH geometry Cut --
            cut_k3pi.DCH_Radius_pi1 > 14. &&
            cut_k3pi.DCH_Radius_pi1 < 110.&&
@@ -326,15 +329,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            cut_k3pi.DCH_Radius_pi2 < 110.&&
            cut_k3pi.DCH_Radius_pi3 > 14. &&
            cut_k3pi.DCH_Radius_pi3 < 110.&&
+
            //Lkr octagonal cut
-           //
            //          sqrt(x2+y2) > 15cm
            //|x| < 113 cm
            //|y| < 113 cm
            //|x| + |y| < 159.8 cm
-           //|x| < 63.2 cm or |y| < 83.7 cm
-           //|y| < 94.7 cm or |x| < 52.2 cm
-           //sqrt((|x| – 63.2)2 + (|y| – 94.7)2) > 11 cm
            cut_k3pi.Lkr_cut_pi1  > 15. &&
            cut_k3pi.Lkr_cut_pi2  > 15. &&
            cut_k3pi.Lkr_cut_pi3  > 15. &&
@@ -346,13 +346,15 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            fabs(cut_k3pi.Lkr_y_pi3) < 113. &&
            (fabs(cut_k3pi.Lkr_x_pi3) + fabs(cut_k3pi.Lkr_y_pi3) ) < 159.8 &&
            (fabs(cut_k3pi.Lkr_x_pi2) + fabs(cut_k3pi.Lkr_y_pi2) ) < 159.8 &&
-           (fabs(cut_k3pi.Lkr_x_pi1) + fabs(cut_k3pi.Lkr_y_pi1) ) < 159.8
+           (fabs(cut_k3pi.Lkr_x_pi1) + fabs(cut_k3pi.Lkr_y_pi1) ) < 159.8 &&
+           COmPaCt_Z_Vertex > -1800 &&
+           COmPaCt_Z_Vertex < 8000.
            //-- ENDOF CUT5 DCH geometry Cut --
            ){
 
 
             K3pi_selection->FillCommonHist(sevt);
-            if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
+
             K3pi_selection->FillHist(pion1,"pion1");
             K3pi_selection->FillHist(pion2,"pion2");
             K3pi_selection->FillHist(pion3,"pion3");
@@ -362,7 +364,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             K3pi_selection->fh_Event_Type->Fill(K3pi_Event_Type);
             if(IS_DATA){
                 if(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum() > 0.95 && pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum() < 1.05 ) {
-                     K3pi_selection->fh_lda3_p1->Fill(lda3_pi1);
+
+                    K3pi_selection->fh_lda3_p1->Fill(lda3_pi1);
                     //K3pi_selection->fh_lda3_p1->Fill(1.);
                     //cout << lda3_pi1 << endl;
                 } else if(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum() > 0.95 && pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum() < 1.05 ) {
@@ -375,13 +378,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
             K3pi_selection->FillVertexHist(Vertex_pi1_pi2, cda_pi1_pi2 , Vertex_pi2_pi3, cda_pi2_pi3, Vertex_pi1_pi3, cda_pi1_pi3,"K3pi");
 
-            if(Kcharge*pion1.GetCharge()==-1 /*&& sevt->track[pi1].iMuon != -1*/){
+            if(Kcharge*pion1.GetCharge()==-1 && sevt->track[pi1].iMuon != -1){
                 K3pi_selection->fh_odd_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum());
                 K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum(), pion1.GetMomentum());
-            } else if(Kcharge*pion2.GetCharge()==-1 /*&& sevt->track[pi2].iMuon != -1*/) {
+            } else if(Kcharge*pion2.GetCharge()==-1 && sevt->track[pi2].iMuon != -1) {
                 K3pi_selection->fh_odd_eop->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum());
                 K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion2.GetEnergyLeftInEcal()/ pion2.GetMomentum(), pion2.GetMomentum());
-            } else if(Kcharge*pion3.GetCharge()==-1 /*&& sevt->track[pi3].iMuon != -1*/){
+            } else if(Kcharge*pion3.GetCharge()==-1 && sevt->track[pi3].iMuon != -1){
                 K3pi_selection->fh_odd_eop->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum());
                 K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion3.GetEnergyLeftInEcal()/ pion3.GetMomentum(), pion3.GetMomentum());
 
@@ -521,6 +524,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->ComputeThreeTrack(electron1,electron2,muon);
     dir3->FillHist(dir3->GetThreeTrackMomentum(),dir3->GetNuMomentum());
     dir3->FillAngle(muon.Momentum,dir3->GetTwoTrackMomentum());
+    dir3->fh_lda3_e1->Fill(lda3_e1);
+    dir3->fh_lda3_e2->Fill(lda3_e2);
     //-- CUT2 Momentum cut ---
     if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
@@ -551,7 +556,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir4->ComputeThreeTrack(electron1,electron2,muon);
     dir4->FillHist(dir4->GetThreeTrackMomentum(),dir4->GetNuMomentum());
     dir4->FillAngle(muon.Momentum,dir4->GetTwoTrackMomentum());
-
+    dir4->fh_lda3_e1->Fill(lda3_e1);
+    dir4->fh_lda3_e2->Fill(lda3_e2);
     //-- CUT3 Vertex Cut --
     if(fabs(cutting.zvtx_mue1_mue2) > 500 ||
        fabs(cutting.zvtx_mue1_e1e2) > 500 ||
@@ -588,7 +594,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir5->ComputeThreeTrack(electron1,electron2,muon);
     dir5->FillHist(dir5->GetThreeTrackMomentum(),dir5->GetNuMomentum());
     dir5->FillAngle(muon.Momentum,dir5->GetTwoTrackMomentum());
-
+    dir5->fh_lda3_e1->Fill(lda3_e1);
+    dir5->fh_lda3_e2->Fill(lda3_e2);
     //-- CUT4 Transverse Momentum Cut --
     if(cutting.muee_Pt < 0.022 ){return 0;}
     //--ENDOF CUT4 Transverse Momentum Cut --
@@ -616,7 +623,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir6->ComputeThreeTrack(electron1,electron2,muon);
     dir6->FillHist(dir6->GetThreeTrackMomentum(),dir6->GetNuMomentum());
     dir6->FillAngle(muon.Momentum,dir6->GetTwoTrackMomentum());
-
+    dir6->fh_lda3_e1->Fill(lda3_e1);
+    dir6->fh_lda3_e2->Fill(lda3_e2);
     //-- CUT5 Invariant Mass Cut --
     if(cutting.mee < 0.140){return 0;}
     //--ENDOF CUT5 Invariant Mass Cut --
@@ -655,7 +663,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        electron1.GetCharge()!=muon.GetCharge()
        ){
 
-
+        dir7->fh_lda3_e1->Fill(lda3_e1);
+        dir7->fh_lda3_e2->Fill(lda3_e2);
         dir7->Fill3pi(dir7->GetThreeTrackMomentum());
 
         if(dir7->GetThreeTrackMomentum().M() >= 0.51){
@@ -685,6 +694,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 dir2->Fill3pi(dir7->GetThreeTrackMomentum());
                 dir2->FillHist(dir2->GetThreeTrackMomentum(),dir2->GetNuMomentum());
                 dir2->FillAngle(muon.Momentum,dir2->GetTwoTrackMomentum());
+                dir2->fh_lda3_e1->Fill(lda3_e1);
+                dir2->fh_lda3_e2->Fill(lda3_e2);
             }
         }
     }
@@ -718,13 +729,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir9->ComputeThreeTrack(electron1,electron2,muon);
     dir9->FillHist(dir9->GetThreeTrackMomentum(),dir9->GetNuMomentum());
     dir9->FillAngle(muon.Momentum,dir9->GetTwoTrackMomentum());
-
+    dir9->fh_lda3_e1->Fill(lda3_e1);
+    dir9->fh_lda3_e2->Fill(lda3_e2);
     //Charged_Particle munuee_pion1(sevt,sbur,211,imu);
     //Charged_Particle munuee_pion2(sevt,sbur,211,iel1);
     //Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
 
 
-    /* dir10->ComputeThreeTrack(munuee_pion1,munuee_pion2,munuee_pion3); */
     if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     //-- CUT7 K3pi invariant mass cut ---
@@ -747,7 +758,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir10->ComputeThreeTrack(electron1,electron2,muon);
     dir10->FillHist(dir10->GetThreeTrackMomentum(),dir10->GetNuMomentum());
     dir10->FillAngle(muon.Momentum,dir10->GetTwoTrackMomentum());
-
+    dir10->fh_lda3_e1->Fill(lda3_e1);
+    dir10->fh_lda3_e2->Fill(lda3_e2);
     if(IS_MC){
         FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -760,8 +772,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
 
-    dir11->Fill3pi(dir10->GetThreeTrackMomentum());
-    //--END OF CUT7 K3pi invariant mass cut ---
+    dir11->Fill3pi(dir11->GetThreeTrackMomentum());
+    //--END OF CUT z --------- vtx ---
 
 
     dir11->fh_Event_Type->Fill(Event_Type);
@@ -776,7 +788,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir11->FillHist(electron1,electron2,"e1e2");
     dir11->ComputeThreeTrack(electron1,electron2,muon);
     dir11->FillHist(dir11->GetThreeTrackMomentum(),dir11->GetNuMomentum());
-
+    dir11->FillAngle(muon.Momentum,dir11->GetTwoTrackMomentum());
+    dir11->fh_lda3_e1->Fill(lda3_e1);
+    dir11->fh_lda3_e2->Fill(lda3_e2);
         if(IS_MC){
         FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
