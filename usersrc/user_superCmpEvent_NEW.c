@@ -746,7 +746,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     //-- CUT7 K3pi invariant mass cut ---
 
-    if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
+    if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
+    //if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
     dir10->Fill3pi(dir10->GetThreeTrackMomentum());
     //--END OF CUT7 K3pi invariant mass cut ---
 
@@ -777,7 +778,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     //LAST CUT z----- vtx -------------
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
-    if(lda3_e1 < 0.9 || lda3_e2 < 0.9){return 0;}
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
 
     dir11->Fill3pi(dir11->GetThreeTrackMomentum());
