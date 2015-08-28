@@ -1,5 +1,6 @@
 #include "Hist_dir.h"
 #include "Charged_Particle.h"
+#include "Neutral_Particle.h"
 #include "Cuts.h"
 #include "TFile.h"
 #include "TDirectory.h"

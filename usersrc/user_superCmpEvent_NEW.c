@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <math.h>
 //User defined libraries
-#include "MC_Charged_Particle.h"
 #include "Charged_Particle.h"
 #include "Hist_dir.h"
 #include "Cuts.h"
@@ -116,10 +115,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(nvtx != 1){return 0;}
     if(ntrack != 3 ) {return 0;}
 
+    for (int j=0; j<ntrack;j++){
+        Kcharge += sevt->track[j].q;
+    }
+
     //cout << IS_DATA << "    " << IS_MC << endl;
     //Looping over the number of tracks for each event
     for (int i=0; i<ntrack; i++) {
-        Kcharge += sevt->track[i].q;
+
         Track_Momentum          = sevt->track[i].p;
         Track_Quality           = sevt->track[i].quality;
         Track_DeadCell_Distance = sevt->track[i].dDeadCell;
@@ -207,7 +210,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         //        //if(eop_track> 0.8)    {
         //        iel1=i;
         //    }
-        //    else if(iel2 < 0 && sevt->track[i].q == -1 )    {
+        //    else if(iel2 < 0 && Kcharge*sevt->track[i].q == -1 )    {
         //        iel2=i;
         //    }
         //    else if( imu < 0) {
@@ -297,12 +300,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
            //--ENDOF CUT1 Momentum cut ---
            //-- CUT2 Timing cut --- (DATA only)
-           fabs(cut_k3pi.DCH_e1e2) < 10.&&
-           fabs(cut_k3pi.DCH_mue1) < 10.&&
-           fabs(cut_k3pi.DCH_mue2) < 10.&&
-           fabs(cut_k3pi.Hod_e1e2) < 2. &&
-           fabs(cut_k3pi.Hod_mue1) < 2. &&
-           fabs(cut_k3pi.Hod_mue2) < 2. &&
+           //fabs(cut_k3pi.DCH_e1e2) < 10.&&
+           //fabs(cut_k3pi.DCH_mue1) < 10.&&
+           //fabs(cut_k3pi.DCH_mue2) < 10.&&
+           //fabs(cut_k3pi.Hod_e1e2) < 2. &&
+           //fabs(cut_k3pi.Hod_mue1) < 2. &&
+           //fabs(cut_k3pi.Hod_mue2) < 2. &&
            //-- ENDOF CUT2 Timing cut ---
 
            //-- CUT3 Vertex Cut --
@@ -473,19 +476,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        ){return 0;}
 
     if(cutting.Lkr_cut_el1  < 15.     ||
-       cutting.Lkr_cut_el2  < 15.    // ||
-       //cutting.Lkr_cut_mu   < 15.
+       cutting.Lkr_cut_el2  < 15.     ||
+       cutting.Lkr_cut_mu   < 15.
        ){return 0;}
     if(   fabs(cutting.Lkr_x_el1) > 113 ||
           fabs(cutting.Lkr_x_el2) > 113 ||
-          //fabs(cutting.Lkr_x_mu ) > 113 ||
+          fabs(cutting.Lkr_x_mu ) > 113 ||
           fabs(cutting.Lkr_y_el1) > 113 ||
-          fabs(cutting.Lkr_y_el2) > 113 //||
-          //fabs(cutting.Lkr_y_mu ) > 113
+          fabs(cutting.Lkr_y_el2) > 113 ||
+          fabs(cutting.Lkr_y_mu ) > 113
           ) {return 0;}
     if( (fabs(cutting.Lkr_x_el1) + fabs(cutting.Lkr_y_el1) ) > 159.8 ||
-        (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8 //||
-        //(fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
+        (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8 ||
+        (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
         ){return 0;}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
@@ -660,7 +663,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir7->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
 
     if(electron1.GetCharge()==electron2.GetCharge() &&
-       electron1.GetCharge()!=muon.GetCharge()
+       electron1.GetCharge()!=muon.GetCharge()      &&
+       lda3_e1 > 0.9                                &&
+       lda3_e2 > 0.9
        ){
 
         dir7->fh_lda3_e1->Fill(lda3_e1);
@@ -739,7 +744,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     //-- CUT7 K3pi invariant mass cut ---
-    if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
+
+    if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
+    //if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
     dir10->Fill3pi(dir10->GetThreeTrackMomentum());
     //--END OF CUT7 K3pi invariant mass cut ---
 

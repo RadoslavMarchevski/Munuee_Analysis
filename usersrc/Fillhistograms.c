@@ -28,7 +28,7 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_muv_xpos->Fill(part.extrapolated_track_MUV2[0]);
         fh_muv_ypos->Fill(part.extrapolated_track_MUV2[1]);
         fh_muv_x_y_position->Fill(part.extrapolated_track_MUV2[0],part.extrapolated_track_MUV2[1]);
-        fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
+        //fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
 
         fh_DCHtime_mu->Fill( part.GetDCHtime());
         fh_Mu_momentum->Fill(part.GetMomentum());

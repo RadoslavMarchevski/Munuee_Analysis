@@ -94,12 +94,14 @@ void Charged_Particle::MakeTime(){
 
 void Charged_Particle::MakeLkrCluster(){
     double DCHz = Geom->DCH.z;
-    double Lkrz = Geom->DCH.z;
+    double Lkrz = Geom->Lkr.z;
     dxdz = fSevt->track[fpindex].dxdz;
     dydz = fSevt->track[fpindex].dydz;
 
-    cluster_position[0] = fSevt->cluster[fpindex].x;
-    cluster_position[1] = fSevt->cluster[fpindex].y;
+    //cluster_position[0] = fSevt->cluster[fpindex].x;
+    //cluster_position[1] = fSevt->cluster[fpindex].y;
+    cluster_position[0] = fSevt->cluster[icluster].x;
+    cluster_position[1] = fSevt->cluster[icluster].y;
     cluster_position[2] = Lkrz  + 16.5 + 4.3*EcalEnergy;
 
 

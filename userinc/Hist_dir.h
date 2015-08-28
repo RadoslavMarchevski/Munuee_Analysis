@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include "Charged_Particle.h"
+#include "Neutral_Particle.h"
 #include "MC_Charged_Particle.h"
 #include "Cuts.h"
 
