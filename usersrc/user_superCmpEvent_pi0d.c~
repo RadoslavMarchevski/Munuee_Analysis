@@ -196,7 +196,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     Neutral_Particle gamma(sevt,sbur,igamma);
 
-
+    Filling(sevt, sbur, dir1, ipi, iel1, iel2, igamma);
     K2Pi0d = pion.Momentum + electron1.Momentum + electron2.Momentum + gamma.Momentum;
     Pi0d   = electron1.Momentum + electron2.Momentum + gamma.Momentum;
 
@@ -259,7 +259,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            ){return 0;}
     //-- CUT1 DCH Geometry and Time Cut --
 
-    Filling(sevt, sbur, dir1, ipi, iel1, iel2, igamma);
+
     FillK2pi(sevt, dir1, pion.Momentum, electron1.Momentum, electron2.Momentum, gamma.Momentum);
     dir1->FillVertexHist(Vertex_pi_e1, cda_pi_e1 , Vertex_pi_e2, cda_pi_e2, Vertex_e1_e2, cda_e1_e2,"k2pid");
     dir1->FillHist(electron1,"electron1");

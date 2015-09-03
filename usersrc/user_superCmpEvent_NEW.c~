@@ -300,12 +300,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
            //--ENDOF CUT1 Momentum cut ---
            //-- CUT2 Timing cut --- (DATA only)
-           fabs(cut_k3pi.DCH_e1e2) < 10.&&
-           fabs(cut_k3pi.DCH_mue1) < 10.&&
-           fabs(cut_k3pi.DCH_mue2) < 10.&&
-           fabs(cut_k3pi.Hod_e1e2) < 2. &&
-           fabs(cut_k3pi.Hod_mue1) < 2. &&
-           fabs(cut_k3pi.Hod_mue2) < 2. &&
+           //fabs(cut_k3pi.DCH_e1e2) < 10.&&
+           //fabs(cut_k3pi.DCH_mue1) < 10.&&
+           //fabs(cut_k3pi.DCH_mue2) < 10.&&
+           //fabs(cut_k3pi.Hod_e1e2) < 2. &&
+           //fabs(cut_k3pi.Hod_mue1) < 2. &&
+           //fabs(cut_k3pi.Hod_mue2) < 2. &&
            //-- ENDOF CUT2 Timing cut ---
 
            //-- CUT3 Vertex Cut --
