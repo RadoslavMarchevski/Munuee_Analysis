@@ -62,8 +62,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     double LKrz=Geom->Lkr.z;
     double COmPaCt_Z_Vertex = sevt->vtx[0].z;
     static double massKaonC = 0.493677;
-    const double Electron_EoverP_up = 1.05;
-    const double Electron_EoverP_down = 0.95;
+    const double Electron_EoverP_up = 1.1;
+    const double Electron_EoverP_down = 0.9;
     const double Muon_EoverP_up = 0.1;
     int Kcharge=0;
     int ngoodtrack=0;
@@ -92,14 +92,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         user_lkrcalcor_SC (sbur,sevt,1);
     }
 
-    //cout << "MUV1.x = " << Geom->Muv1.x << "MUV2.x = " << Geom->Muv2.x << endl;
-    //cout << "MUV1.y = " << Geom->Muv1.y << "MUV2.y = " << Geom->Muv2.y << endl;
-    //cout << "MUV1.z = " << Geom->Muv1.z << "MUV2.z = " << Geom->Muv2.z << endl;
-
-
-
-    //if(IS_MC)
-    //    if(DKaon[2] < -1800. || DKaon[2] > 8000.){return 0;}
 
     if(IS_DATA)
         if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
