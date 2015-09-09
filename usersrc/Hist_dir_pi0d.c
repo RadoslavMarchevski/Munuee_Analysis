@@ -46,14 +46,17 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
 
     fh_lda3_e1_plus      = new TH1F("lda3_e1_plus","lda3 variable for electron 1 +", 150,0.,1.5);
     fh_lda3_e1_minus     = new TH1F("lda3_e2_minus","lda3 variable for electron 1 -", 150,0.,1.5);
+    fh_lda3_e1           = new TH1F("lda3_e1","lda3 variable for electron 1", 200,0.,2);
     fh_lda3_e2           = new TH1F("lda3_e2","lda3 variable for electron 2", 200,0.,2);
     fh_el1_plus_Charge   = new TH1I("el1_plus_Charge","Charge of the electron 1 +;Q;Nevents",4,-2,2);
     fh_EoP_el1_plus      = new TH1F("EoP_el1_plus","Electron 1 + E/p ;E/p;Nevents",120.,0.,1.2);
+    fh_EoP_vs_p_el1      = new TH2F("EoP_vs_p_el1","E/p vs Momentum for the electron 1",120,0.,1.2, 20,0., 100.);
     fh_EoP_vs_p_el1_plus = new TH2F("EoP_vs_p_el1_plus","E/p vs Momentum for the electron 1 +",120,0.,1.2, 20,0., 100.);
     fh_lda3_vs_p_e1_plus = new TH2F("lda3_vs_p_e1_plus","lda3 variable vs P for electron 1 +", 150,0.,1.5,20,0.,100.);
     fh_el1_minus_Charge  = new TH1I("el1_minus_Charge","Charge of the electron 1 -;Q;Nevents",4,-2,2);
     fh_EoP_el1_minus     = new TH1F("EoP_el1_minus","Electron 1 - E/p ;E/p;Nevents",120.,0.,1.2);
     fh_EoP_vs_p_el1_minus= new TH2F("EoP_vs_p_el1_minus","E/p vs Momentum for the electron 1 -",120,0.,1.2, 20,0., 100.);
+    fh_lda3_vs_p_e1= new TH2F("lda3_vs_p_e1","lda3 variable vs P for electron 1", 150,0.,1.5,20,0.,100.);
     fh_lda3_vs_p_e1_minus= new TH2F("lda3_vs_p_e1_minus","lda3 variable vs P for electron 1 -", 150,0.,1.5,20,0.,100.);
     fh_DCH_timediff_pi_e1= new TH1F("DCH_timediff_pi_e1","DCHtime difference between #pi and e1;DCHtimediff[ns];Nevents",100,-50.,50.);
     fh_DCH_timediff_pi_e2= new TH1F("DCH_timediff_pi_e2","DCHtime difference between #pi and e2;DCHtimediff[ns];Nevents",100,-50.,50.);
@@ -105,12 +108,15 @@ void Hist_dir::AddToFile(TFile* file){
     fh_pi0d_Pt           ->Write();
     fh_pi0d_M            ->Write();
     fh_lda3_e1_plus      ->Write();
+    fh_lda3_e1           ->Write();
     fh_lda3_e1_minus     ->Write();
     fh_lda3_e2           ->Write();
     fh_el1_plus_Charge   ->Write();
     fh_EoP_el1_plus      ->Write();
     fh_EoP_vs_p_el1_plus ->Write();
+    fh_EoP_vs_p_el1      ->Write();
     fh_lda3_vs_p_e1_plus ->Write();
+    fh_lda3_vs_p_e1      ->Write();
     fh_el1_minus_Charge  ->Write();
     fh_EoP_el1_minus     ->Write();
     fh_EoP_vs_p_el1_minus->Write();
@@ -165,11 +171,14 @@ Hist_dir::~Hist_dir(){
     delete fh_EoP_pion;
     delete fh_lda3_e1_plus      ;
     delete fh_lda3_e1_minus     ;
+    delete fh_lda3_e1           ;
     delete fh_lda3_e2           ;
     delete fh_el1_plus_Charge   ;
     delete fh_EoP_el1_plus      ;
     delete fh_EoP_vs_p_el1_plus ;
+    delete fh_EoP_vs_p_el1      ;
     delete fh_lda3_vs_p_e1_plus ;
+    delete fh_lda3_vs_p_e1      ;
     delete fh_el1_minus_Charge  ;
     delete fh_EoP_el1_minus     ;
     delete fh_EoP_vs_p_el1_minus;

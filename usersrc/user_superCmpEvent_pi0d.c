@@ -381,6 +381,8 @@ void Filling(superCmpEvent* sevt,superBurst* sbur, Hist_dir* dir,int ipi,int iel
         dir->fh_lda3_e2->Fill(lda3_e2);
     }
 
+
+
     if (charge_el1 == -1){
         dir->fh_el1_minus_Charge->Fill (charge_el1);
         dir->fh_EoP_el1_minus->Fill (EovP_el1);
@@ -404,6 +406,14 @@ void Filling(superCmpEvent* sevt,superBurst* sbur, Hist_dir* dir,int ipi,int iel
         }
 
     }
+
+    dir->fh_EoP_vs_p_el1->Fill (EovP_el1,sevt->track[iel1].p);
+    if(EovP_el1 > 0.95 && EovP_el1 < 1.05){
+        lda3_e1 = ldaC(sevt,sbur,iel1);
+        dir->fh_lda3_e1->Fill(lda3_e1);
+        dir->fh_lda3_vs_p_e1->Fill (lda3_e1,sevt->track[iel1].p);
+    }
+
 
 }
 

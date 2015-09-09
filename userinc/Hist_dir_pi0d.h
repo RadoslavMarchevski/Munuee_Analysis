@@ -55,6 +55,7 @@ class Hist_dir {
     TH1F* fh_EoP_pion;
     TH1F* fh_lda3_e1_plus      ;
     TH1F* fh_lda3_e1_minus     ;
+    TH1F* fh_lda3_e1           ;
     TH1F* fh_lda3_e2           ;
     TH1I* fh_el1_plus_Charge   ;
     TH1F* fh_EoP_el1_plus      ;
@@ -63,6 +64,8 @@ class Hist_dir {
     TH1I* fh_el1_minus_Charge  ;
     TH1F* fh_EoP_el1_minus     ;
     TH2F* fh_EoP_vs_p_el1_minus;
+    TH2F* fh_EoP_vs_p_el1      ;
+    TH2F* fh_lda3_vs_p_e1      ;
     TH2F* fh_lda3_vs_p_e1_minus;
     TH1F* fh_DCH_timediff_pi_e1;
     TH1F* fh_DCH_timediff_pi_e2;
