@@ -79,7 +79,7 @@ Hist_dir* dir8;
 Hist_dir* dir9;
 Hist_dir* dir10;
 Hist_dir* dir11;
-
+Hist_dir* MC_reweight;
 
 
 // missing compact declarations
@@ -99,27 +99,16 @@ int user_init() {
     K3pi_selection =  new  Hist_dir("K3pi selection",1);
     dir1 =  new  Hist_dir("Munuee index matching",2);
     dir2 =  new  Hist_dir("K3pi Wrong Sign",2);
-    dir3 =  new  Hist_dir("Munuee DCH Geometry Cut",2);
+    dir3 =  new  Hist_dir("Munuee Geometry Cut",2);
     dir4 =  new  Hist_dir("Munuee Momentum Cut",2);
     dir5 =  new  Hist_dir("Munuee Vertex Cut",2);
     dir6 =  new  Hist_dir("Munuee Pt Cut",2);
     dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2);
     dir8 =  new  Hist_dir("Munuee Timing Cut",2);
     dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
-    dir10=  new  Hist_dir("Munuee 3#pi invariant mass Cut",2);
-    dir11=  new  Hist_dir("Munuee z vtx Cut",2);
-    //dir2 =  new  Hist_dir("Test2");
-
-
-
-    //###############################################################################################
-    //
-    //      Histogramme
-    //
-    //###############################################################################################
-
-
-
+    dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2);
+    dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2);
+    MC_reweight =  new  Hist_dir("MC after E/p and lda3 reweighting",3);
 
 
 /*----------- End of user C code -----------*/

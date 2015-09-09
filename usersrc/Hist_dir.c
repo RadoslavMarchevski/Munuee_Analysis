@@ -20,6 +20,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     //0 - Initial
     //1 - K3pi selection
     //2 - Kmunuee selection
+    //3 - MC final selection
 
 
     if(ftype==0){
@@ -225,8 +226,13 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_lda3_e1 = new TH1F("lda3_e1","lda3 variable for electron 1", 200,0.,2);
         fh_lda3_e2 = new TH1F("lda3_e2","lda3 variable for electron 2", 200,0.,2);
         fh_Mee_before = new TH1F("z_vtx_before","ComPaCt z vtx before z vtx cut",150,-4000.,11000.);
+        fh_muon_status = new TH1I("muon_status","1 - MUV 1 & 2 & 3, 2 - 1 & 2 &! 3, 3 - !1 &2 &3, 4 - 1 & &!2 &3", 10, 0, 10);
 
-
+    }
+    if(ftype==3){
+        fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
+        fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
+        fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
     }
 }
 
@@ -374,6 +380,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_el1_dtrk_cl->Write();
         fh_el2_dtrk_cl->Write();
         fh_muon_dtrk_cl->Write();
+        fh_muon_status->Write();
         fh_el1_cluster_x_y->Write();
         fh_el2_cluster_x_y->Write();
         fh_mu_cluster_x_y->Write();
@@ -409,11 +416,15 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_P1_dist_prod_dec->Write();
         fh_mc_P2_dist_prod_dec->Write();
         fh_mc_P3_dist_prod_dec->Write();
-
-
         fh_lda3_e1->Write();
         fh_lda3_e2->Write();
         fh_Mee_before->Write();
+
+    }
+    if(ftype==3){
+        fh_missing_mass          ->Write();
+        fh_mee         ->Write();
+        fh_mee_z_variable->Write();
 
     }
 }
@@ -591,8 +602,15 @@ Hist_dir::~Hist_dir(){
         delete fh_lda3_e1;
         delete fh_lda3_e2;
         delete fh_lda3_p1;
-    delete fh_Mee_before;
-    delete fh_lda3_p2;
-    delete fh_lda3_p3;
+        delete fh_Mee_before;
+        delete fh_lda3_p2;
+        delete fh_lda3_p3;
+        delete fh_muon_status;
+    }
+    if(ftype==3){
+        delete fh_missing_mass          ;
+        delete fh_mee;
+        delete fh_mee_z_variable;
+
     }
 }

@@ -170,6 +170,7 @@ public:
     TH1F* fh_lda3_p1;
     TH1F* fh_lda3_p2;
     TH1F* fh_lda3_p3;
+    TH1I* fh_muon_status;
 
 
 private:
@@ -190,4 +191,5 @@ extern Hist_dir* dir8;
 extern Hist_dir* dir9;
 extern Hist_dir* dir10;
 extern Hist_dir* dir11;
+extern Hist_dir* MC_reweight;
 #endif

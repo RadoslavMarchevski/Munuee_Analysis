@@ -62,8 +62,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     double LKrz=Geom->Lkr.z;
     double COmPaCt_Z_Vertex = sevt->vtx[0].z;
     static double massKaonC = 0.493677;
-    const double Electron_EoverP_up = 1.1;
-    const double Electron_EoverP_down = 0.9;
+    const double Electron_EoverP_up = 1.05;
+    const double Electron_EoverP_down = 0.95;
     const double Muon_EoverP_up = 0.1;
     int Kcharge=0;
     int ngoodtrack=0;
@@ -81,6 +81,18 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     float lda3_pi1;
     float lda3_pi2;
     float lda3_pi3;
+    ////////////MC weights//////////////////
+    double w_5_10 = 0.97;
+    double w_10_15= 0.97;
+    double w_15_20= 0.97;
+    double w_20_25= 0.97;
+    double w_25_30= 0.97;
+    double w_30_35= 0.97;
+    double w_35_40= 0.97;
+    double w_el1= 1.0;
+    double w_el2= 1.0;
+    double w_tot= 1.0;
+    ////////////////////////////////////////
     double Track_Momentum;
     double Track_Quality;
     double Track_DeadCell_Distance;
@@ -115,6 +127,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //Looping over the number of tracks for each event
     for (int i=0; i<ntrack; i++) {
 
+        /* } else if (imu < 0 && Track_imu!= -1 && Track_EoverP < Muon_EoverP_up ){ */
         Track_Momentum          = sevt->track[i].p;
         Track_Quality           = sevt->track[i].quality;
         Track_DeadCell_Distance = sevt->track[i].dDeadCell;
@@ -146,9 +159,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 } else {;}
                 Nelectrons++;
             } else if (imu < 0 && Track_imu!= -1 && Track_EoverP < Muon_EoverP_up ){
+                //cout << sevt->Nmuon << endl;
+                //cout << sevt->track[i].iMuon <<  "Nmuon == " << sevt->Nmuon  << endl;
                 imu = i;
                 Nmuons++;
             }
+
 
         }// ENDIF IS_DATA
 
@@ -278,11 +294,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         double cda_pi2_pi3 = 0;
 
         //Checking if vertexes are true and if not go to the next event
-        if(!closap_double_(pion1.Position,pion2.Position,pion1.Slopes,pion2.Slopes,&cda_pi1_pi2,Vertex_pi1_pi2) ||
-           !closap_double_(pion1.Position,pion3.Position,pion1.Slopes,pion3.Slopes,&cda_pi1_pi3,Vertex_pi1_pi3) ||
-           !closap_double_(pion2.Position,pion3.Position,pion2.Slopes,pion3.Slopes,&cda_pi2_pi3,Vertex_pi2_pi3)){
-            return 0;
-        }
+        //if(!closap_double_(pion1.Position,pion2.Position,pion1.Slopes,pion2.Slopes,&cda_pi1_pi2,Vertex_pi1_pi2) ||
+        //   !closap_double_(pion1.Position,pion3.Position,pion1.Slopes,pion3.Slopes,&cda_pi1_pi3,Vertex_pi1_pi3) ||
+        //   !closap_double_(pion2.Position,pion3.Position,pion2.Slopes,pion3.Slopes,&cda_pi2_pi3,Vertex_pi2_pi3)){
+        //    return 0;
+        //}
+        closap_double_(pion1.Position,pion2.Position,pion1.Slopes,pion2.Slopes,&cda_pi1_pi2,Vertex_pi1_pi2);
+        closap_double_(pion1.Position,pion3.Position,pion1.Slopes,pion3.Slopes,&cda_pi1_pi3,Vertex_pi1_pi3);
+        closap_double_(pion2.Position,pion3.Position,pion2.Slopes,pion3.Slopes,&cda_pi2_pi3,Vertex_pi2_pi3);
         K3pi_selection->ComputeThreeTrack(pion1,pion2,pion3);
         Cuts cut_k3pi = make_cuts(K3pi_selection,pion1,pion2,pion3,Vertex_pi1_pi2,Vertex_pi1_pi3,Vertex_pi2_pi3,"K3pi");
         ////Cuts
@@ -345,7 +364,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            COmPaCt_Z_Vertex > -1800 &&
            COmPaCt_Z_Vertex < 8000.
            //-- ENDOF CUT5 DCH geometry Cut --
-           ){
+            ){
 
 
             K3pi_selection->FillCommonHist(sevt);
@@ -434,6 +453,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir1->FillHist(electron1,"electron1");
     dir1->fh_lda3_e1->Fill(lda3_e1);
     dir1->fh_lda3_e2->Fill(lda3_e2);
+    dir1->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     dir1->FillHist(electron2,"electron2");
     //Fill histograms for each pair of tracks. First calculates all necessary
     //two track variables like time differences between two tracks e+e-
@@ -465,22 +485,22 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        cutting.DCH_Radius_el1 > 110||
        cutting.DCH_Radius_el2 < 14 ||
        cutting.DCH_Radius_el2 > 110
-       ){return 0;}
+        ){return 0;}
 
     if(cutting.Lkr_cut_el1  < 15.     ||
-       cutting.Lkr_cut_el2  < 15.   //  ||
-       //cutting.Lkr_cut_mu   < 15.
-       ){return 0;}
+       cutting.Lkr_cut_el2  < 15.     ||
+       cutting.Lkr_cut_mu   < 15.
+        ){return 0;}
     if(   fabs(cutting.Lkr_x_el1) > 113 ||
           fabs(cutting.Lkr_x_el2) > 113 ||
-          //fabs(cutting.Lkr_x_mu ) > 113 ||
+          fabs(cutting.Lkr_x_mu ) > 113 ||
           fabs(cutting.Lkr_y_el1) > 113 ||
-          fabs(cutting.Lkr_y_el2) > 113 //||
-          //fabs(cutting.Lkr_y_mu ) > 113
-          ) {return 0;}
+          fabs(cutting.Lkr_y_el2) > 113 ||
+          fabs(cutting.Lkr_y_mu ) > 113
+        ) {return 0;}
     if( (fabs(cutting.Lkr_x_el1) + fabs(cutting.Lkr_y_el1) ) > 159.8 ||
-        (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8 //||
-        //(fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
+        (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8 ||
+        (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
         ){return 0;}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
@@ -493,7 +513,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            fabs(cutting.Hod_e1e2) > 2.  ||
            fabs(cutting.Hod_mue1) > 2.  ||
            fabs(cutting.Hod_mue2) > 2.
-           ){return 0;}
+            ){return 0;}
     //-- CUT1 DCH Geometry and Time Cut --
 
     if(IS_MC){
@@ -521,6 +541,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->FillAngle(muon.Momentum,dir3->GetTwoTrackMomentum());
     dir3->fh_lda3_e1->Fill(lda3_e1);
     dir3->fh_lda3_e2->Fill(lda3_e2);
+    dir3->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT2 Momentum cut ---
     if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
@@ -553,6 +574,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir4->FillAngle(muon.Momentum,dir4->GetTwoTrackMomentum());
     dir4->fh_lda3_e1->Fill(lda3_e1);
     dir4->fh_lda3_e2->Fill(lda3_e2);
+    dir4->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT3 Vertex Cut --
     if(fabs(cutting.zvtx_mue1_mue2) > 500 ||
        fabs(cutting.zvtx_mue1_e1e2) > 500 ||
@@ -563,7 +585,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_mue1_mue2) > 500 ||
        fabs(cutting.yvtx_mue1_e1e2) > 500 ||
        fabs(cutting.yvtx_mue2_e1e2) > 500
-       ){return 0;}
+        ){return 0;}
     //--ENDOF CUT3 Vertex Cut --
 
     if(IS_MC){
@@ -591,6 +613,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir5->FillAngle(muon.Momentum,dir5->GetTwoTrackMomentum());
     dir5->fh_lda3_e1->Fill(lda3_e1);
     dir5->fh_lda3_e2->Fill(lda3_e2);
+    dir5->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT4 Transverse Momentum Cut --
     if(cutting.muee_Pt < 0.022 ){return 0;}
     //--ENDOF CUT4 Transverse Momentum Cut --
@@ -620,6 +643,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir6->FillAngle(muon.Momentum,dir6->GetTwoTrackMomentum());
     dir6->fh_lda3_e1->Fill(lda3_e1);
     dir6->fh_lda3_e2->Fill(lda3_e2);
+    dir6->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT5 Invariant Mass Cut --
     if(cutting.mee < 0.140){return 0;}
     //--ENDOF CUT5 Invariant Mass Cut --
@@ -656,16 +680,16 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     if(electron1.GetCharge()==electron2.GetCharge() &&
        electron1.GetCharge()!=muon.GetCharge()      &&
-       lda3_e1 > 0.9                                &&
-       lda3_e2 > 0.9
-       ){
+       lda3_e1 > 0.8                                &&
+       lda3_e2 > 0.8
+        ){
 
         dir7->fh_lda3_e1->Fill(lda3_e1);
         dir7->fh_lda3_e2->Fill(lda3_e2);
         dir7->Fill3pi(dir7->GetThreeTrackMomentum());
+        dir7->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+        dir2->ComputeThreeTrack(electron1,electron2,muon);
 
-        if(dir7->GetThreeTrackMomentum().M() >= 0.51){
-            dir2->ComputeThreeTrack(electron1,electron2,muon);
             if( dir2->GetNuMomentum().M2() > -0.015          &&
                 dir2->GetNuMomentum().M2() < 0.015){
 
@@ -693,8 +717,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 dir2->FillAngle(muon.Momentum,dir2->GetTwoTrackMomentum());
                 dir2->fh_lda3_e1->Fill(lda3_e1);
                 dir2->fh_lda3_e2->Fill(lda3_e2);
+                dir2->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
             }
-        }
+
     }
 
     //-- CUT6 muon charge  cut ---
@@ -728,6 +753,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir9->FillAngle(muon.Momentum,dir9->GetTwoTrackMomentum());
     dir9->fh_lda3_e1->Fill(lda3_e1);
     dir9->fh_lda3_e2->Fill(lda3_e2);
+    dir9->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //Charged_Particle munuee_pion1(sevt,sbur,211,imu);
     //Charged_Particle munuee_pion2(sevt,sbur,211,iel1);
     //Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
@@ -759,6 +785,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir10->FillAngle(muon.Momentum,dir10->GetTwoTrackMomentum());
     dir10->fh_lda3_e1->Fill(lda3_e1);
     dir10->fh_lda3_e2->Fill(lda3_e2);
+    dir10->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     if(IS_MC){
         FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -769,8 +796,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     //LAST CUT z----- vtx -------------
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
+    if(sevt->muon[sevt->track[imu].iMuon].status > 2 ) {return 0;}
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
-
     dir11->Fill3pi(dir11->GetThreeTrackMomentum());
     //--END OF CUT z --------- vtx ---
 
@@ -790,7 +817,62 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir11->FillAngle(muon.Momentum,dir11->GetTwoTrackMomentum());
     dir11->fh_lda3_e1->Fill(lda3_e1);
     dir11->fh_lda3_e2->Fill(lda3_e2);
-        if(IS_MC){
+    dir11->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+
+    //TEST
+    if(IS_MC){
+        //electron1 reweighting
+        if(electron1.Momentum.P() >= 5. && electron1.Momentum.P() < 10.){
+            cout << "Pel1 - 5-10 GeV " << endl;
+            w_el1 = w_5_10;
+        } else if(electron1.Momentum.P() > 10. && electron1.Momentum.P() < 15.){
+            cout << "Pel1 - 10-15 GeV " << endl;
+            w_el1 = w_10_15;
+        } else if(electron1.Momentum.P() >= 15. && electron1.Momentum.P() < 20.){
+            cout << "Pel1 - 15-20 GeV " << endl;
+            w_el1 = w_15_20;
+        } else if(electron1.Momentum.P() >= 20. && electron1.Momentum.P() < 25.){
+            cout << "Pel1 - 20-25 GeV " << endl;
+            w_el1 = w_20_25;
+        } else if(electron1.Momentum.P() >= 25. && electron1.Momentum.P() < 30.){
+            cout << "Pel1 - 25-30 GeV " << endl;
+            w_el1 = w_25_30;
+        } else if(electron1.Momentum.P() >= 30. && electron1.Momentum.P() < 35.){
+            cout << "Pel1 - 30-35 GeV " << endl;
+            w_el1 = w_30_35;
+        }
+
+ //electron2 reweighting
+        if(electron2.Momentum.P() >= 5. && electron2.Momentum.P() < 10.){
+            cout << "Pel2 - 5-10 GeV " << endl;
+            w_el2 = w_5_10;
+        } else if(electron2.Momentum.P() > 10. && electron2.Momentum.P() < 15.){
+            cout << "Pel2 - 10-15 GeV " << endl;
+            w_el2 = w_10_15;
+        } else if(electron2.Momentum.P() >= 15. && electron2.Momentum.P() < 20.){
+            cout << "Pel2 - 15-20 GeV " << endl;
+            w_el2 = w_15_20;
+        } else if(electron2.Momentum.P() >= 20. && electron2.Momentum.P() < 25.){
+            cout << "Pel2 - 20-25 GeV " << endl;
+            w_el2 = w_20_25;
+        } else if(electron2.Momentum.P() >= 25. && electron2.Momentum.P() < 30.){
+            cout << "Pel2 - 25-30 GeV " << endl;
+            w_el2 = w_25_30;
+        } else if(electron2.Momentum.P() >= 30. && electron2.Momentum.P() < 35.){
+            cout << "Pel2 - 30-35 GeV " << endl;
+            w_el2 = w_30_35;
+        }
+
+
+        w_tot = w_el1*w_el2;
+
+        MC_reweight->fh_mee_z_variable->Fill(dir11->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+        MC_reweight->fh_mee->Fill(dir11->GetTwoTrackMomentum().M(),w_tot);
+        MC_reweight->fh_missing_mass->Fill(dir11->GetNuMomentum().M(),w_tot );
+    }
+    //END OF TEST
+
+    if(IS_MC){
         FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
             FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
