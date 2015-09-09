@@ -762,8 +762,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     //-- CUT7 K3pi invariant mass cut ---
-
-    if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
+    if(IS_DATA)
+        if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
     //if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
     dir10->Fill3pi(dir10->GetThreeTrackMomentum());
     //--END OF CUT7 K3pi invariant mass cut ---
@@ -866,9 +866,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
         w_tot = w_el1*w_el2;
 
-        MC_reweight->fh_mee_z_variable->Fill(dir11->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),1./w_tot);
-        MC_reweight->fh_mee->Fill(dir11->GetTwoTrackMomentum().M(),1./w_tot);
-        MC_reweight->fh_missing_mass->Fill(dir11->GetNuMomentum().M(),1./w_tot );
+        MC_reweight->fh_mee_z_variable->Fill(dir11->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+        MC_reweight->fh_mee->Fill(dir11->GetTwoTrackMomentum().M(),w_tot);
+        MC_reweight->fh_missing_mass->Fill(dir11->GetNuMomentum().M2(),w_tot );
     }
     //END OF TEST
 
