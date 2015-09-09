@@ -108,7 +108,7 @@ int user_init() {
     dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
     dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2);
     dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2);
-    MC_reweight =  new  Hist_dir("MC after E/p and lda3 reweighting",3);
+    MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
 
 /*----------- End of user C code -----------*/
