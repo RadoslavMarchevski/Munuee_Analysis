@@ -61,6 +61,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     double DCHz = Geom->DCH.z;         // z after magnet
     double LKrz=Geom->Lkr.z;
     double COmPaCt_Z_Vertex = sevt->vtx[0].z;
+    double chi2_Z_Vertex = sevt->vtx[0].chi2;
     static double massKaonC = 0.493677;
     const double Electron_EoverP_up = 1.05;
     const double Electron_EoverP_down = 0.95;
@@ -94,10 +95,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     double w_tot= 1.0;
     ////////////////////////////////////////
     double Track_Momentum;
+    double Track_Charge;
     double Track_Quality;
     double Track_DeadCell_Distance;
     double Track_Energy;
     double Track_EoverP;
+    double MuTrack_EoverP;
+
     /// apply non linearity corrections
     /// Correct LKr non-linearity (effective for energies < 11GeV)
     if (LKrCalCorr && IS_DATA) {
@@ -105,9 +109,10 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     }
 
 
-    if(IS_DATA)
+    if(IS_DATA){
         if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
-
+        if(chi2_Z_Vertex > 20.){return 0;}
+    }
     if(IS_MC){
         FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -129,6 +134,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
         /* } else if (imu < 0 && Track_imu!= -1 && Track_EoverP < Muon_EoverP_up ){ */
         Track_Momentum          = sevt->track[i].p;
+        Track_Charge            = sevt->track[i].q;
         Track_Quality           = sevt->track[i].quality;
         Track_DeadCell_Distance = sevt->track[i].dDeadCell;
         Track_icl               = sevt->track[i].iClus;
@@ -189,29 +195,60 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
         //Signal MC PID
-        if (IS_MC){
-            //if(Track_EoverP > Electron_EoverP_down  &&  Track_EoverP < Electron_EoverP_up)    {
+        //if (IS_MC){
+        //    //if(Track_EoverP > Electron_EoverP_down  &&  Track_EoverP < Electron_EoverP_up)    {
+        //
+        //    if(Track_EoverP > 0.8)    {
+        //        if(iel1 < 0)
+        //        {
+        //            iel1=i;
+        //        }
+        //        else if(iel2 < 0 )    {
+        //            iel2=i;
+        //        }
+        //        else { ; }
+        //        Nelectrons++;
+        //    }
+        //    else if( imu < 0) {
+        //        imu=i;
+        //        Nmuons++;
+        //    }
+        //    else    {
+        //        ;
+        //    }
+        //}
+        if(IS_MC){
+            if(Kcharge*Track_Charge == -1. ){
 
-            if(Track_EoverP > 0.8)    {
-                if(iel1 < 0)
-                {
-                    iel1=i;
+                if( iel1 < 0){
+                    iel1 = i;
+
                 }
-                else if(iel2 < 0 )    {
-                    iel2=i;
+
+            } else if ( iel2 < 0 || imu < 0 ){
+
+                if(imu < 0 && Track_EoverP < 0.3){
+                    imu = i;
+                    //cout << "iel2 = " << iel2 << " ipi =" << ipi << endl;
+                    //cout << "Kcharge = " << Kcharge << "Track_charge = " << Track_Charge << " ipi =" << ipi << endl;
+                    MuTrack_EoverP= sevt->cluster[sevt->track[imu].iClus].energy/sevt->track[imu].p;
+                    //cout << " Pion E/p =  " << PiTrack_EoverP << "Electron E/p =  " << Track_EoverP << endl;
+                    //cout << "NEXT _________+_+_+)_+)_+)_+)_+)_++__++" << endl;
+                } else if(imu > 0 && Track_EoverP > MuTrack_EoverP && Track_EoverP > 0.3){
+                    iel2 = i;
+                    //lda3_e2 = ldaC(sevt,sbur,i);
+                    //cout << " iel2 =  " << iel2 << "ipi =  " <<  ipi << endl;
+                    //cout << " Pion E/p =  " << PiTrack_EoverP << "Electron E/p =  " << Track_EoverP << endl;
+                }else {
+                    if(Track_EoverP > 0.3){
+                        iel2 = i;
+                        lda3_e2 = ldaC(sevt,sbur,i);
+                        //     ipi  = i;
+                    }
+
                 }
-                else { ; }
-                Nelectrons++;
-            }
-            else if( imu < 0) {
-                imu=i;
-                Nmuons++;
-            }
-            else    {
-                ;
             }
         }
-
         //Ke4 MC PID
         //if (IS_MC){
         //    if(Track_EoverP > Electron_EoverP_down && Track_EoverP < Electron_EoverP_up && sevt->track[i].q ==1)    {
@@ -690,35 +727,35 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         dir7->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
         dir2->ComputeThreeTrack(electron1,electron2,muon);
 
-            if( dir2->GetNuMomentum().M2() > -0.015          &&
-                dir2->GetNuMomentum().M2() < 0.015){
+        if( dir2->GetNuMomentum().M2() > -0.015          &&
+            dir2->GetNuMomentum().M2() < 0.015){
 
-                if(IS_MC){
-                    FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
-                    if(Npart >= 4){
-                        FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+            if(IS_MC){
+                FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+                if(Npart >= 4){
+                    FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
-                    }
                 }
-
-                dir2->fh_Event_Type->Fill(Event_Type);
-                dir2->fh_Kaon_Charge->Fill(Kcharge);
-                dir2->FillCommonHist(sevt);
-                dir2->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2,"munuee");
-                dir2->FillHist(muon,"muon");
-                dir2->FillHist(electron1,"electron1");
-                dir2->FillHist(electron2,"electron2");
-                dir2->FillHist(muon,electron1,"mue1");
-                dir2->FillHist(muon,electron2,"mue2");
-                dir2->FillHist(electron1,electron2,"e1e2");
-                //Test
-                dir2->Fill3pi(dir7->GetThreeTrackMomentum());
-                dir2->FillHist(dir2->GetThreeTrackMomentum(),dir2->GetNuMomentum());
-                dir2->FillAngle(muon.Momentum,dir2->GetTwoTrackMomentum());
-                dir2->fh_lda3_e1->Fill(lda3_e1);
-                dir2->fh_lda3_e2->Fill(lda3_e2);
-                dir2->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
             }
+
+            dir2->fh_Event_Type->Fill(Event_Type);
+            dir2->fh_Kaon_Charge->Fill(Kcharge);
+            dir2->FillCommonHist(sevt);
+            dir2->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2,"munuee");
+            dir2->FillHist(muon,"muon");
+            dir2->FillHist(electron1,"electron1");
+            dir2->FillHist(electron2,"electron2");
+            dir2->FillHist(muon,electron1,"mue1");
+            dir2->FillHist(muon,electron2,"mue2");
+            dir2->FillHist(electron1,electron2,"e1e2");
+            //Test
+            dir2->Fill3pi(dir7->GetThreeTrackMomentum());
+            dir2->FillHist(dir2->GetThreeTrackMomentum(),dir2->GetNuMomentum());
+            dir2->FillAngle(muon.Momentum,dir2->GetTwoTrackMomentum());
+            dir2->fh_lda3_e1->Fill(lda3_e1);
+            dir2->fh_lda3_e2->Fill(lda3_e2);
+            dir2->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+        }
 
     }
 
@@ -842,7 +879,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             w_el1 = w_30_35;
         }
 
- //electron2 reweighting
+        //electron2 reweighting
         if(electron2.Momentum.P() >= 5. && electron2.Momentum.P() < 10.){
             cout << "Pel2 - 5-10 GeV " << endl;
             w_el2 = w_5_10;
