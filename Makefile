@@ -390,7 +390,7 @@ UFSRCS = fuser_init.F \
 
 UFOBJS = $(UFSRCS:.F=.o)
 
-UCSRCS = user_init_pi0d.c \
+UCSRCS = user_init.c \
          user_burst.c \
          user_superBurst.c \
          user_cmpEvent.c \
@@ -399,10 +399,10 @@ UCSRCS = user_init_pi0d.c \
          user_mcEvent.c \
 	 Charged_Particle.c \
 	 Neutral_Particle.c \
-	 user_superCmpEvent_pi0d.c \
-	 Fillhistograms_pi0d.c \
-         Hist_dir_pi0d.c \
-         Cuts_pi0d.c \
+	 user_superCmpEvent_NEW.c \
+	 Fillhistograms.c \
+         Hist_dir.c \
+         Cuts.c \
          user_superMcEvent.c \
          user_cmpFilter.c \
          user_ke3Filter.c \
@@ -413,7 +413,7 @@ UCSRCS = user_init_pi0d.c \
          user_superMcFilter.c \
          user_eob.c \
          user_superEob.c \
-	 user_exit_pi0d.c \
+	 user_exit.c \
 	 user_hyperBurst.c\
 	 user_hyperCmpEvent.c
 

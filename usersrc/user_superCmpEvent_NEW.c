@@ -83,13 +83,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     float lda3_pi2;
     float lda3_pi3;
     ////////////MC weights//////////////////
-    double w_5_10 = 0.97;
-    double w_10_15= 0.97;
-    double w_15_20= 0.97;
-    double w_20_25= 0.97;
-    double w_25_30= 0.97;
-    double w_30_35= 0.97;
-    double w_35_40= 0.97;
+    double w_0_5  = 0.9386*0.9553;
+    double w_5_10 = 0.9621*0.9658;
+    double w_10_15= 0.9741*0.9701;
+    double w_15_20= 0.9780*0.9720;
+    double w_20_25= 0.9791*0.9741;
+    double w_25_30= 0.9754*0.9656;
+    double w_30_35= 0.9691*0.9733;
+    double w_35_40= 0.9608*0.9592;
     double w_el1= 1.0;
     double w_el2= 1.0;
     double w_tot= 1.0;
