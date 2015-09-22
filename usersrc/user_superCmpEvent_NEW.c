@@ -83,13 +83,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     float lda3_pi2;
     float lda3_pi3;
     ////////////MC weights//////////////////
-    double w_5_10 = 0.97;
-    double w_10_15= 0.97;
-    double w_15_20= 0.97;
-    double w_20_25= 0.97;
-    double w_25_30= 0.97;
-    double w_30_35= 0.97;
-    double w_35_40= 0.97;
+    double w_0_5  = 0.9386*0.9553;
+    double w_5_10 = 0.9621*0.9658;
+    double w_10_15= 0.9741*0.9701;
+    double w_15_20= 0.9780*0.9720;
+    double w_20_25= 0.9791*0.9741;
+    double w_25_30= 0.9754*0.9656;
+    double w_30_35= 0.9691*0.9733;
+    double w_35_40= 0.9608*0.9592;
     double w_el1= 1.0;
     double w_el2= 1.0;
     double w_tot= 1.0;
@@ -863,45 +864,57 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //TEST
     if(IS_MC){
         //electron1 reweighting
-        if(electron1.Momentum.P() >= 5. && electron1.Momentum.P() < 10.){
-            cout << "Pel1 - 5-10 GeV " << endl;
+        if(electron1.Momentum.P() < 5.){
+            //cout << "Pel1 - 0-5 GeV " << endl;
+            w_el1 = w_0_5;
+        }  else if(electron1.Momentum.P() >= 5. && electron1.Momentum.P() < 10.){
+            //cout << "Pel1 - 5-10 GeV " << endl;
             w_el1 = w_5_10;
         } else if(electron1.Momentum.P() > 10. && electron1.Momentum.P() < 15.){
-            cout << "Pel1 - 10-15 GeV " << endl;
+            //cout << "Pel1 - 10-15 GeV " << endl;
             w_el1 = w_10_15;
         } else if(electron1.Momentum.P() >= 15. && electron1.Momentum.P() < 20.){
-            cout << "Pel1 - 15-20 GeV " << endl;
+            //cout << "Pel1 - 15-20 GeV " << endl;
             w_el1 = w_15_20;
         } else if(electron1.Momentum.P() >= 20. && electron1.Momentum.P() < 25.){
-            cout << "Pel1 - 20-25 GeV " << endl;
+            //cout << "Pel1 - 20-25 GeV " << endl;
             w_el1 = w_20_25;
         } else if(electron1.Momentum.P() >= 25. && electron1.Momentum.P() < 30.){
-            cout << "Pel1 - 25-30 GeV " << endl;
+            //cout << "Pel1 - 25-30 GeV " << endl;
             w_el1 = w_25_30;
         } else if(electron1.Momentum.P() >= 30. && electron1.Momentum.P() < 35.){
-            cout << "Pel1 - 30-35 GeV " << endl;
+            //cout << "Pel1 - 30-35 GeV " << endl;
             w_el1 = w_30_35;
+        } else if(electron1.Momentum.P() >= 35. && electron1.Momentum.P() < 40.){
+            //cout << "Pel1 - 35-40 GeV " << endl;
+            w_el1 = w_35_40;
         }
 
         //electron2 reweighting
-        if(electron2.Momentum.P() >= 5. && electron2.Momentum.P() < 10.){
-            cout << "Pel2 - 5-10 GeV " << endl;
+        if(electron2.Momentum.P() < 5.){
+            //cout << "Pel2 - 5-10 GeV " << endl;
+            w_el2 = w_0_5;
+        } else if(electron2.Momentum.P() >= 5. && electron2.Momentum.P() < 10.){
+            //cout << "Pel2 - 5-10 GeV " << endl;
             w_el2 = w_5_10;
         } else if(electron2.Momentum.P() > 10. && electron2.Momentum.P() < 15.){
-            cout << "Pel2 - 10-15 GeV " << endl;
+            //cout << "Pel2 - 10-15 GeV " << endl;
             w_el2 = w_10_15;
         } else if(electron2.Momentum.P() >= 15. && electron2.Momentum.P() < 20.){
-            cout << "Pel2 - 15-20 GeV " << endl;
+            //cout << "Pel2 - 15-20 GeV " << endl;
             w_el2 = w_15_20;
         } else if(electron2.Momentum.P() >= 20. && electron2.Momentum.P() < 25.){
-            cout << "Pel2 - 20-25 GeV " << endl;
+            //cout << "Pel2 - 20-25 GeV " << endl;
             w_el2 = w_20_25;
         } else if(electron2.Momentum.P() >= 25. && electron2.Momentum.P() < 30.){
-            cout << "Pel2 - 25-30 GeV " << endl;
+            //cout << "Pel2 - 25-30 GeV " << endl;
             w_el2 = w_25_30;
         } else if(electron2.Momentum.P() >= 30. && electron2.Momentum.P() < 35.){
-            cout << "Pel2 - 30-35 GeV " << endl;
+            //cout << "Pel2 - 30-35 GeV " << endl;
             w_el2 = w_30_35;
+        } else if(electron2.Momentum.P() >= 35. && electron2.Momentum.P() < 40.){
+            //cout << "Pel2 - 30-35 GeV " << endl;
+            w_el2 = w_35_40;
         }
 
 

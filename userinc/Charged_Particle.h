@@ -19,7 +19,7 @@ public:
     Charged_Particle(superCmpEvent* sevt, superBurst *sburst, int PDGCode, int pindex);
     void CalculateMomentum();
     void MakeTime();
-    void MakeLkrCluster();
+    void MakeLkrCluster(bool cluster);
     void MakeMUVExtrapolation();
     //Methods for getting objects properties
     const int    GetCharge()      const {return fSevt->track[fpindex].q; };

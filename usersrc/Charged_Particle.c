@@ -46,7 +46,11 @@ Charged_Particle::Charged_Particle(superCmpEvent* sevt, superBurst *sburst, int 
 
     if(icluster != -1){
         cluster_exists = true;
-        MakeLkrCluster();
+        MakeLkrCluster(cluster_exists);
+    } else {
+        cluster_exists = false;
+        MakeLkrCluster(cluster_exists);
+
     }
     if(imuon != -1){
         MakeMUVExtrapolation();
@@ -92,7 +96,7 @@ void Charged_Particle::MakeTime(){
     ClusterTime = fSevt->cluster[icluster].time;
 }
 
-void Charged_Particle::MakeLkrCluster(){
+void Charged_Particle::MakeLkrCluster(bool cluster){
     double DCHz = Geom->DCH.z;
     double Lkrz = Geom->Lkr.z;
     dxdz = fSevt->track[fpindex].dxdz;
@@ -102,7 +106,8 @@ void Charged_Particle::MakeLkrCluster(){
     //cluster_position[1] = fSevt->cluster[fpindex].y;
     cluster_position[0] = fSevt->cluster[icluster].x;
     cluster_position[1] = fSevt->cluster[icluster].y;
-    cluster_position[2] = Lkrz  + 16.5 + 4.3*EcalEnergy;
+    if(cluster) {cluster_position[2] = Lkrz  + 16.5 + 4.3*EcalEnergy;}
+    else {cluster_position[2] = Lkrz;}
 
 
 
