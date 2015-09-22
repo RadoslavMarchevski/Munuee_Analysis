@@ -41,6 +41,10 @@ public:
     TH1I* fh_Ntracks           ;
     TH1I* fh_Nclusters         ;
     TH1I* fh_Nvtx              ;
+    TH1I* fh_CPRE              ;
+    TH1I* fh_MB_1TRK_P         ;
+    TH1I* fh_MB_1VTX           ;
+    TH1I* fh_full_trig         ;
     TH1I* fh_Kaon_Charge       ;
     TH1I* fh_Mu_charge         ;
     TH1I* fh_Event_Type        ;

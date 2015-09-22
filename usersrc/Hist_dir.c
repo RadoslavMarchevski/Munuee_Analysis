@@ -58,8 +58,12 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
 
     }
     if(ftype==1){
+        fh_CPRE              = new TH1I("h_CPRE","CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_MB_1TRK_P         = new TH1I("MB_1TRK_P","MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_MB_1VTX           = new TH1I("MB_1VTX","MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_full_trig           = new TH1I("MB_full_trig","MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
-        fh_Nclusters           = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
+        fh_Nclusters         = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Kaon_Charge       = new TH1I("Kaon_Charge","Charge of the Kaon;Q;Nevents",4,-2,2);
         fh_Event_Type        = new TH1I("Event_Type","Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
@@ -272,6 +276,10 @@ void Hist_dir::AddToFile(TFile* file){
     if(ftype==1){
         fh_Ntracks           ->Write();
         fh_Nvtx              ->Write();
+        fh_CPRE              ->Write();
+        fh_MB_1TRK_P         ->Write();
+        fh_MB_1VTX           ->Write();
+        fh_full_trig         ->Write();
         fh_Nclusters         ->Write();
         fh_Kaon_Charge       ->Write();
         fh_Event_Type        ->Write();
@@ -460,6 +468,10 @@ Hist_dir::~Hist_dir(){
     }
     if(ftype==1){
         delete fh_Ntracks           ;
+        delete fh_CPRE              ;
+        delete fh_MB_1TRK_P         ;
+        delete fh_MB_1VTX           ;
+        delete fh_full_trig         ;
         delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Kaon_Charge       ;

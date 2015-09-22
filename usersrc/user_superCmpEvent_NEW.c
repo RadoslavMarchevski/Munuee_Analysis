@@ -404,6 +404,38 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            //-- ENDOF CUT5 DCH geometry Cut --
             ){
 
+            //Trigger efficiency for k3pi using Q1 as reference trigger
+            if(((sevt->trigWord)>>3)&0x1) {
+                // ref. trigg. ok:
+                K3pi_selection->fh_CPRE->Fill(K3pi_Event_Type);
+                // ((TH1I*)gDirectory->FindObject(h_k3pi_CPRE->GetName()))->Fill(k3pi_evttypebytrks);
+                if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                    (sevt->pu[4].chan[5]>>4)&0x1 ||
+                    (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                    (sevt->pu[6].chan[5]>>4)&0x1 ||
+                    (sevt->pu[3].chan[5]>>8)&0x1 ||
+                    (sevt->pu[4].chan[5]>>8)&0x1 ||
+                    (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                    (sevt->pu[6].chan[5]>>8)&0x1 ||
+                    (sevt->pu[3].chan[5]>>13)&0x1 ||
+                    (sevt->pu[4].chan[5]>>13)&0x1 ||
+                    (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                    (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                    if( ((sevt->trigWord)>>4)&0x1 ) //
+                        K3pi_selection->fh_MB_1TRK_P->Fill(K3pi_Event_Type);
+                        //((TH1I*)gDirectory->FindObject(h_mu1->GetName()))->Fill(k3pi_evttypebytrks);
+                    if( ((sevt->trigWord)>>1)&0x1  )
+                        K3pi_selection->fh_MB_1VTX->Fill(K3pi_Event_Type);
+                        //((TH1I*)gDirectory->FindObject(h_Q1->GetName()))->Fill(k3pi_evttypebytrks);
+
+                    if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                        K3pi_selection->fh_full_trig->Fill(K3pi_Event_Type);
+
+                }
+            }
+
+
+
 
             K3pi_selection->FillCommonHist(sevt);
 
