@@ -537,13 +537,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8
         ){return 0;}
 
-    if(IS_DATA){
+    // if(IS_DATA){
         if(cutting.Lkr_cut_mu  < 15.     ||
            fabs(cutting.Lkr_x_mu ) > 113 ||
            fabs(cutting.Lkr_y_mu ) > 113 ||
            (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
             ){return 0;}
-    }
+        //}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
     if(fabs(cutting.MUV_x_mu) < 13  && fabs(cutting.MUV_y_mu) < 13  ) {return 0;}
