@@ -58,10 +58,53 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
 
     }
     if(ftype==1){
-        fh_CPRE              = new TH1I("h_CPRE","CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
-        fh_MB_1TRK_P         = new TH1I("MB_1TRK_P","MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
-        fh_MB_1VTX           = new TH1I("MB_1VTX","MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
-        fh_full_trig           = new TH1I("MB_full_trig","MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        //Trigger efficiency plots for the different supersamples
+        //SS0
+        fh_SS0_CPRE              = new TH1I("SS0_h_CPRE"      ," SS0 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS0_MB_1TRK_P         = new TH1I("SS0_MB_1TRK_P"   ," SS0 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS0_MB_1VTX           = new TH1I("SS0_MB_1VTX"     ," SS0 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS0_full_trig         = new TH1I("SS0_MB_full_trig"," SS0 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS1_CPRE              = new TH1I("SS1_h_CPRE"      ," SS1 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS1_MB_1TRK_P         = new TH1I("SS1_MB_1TRK_P"   ," SS1 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS1_MB_1VTX           = new TH1I("SS1_MB_1VTX"     ," SS1 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS1_full_trig         = new TH1I("SS1_MB_full_trig"," SS1 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS2_CPRE              = new TH1I("SS2_h_CPRE"      ," SS2 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS2_MB_1TRK_P         = new TH1I("SS2_MB_1TRK_P"   ," SS2 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS2_MB_1VTX           = new TH1I("SS2_MB_1VTX"     ," SS2 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS2_full_trig         = new TH1I("SS2_MB_full_trig"," SS2 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS3_CPRE              = new TH1I("SS3_h_CPRE"      ," SS3 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS3_MB_1TRK_P         = new TH1I("SS3_MB_1TRK_P"   ," SS3 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS3_MB_1VTX           = new TH1I("SS3_MB_1VTX"     ," SS3 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS3_full_trig         = new TH1I("SS3_MB_full_trig"," SS3 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS4_CPRE              = new TH1I("SS4_h_CPRE"      ," SS4 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS4_MB_1TRK_P         = new TH1I("SS4_MB_1TRK_P"   ," SS4 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS4_MB_1VTX           = new TH1I("SS4_MB_1VTX"     ," SS4 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS4_full_trig         = new TH1I("SS4_MB_full_trig"," SS4 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS5_CPRE              = new TH1I("SS5_h_CPRE"      ," SS5 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS5_MB_1TRK_P         = new TH1I("SS5_MB_1TRK_P"   ," SS5 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS5_MB_1VTX           = new TH1I("SS5_MB_1VTX"     ," SS5 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS5_full_trig         = new TH1I("SS5_MB_full_trig"," SS5 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS6_CPRE              = new TH1I("SS6_h_CPRE"      ," SS6 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS6_MB_1TRK_P         = new TH1I("SS6_MB_1TRK_P"   ," SS6 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS6_MB_1VTX           = new TH1I("SS6_MB_1VTX"     ," SS6 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS6_full_trig         = new TH1I("SS6_MB_full_trig"," SS6 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS7_CPRE              = new TH1I("SS7_h_CPRE"      ," SS7 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS7_MB_1TRK_P         = new TH1I("SS7_MB_1TRK_P"   ," SS7 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS7_MB_1VTX           = new TH1I("SS7_MB_1VTX"     ," SS7 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS7_full_trig         = new TH1I("SS7_MB_full_trig"," SS7 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS8_CPRE              = new TH1I("SS8_h_CPRE"      ," SS8 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS8_MB_1TRK_P         = new TH1I("SS8_MB_1TRK_P"   ," SS8 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS8_MB_1VTX           = new TH1I("SS8_MB_1VTX"     ," SS8 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS8_full_trig         = new TH1I("SS8_MB_full_trig"," SS8 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
         fh_Nclusters         = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
@@ -274,19 +317,51 @@ void Hist_dir::AddToFile(TFile* file){
 
     }
     if(ftype==1){
+        fh_SS0_CPRE         ->Write();
+        fh_SS0_MB_1TRK_P    ->Write();
+        fh_SS0_MB_1VTX      ->Write();
+        fh_SS0_full_trig    ->Write();
+        fh_SS1_CPRE         ->Write();
+        fh_SS1_MB_1TRK_P    ->Write();
+        fh_SS1_MB_1VTX      ->Write();
+        fh_SS1_full_trig    ->Write();
+        fh_SS2_CPRE         ->Write();
+        fh_SS2_MB_1TRK_P    ->Write();
+        fh_SS2_MB_1VTX      ->Write();
+        fh_SS2_full_trig    ->Write();
+        fh_SS3_CPRE         ->Write();
+        fh_SS3_MB_1TRK_P    ->Write();
+        fh_SS3_MB_1VTX      ->Write();
+        fh_SS3_full_trig    ->Write();
+        fh_SS4_CPRE         ->Write();
+        fh_SS4_MB_1TRK_P    ->Write();
+        fh_SS4_MB_1VTX      ->Write();
+        fh_SS4_full_trig    ->Write();
+        fh_SS5_CPRE         ->Write();
+        fh_SS5_MB_1TRK_P    ->Write();
+        fh_SS5_MB_1VTX      ->Write();
+        fh_SS5_full_trig    ->Write();
+        fh_SS6_CPRE         ->Write();
+        fh_SS6_MB_1TRK_P    ->Write();
+        fh_SS6_MB_1VTX      ->Write();
+        fh_SS6_full_trig    ->Write();
+        fh_SS7_CPRE         ->Write();
+        fh_SS7_MB_1TRK_P    ->Write();
+        fh_SS7_MB_1VTX      ->Write();
+        fh_SS7_full_trig    ->Write();
+        fh_SS8_CPRE         ->Write();
+        fh_SS8_MB_1TRK_P    ->Write();
+        fh_SS8_MB_1VTX      ->Write();
+        fh_SS8_full_trig    ->Write();
         fh_Ntracks           ->Write();
         fh_Nvtx              ->Write();
-        fh_CPRE              ->Write();
-        fh_MB_1TRK_P         ->Write();
-        fh_MB_1VTX           ->Write();
-        fh_full_trig         ->Write();
         fh_Nclusters         ->Write();
         fh_Kaon_Charge       ->Write();
         fh_Event_Type        ->Write();
         fh_Pion_Momentum     ->Write();
         fh_eop               ->Write();
         fh_odd_eop           ->Write();
-        fh_EoP_vs_p_odd_tr    ->Write();
+        fh_EoP_vs_p_odd_tr   ->Write();
         fh_lda3_p1->Write();
         fh_lda3_p2->Write();
         fh_lda3_p3->Write() ;
@@ -465,13 +540,10 @@ Hist_dir::~Hist_dir(){
         delete fh_mc_four_track_1234_momentum;
         delete fh_mc_four_track_1234_mass;
 
+
     }
     if(ftype==1){
         delete fh_Ntracks           ;
-        delete fh_CPRE              ;
-        delete fh_MB_1TRK_P         ;
-        delete fh_MB_1VTX           ;
-        delete fh_full_trig         ;
         delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Kaon_Charge       ;
@@ -505,7 +577,42 @@ Hist_dir::~Hist_dir(){
         delete fh_bx_vs_by_pi1;
         delete fh_bx_vs_by_pi2;
         delete fh_bx_vs_by_pi3;
-
+    delete fh_SS0_CPRE     ;
+        delete fh_SS0_MB_1TRK_P;
+        delete fh_SS0_MB_1VTX  ;
+        delete fh_SS0_full_trig;
+        delete fh_SS1_CPRE     ;
+        delete fh_SS1_MB_1TRK_P;
+        delete fh_SS1_MB_1VTX  ;
+        delete fh_SS1_full_trig;
+        delete fh_SS2_CPRE     ;
+        delete fh_SS2_MB_1TRK_P;
+        delete fh_SS2_MB_1VTX  ;
+        delete fh_SS2_full_trig;
+        delete fh_SS3_CPRE     ;
+        delete fh_SS3_MB_1TRK_P;
+        delete fh_SS3_MB_1VTX  ;
+        delete fh_SS3_full_trig;
+        delete fh_SS4_CPRE     ;
+        delete fh_SS4_MB_1TRK_P;
+        delete fh_SS4_MB_1VTX  ;
+        delete fh_SS4_full_trig;
+        delete fh_SS5_CPRE     ;
+        delete fh_SS5_MB_1TRK_P;
+        delete fh_SS5_MB_1VTX  ;
+        delete fh_SS5_full_trig;
+        delete fh_SS6_CPRE     ;
+        delete fh_SS6_MB_1TRK_P;
+        delete fh_SS6_MB_1VTX  ;
+        delete fh_SS6_full_trig;
+        delete fh_SS7_CPRE     ;
+        delete fh_SS7_MB_1TRK_P;
+        delete fh_SS7_MB_1VTX  ;
+        delete fh_SS7_full_trig;
+        delete fh_SS8_CPRE     ;
+        delete fh_SS8_MB_1TRK_P;
+        delete fh_SS8_MB_1VTX  ;
+        delete fh_SS8_full_trig;
     }
     if(ftype==2){
         delete fh_Ntracks           ;
