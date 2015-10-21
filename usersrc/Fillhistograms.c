@@ -3,6 +3,8 @@
 #include "Cuts.h"
 #include "TFile.h"
 #include "TDirectory.h"
+#include "TH2F.h"
+#include "TH2D.h"
 #include "TH1F.h"
 #include "TH1I.h"
 #include <iostream>
@@ -21,8 +23,9 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
             fh_mu_cluster_x->Fill(part.cluster_position[0]);
             fh_mu_cluster_y->Fill(part.cluster_position[1]);
             fh_muon_dtrk_cl->Fill(part.GetDistanceTrackCluster());
-            fh_mu_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
+            //fh_mu_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
             fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
+
         }
         fh_muv2_trk_cl_diff->Fill(part.MUV2_distance_trk_cl);
         fh_muv_xpos->Fill(part.extrapolated_track_MUV2[0]);
@@ -43,11 +46,10 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_electron1_by->Fill(part.Position[1]);
         fh_el1_cluster_x->Fill(part.cluster_position[0]);
         fh_el1_cluster_y->Fill(part.cluster_position[1]);
-        fh_el1_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
+        //fh_el1_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
         fh_el1_cluster_time->Fill(part.GetClusterTime());
         fh_el1_dtrk_cl->Fill(part.GetDistanceTrackCluster());
         fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
-
         fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
         fh_bx_vs_by_el1->Fill(part.Position[0],part.Position[1]);
         fh_Track_Momentum->Fill(part.GetMomentum());
@@ -60,7 +62,7 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_electron2_bx->Fill(part.Position[0]);
         fh_electron2_by->Fill(part.Position[1]);
         fh_bx_vs_by_el2->Fill(part.Position[0],part.Position[1]);
-        fh_el2_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
+        //fh_el2_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
         fh_el2_cluster_x->Fill(part.cluster_position[0]);
         fh_el2_cluster_y->Fill(part.cluster_position[1]);
         fh_el2_cluster_time->Fill(part.GetClusterTime());
@@ -132,7 +134,7 @@ void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string p
 
 
 }
-void Hist_dir::FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum){
+void Hist_dir::FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum, int Kcharge){
 
     //fh_Kaon_Charge->Fill(p1.GetCharge() + p2.GetCharge() + p3.GetCharge());
 
@@ -141,6 +143,11 @@ void Hist_dir::FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_M
     fh_muee_P->Fill(Three_Track_Momentum.P());
     fh_muee_Pt->Fill(Three_Track_Momentum.Pt());
     fh_muee_M->Fill(Three_Track_Momentum.M());
+    if(Kcharge == 1)
+        fh_MM2_plus->Fill(Nu_Momentum.M2());
+    if(Kcharge == -1)
+        fh_MM2_minus->Fill(Nu_Momentum.M2());
+
 
     //Make_Cuts();
 }
@@ -172,6 +179,7 @@ void Hist_dir::FillCommonHist(superCmpEvent* sevt){
     int    nclust = sevt->Ncluster; // number of clusters
     int    nvtx   = sevt->Nvtx;   // number of vtx
     double COmPaCt_Z_Vertex = sevt->vtx[0].z;
+
 
     fh_Ntracks->Fill(ntrack);
     fh_Nclusters->Fill(nclust);

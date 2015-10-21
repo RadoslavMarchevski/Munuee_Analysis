@@ -3,6 +3,8 @@
 #include "TFile.h"
 #include "TDirectory.h"
 #include "TH1F.h"
+#include "TH2F.h"
+#include "TH2D.h"
 #include <iostream>
 #include <string>
 #include "Charged_Particle.h"
@@ -15,13 +17,14 @@ public:
     //Three type of directories one for monitoring of some main
     //analysis quantities and two for the two different analyses:
     //K->mu nu e e and the normalization channel K3pi
+    Hist_dir(const std::string& dir_Name,int type, const std::string& tag);
     Hist_dir(const std::string& dir_Name,int type);
     ~Hist_dir();
     void AddToFile(TFile* file);
     void FillCommonHist(superCmpEvent* sevt);
     void FillHist(Charged_Particle& part, std::string particle);
     void FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string particles);
-    void FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum);
+    void FillHist(TLorentzVector Three_Track_Momentum, TLorentzVector Nu_Momentum, int Kcharge);
     void FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum);
     void Fill3pi(TLorentzVector Three_Track_Momentum );
     //void FillAngle();
@@ -38,6 +41,44 @@ public:
     TLorentzVector Nu_Momentum;
     TLorentzVector MuNu_Momentum;
 
+    TH1I* fh_Nrun    ;
+    TH1I* fh_Trigger_bits    ;
+    TH1I* fh_SS0_CPRE     ;
+    TH1I* fh_SS0_MB_1TRK_P;
+    TH1I* fh_SS0_MB_1VTX  ;
+    TH1I* fh_SS0_full_trig;
+    TH1I* fh_SS1_CPRE     ;
+    TH1I* fh_SS1_MB_1TRK_P;
+    TH1I* fh_SS1_MB_1VTX  ;
+    TH1I* fh_SS1_full_trig;
+    TH1I* fh_SS2_CPRE     ;
+    TH1I* fh_SS2_MB_1TRK_P;
+    TH1I* fh_SS2_MB_1VTX  ;
+    TH1I* fh_SS2_full_trig;
+    TH1I* fh_SS3_CPRE     ;
+    TH1I* fh_SS3_MB_1TRK_P;
+    TH1I* fh_SS3_MB_1VTX  ;
+    TH1I* fh_SS3_full_trig;
+    TH1I* fh_SS4_CPRE     ;
+    TH1I* fh_SS4_MB_1TRK_P;
+    TH1I* fh_SS4_MB_1VTX  ;
+    TH1I* fh_SS4_full_trig;
+    TH1I* fh_SS5_CPRE     ;
+    TH1I* fh_SS5_MB_1TRK_P;
+    TH1I* fh_SS5_MB_1VTX  ;
+    TH1I* fh_SS5_full_trig;
+    TH1I* fh_SS6_CPRE     ;
+    TH1I* fh_SS6_MB_1TRK_P;
+    TH1I* fh_SS6_MB_1VTX  ;
+    TH1I* fh_SS6_full_trig;
+    TH1I* fh_SS7_MB_1TRK_P;
+    TH1I* fh_SS7_CPRE     ;
+    TH1I* fh_SS7_MB_1VTX  ;
+    TH1I* fh_SS7_full_trig;
+    TH1I* fh_SS8_CPRE     ;
+    TH1I* fh_SS8_MB_1TRK_P;
+    TH1I* fh_SS8_MB_1VTX  ;
+    TH1I* fh_SS8_full_trig;
     TH1I* fh_Ntracks           ;
     TH1I* fh_Nclusters         ;
     TH1I* fh_Nvtx              ;
@@ -171,7 +212,8 @@ public:
     TH1F* fh_lda3_p2;
     TH1F* fh_lda3_p3;
     TH1I* fh_muon_status;
-
+    TH1F* fh_MM2_plus;
+    TH1F* fh_MM2_minus;
 
 private:
     std::string fDir;
