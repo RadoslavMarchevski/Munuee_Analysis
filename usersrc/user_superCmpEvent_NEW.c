@@ -411,6 +411,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             //cout << "Run Number == " << sbur->nrun << endl;
             //Filling a histogram with all the bits from the trigger word
             if( ((sevt->trigWord)>>1)&0x1 ){
+<<<<<<< HEAD
                 K3pi_selection->fh_Trigger_bits->AddBinContent(1);
             }
             if( ((sevt->trigWord)>>2)&0x1 ){
@@ -436,6 +437,33 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             }
             if( ((sevt->trigWord)>>9)&0x1 ){
                 K3pi_selection->fh_Trigger_bits->AddBinContent(9);
+=======
+                K3pi_selection->fh_Trigger_bits->Fill(1);
+            }
+            if( ((sevt->trigWord)>>2)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(2);
+            }
+            if( ((sevt->trigWord)>>3)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(3);
+             }
+            if( ((sevt->trigWord)>>4)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(4);
+            }
+            if( ((sevt->trigWord)>>5)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(5);
+            }
+            if( ((sevt->trigWord)>>6)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(6);
+            }
+            if( ((sevt->trigWord)>>7)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(7);
+            }
+            if( ((sevt->trigWord)>>8)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(8);
+            }
+            if( ((sevt->trigWord)>>9)&0x1 ){
+                K3pi_selection->fh_Trigger_bits->Fill(9);
+>>>>>>> 14ea3ab7bb9b556ac6b44faf57361e7cd017c7c1
             }
 
             // ------------------------------------------ SS0 --------------------------------------//
