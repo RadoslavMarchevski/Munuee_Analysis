@@ -6,6 +6,9 @@ extern int   CPDindex, CELLindex;
 extern float CPDlength, CELLlength;
 
 extern int runNo;
+extern int PrevrunNo;
+extern int noBurstsPerRun;
+extern int noSelectedEvents;
 extern int magnetCurrent;
 extern int noBursts;
 extern int burstCounter;

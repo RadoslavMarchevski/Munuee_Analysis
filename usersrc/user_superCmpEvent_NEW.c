@@ -125,13 +125,81 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     if(nvtx != 1){return 0;}
     if(ntrack != 3 ) {return 0;}
+    if(sbur->nrun > 16000){
+        if(sevt->LKRdownscaled) return 0;
+    }
 
+    if(IS_DATA){
+        if(sbur->nrun >= 16586 && sbur->nrun <= 16606){
+            int dn = 5;
+            int nev = sevt->nEvt;
+            //double rejected;
+            //double accepted;
+            //double total;
+
+            if( ((sevt->trigWord)>>4)&0x1){
+                //cout << nev%16 << endl;
+                //cout << "Bit 4 ==== " <<  (((sevt->trigWord)>>4)&0x1) << "Total word == " << sevt->trigWord << endl;
+                if( (int)nev%16 < (int)dn){
+                    //rejected++;
+                    return 0;
+                }//else {
+                //accepted++;
+                //}
+                //total++;
+            }
+
+            //if(total==16){
+            //
+            //    //cout << "Rejected == " << rejected << " Accepted == " << accepted << " Total == " << total << endl;
+            //    total=0;
+            //    rejected=0;
+            //    accepted=0;
+            //}
+
+
+            if( ((sevt->trigWord)>>1)&0x1 && sevt->trigWord > 2){
+
+                if( (int)nev%16 < (int)dn){
+                    return 0;
+                }
+            }
+            if( ((sevt->trigWord))&0x1 && sevt->trigWord > 1){
+
+                if( (int)nev%16 < (int)dn){
+                    return 0;
+                }
+                //cout << "Bit 0 ==== " <<  (((sevt->trigWord))&0x1) << "Total word == " << sevt->trigWord << endl;
+            }
+        }
+
+        if(sbur->nrun >= 16607){
+            int dn = 6;
+            int nev = sevt->nEvt;
+
+            if( ((sevt->trigWord)>>4)&0x1){
+
+                if( (int)nev%16 < (int)dn)return 0;
+
+            }
+
+            if( ((sevt->trigWord)>>1)&0x1 && sevt->trigWord > 3){
+
+                if( (int)nev%16 < (int)dn) return 0;
+            }
+
+            if( ((sevt->trigWord))&0x1 && sevt->trigWord > 1){
+
+                if( (int)nev%16 < (int)dn) return 0;
+            }
+        }
+    }
     for (int j=0; j<ntrack;j++){
         Kcharge += sevt->track[j].q;
     }
 
-    //cout << IS_DATA << "    " << IS_MC << endl;
-    //Looping over the number of tracks for each event
+//cout << IS_DATA << "    " << IS_MC << endl;
+//Looping over the number of tracks for each event
     for (int i=0; i<ntrack; i++) {
 
         /* } else if (imu < 0 && Track_imu!= -1 && Track_EoverP < Muon_EoverP_up ){ */
@@ -145,13 +213,15 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         Track_EoverP  = Track_Energy / Track_Momentum;
 
         //Quality controll
+        if (Track_DeadCell_Distance < 2.){continue;}
         if(IS_DATA){
-            if (Track_DeadCell_Distance < 2.){continue;}
             if (Track_Quality < 0.8){continue;}
-            ngoodtrack++;
         }
+        ngoodtrack++;
+
         Initial_dir->fh_eop->Fill(Track_EoverP);
         Initial_dir->fh_Track_Momentum->Fill(Track_Momentum);
+
         //Particle identification for K to mu nu e e
         if(IS_DATA){
             if(Track_EoverP > Electron_EoverP_down && Track_EoverP < Electron_EoverP_up){
@@ -269,19 +339,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         //}
 
     }//end for i
-    //Kmunuee selection
+//Kmunuee selection
     Charged_Particle muon(sevt,sbur,-13,imu);
     Charged_Particle electron1(sevt,sbur,-11,iel1);
     Charged_Particle electron2(sevt,sbur,-11,iel2);
 
-    //K3pi wrong sign selection
+//K3pi wrong sign selection
     Charged_Particle k3pi_pion1(sevt,sbur,211,imu);
     Charged_Particle k3pi_pion2(sevt,sbur,211,iel1);
     Charged_Particle k3pi_pion3(sevt,sbur,211,iel2);
 
 
 
-    //K3pi selection
+//K3pi selection
     Charged_Particle pion1(sevt,sbur,211,pi1);
     Charged_Particle pion2(sevt,sbur,211,pi2);
     Charged_Particle pion3(sevt,sbur,211,pi3);
@@ -315,15 +385,15 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             K3pi_Event_Type = 2;
         }
     }
-    //printf("abcog_params.cogX1p=%f, abcog_params.cogX1n=%f\n",abcog_params.cogX1p,abcog_params.cogX1n);
-    //printf("abcog_params.cogX4p=%f,abcog_params.cogX4n=%f\n",abcog_params.cogX4p,abcog_params.cogX4n);
-    //printf("abcog_params.cogY1p=%f, abcog_params.cogY1n=%f\n",abcog_params.cogY1p,abcog_params.cogY1n);
-    //printf("abcog_params.cogY4p=%f,abcog_params.cogY4n=%f\n",abcog_params.cogY4p,abcog_params.cogY4n);
+//printf("abcog_params.cogX1p=%f, abcog_params.cogX1n=%f\n",abcog_params.cogX1p,abcog_params.cogX1n);
+//printf("abcog_params.cogX4p=%f,abcog_params.cogX4n=%f\n",abcog_params.cogX4p,abcog_params.cogX4n);
+//printf("abcog_params.cogY1p=%f, abcog_params.cogY1n=%f\n",abcog_params.cogY1p,abcog_params.cogY1n);
+//printf("abcog_params.cogY4p=%f,abcog_params.cogY4n=%f\n",abcog_params.cogY4p,abcog_params.cogY4n);
 
-    //Checking for goodness of tracks
-    if(IS_DATA)
+//Checking for goodness of tracks
+    //  if(IS_DATA)
         if(ngoodtrack!= 3){return 0;}
-    //Normalization channel K3pi selection
+//Normalization channel K3pi selection
     if(pi1 != -1 && pi2 != -1 && pi3 != -1){
         double Vertex_pi1_pi2[3]= {0.};
         double cda_pi1_pi2 = 0;
@@ -409,31 +479,31 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             //cout << "Run Number == " << sbur->nrun << endl;
             //Filling a histogram with all the bits from the trigger word
             if( ((sevt->trigWord)>>1)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(1);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(1);
             }
             if( ((sevt->trigWord)>>2)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(2);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(2);
             }
             if( ((sevt->trigWord)>>3)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(3);
-             }
+                K3pi_selection->fh_Trigger_bits->AddBinContent(3);
+            }
             if( ((sevt->trigWord)>>4)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(4);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(4);
             }
             if( ((sevt->trigWord)>>5)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(5);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(5);
             }
             if( ((sevt->trigWord)>>6)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(6);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(6);
             }
             if( ((sevt->trigWord)>>7)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(7);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(7);
             }
             if( ((sevt->trigWord)>>8)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(8);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(8);
             }
             if( ((sevt->trigWord)>>9)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->Fill(9);
+                K3pi_selection->fh_Trigger_bits->AddBinContent(9);
             }
 
             // ------------------------------------------ SS0 --------------------------------------//
@@ -721,15 +791,15 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             }
         }
     }
-    //-------------------------KMUNUEE SIGNAL SELECTION ----------------------------------------
-    //Signal particle identification
+//-------------------------KMUNUEE SIGNAL SELECTION ----------------------------------------
+//Signal particle identification
     if(imu == -1 || iel1 == -1 || iel2 == -1){return 0;}
     if(IS_DATA)
         if(!electron1.cluster_exists || !electron2.cluster_exists){return 0;}
     dir1->FillCommonHist(sevt);
     dir1->fh_Event_Type->Fill(Event_Type);
     dir1->fh_Kaon_Charge->Fill(Kcharge);
-    //Fill MC histograms (if IS_MC == 1)
+//Fill MC histograms (if IS_MC == 1)
     if(IS_MC){
         FillMC(dir1, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -742,10 +812,10 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     else if(Kcharge*electron2.GetCharge()==-1)
         dir1->fh_odd_eop->Fill(electron2.GetEnergyLeftInEcal()/ electron2.GetMomentum());
 
-    //--Vertex Reconstruction --
-    //Vertex reconstruction for each pair of tracks:
-    //correct slopes are taken from the compact
-    //three track vertex reconstruction routine
+//--Vertex Reconstruction --
+//Vertex reconstruction for each pair of tracks:
+//correct slopes are taken from the compact
+//three track vertex reconstruction routine
     double Vertex_mu_e1[3]= {0.};
     double cda_mu_e1 = 0;
     double Vertex_mu_e2[3]= {0.};
@@ -753,7 +823,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     double Vertex_e1_e2[3]= {0.};
     double cda_e1_e2 = 0;
 
-    //Checking if vertexes are true and if not go to the next event
+//Checking if vertexes are true and if not go to the next event
     if(!closap_double_(muon.Position,electron1.Position,muon.Slopes,electron1.Slopes,&cda_mu_e1,Vertex_mu_e1) ||
        !closap_double_(muon.Position,electron2.Position,muon.Slopes,electron2.Slopes,&cda_mu_e2,Vertex_mu_e2) ||
        !closap_double_(electron1.Position,electron2.Position,electron1.Slopes,electron2.Slopes,&cda_e1_e2,Vertex_e1_e2)){
@@ -762,39 +832,39 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     dir1->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2,"munuee");
 
-    //--End of Vertex Reconstruction --
+//--End of Vertex Reconstruction --
 
-    //Fill the properties of single tracks (Momentum, E/p , Time variables etc ..)
+//Fill the properties of single tracks (Momentum, E/p , Time variables etc ..)
     dir1->FillHist(muon,"muon");
     dir1->FillHist(electron1,"electron1");
     dir1->fh_lda3_e1->Fill(lda3_e1);
     dir1->fh_lda3_e2->Fill(lda3_e2);
     dir1->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     dir1->FillHist(electron2,"electron2");
-    //Fill histograms for each pair of tracks. First calculates all necessary
-    //two track variables like time differences between two tracks e+e-
-    //invariant mass etc. . Then fills the histograms with the calculated
-    //variables.
+//Fill histograms for each pair of tracks. First calculates all necessary
+//two track variables like time differences between two tracks e+e-
+//invariant mass etc. . Then fills the histograms with the calculated
+//variables.
     dir1->FillHist(muon,electron1,"mue1");
     dir1->FillHist(muon,electron2,"mue2");
     dir1->FillHist(electron1,electron2,"e1e2");
 
 
-    //Fill histograms for the three tracks. Calculates three track vector
-    //and fills the histograms with the variables of interest (momentum,mass ..).
+//Fill histograms for the three tracks. Calculates three track vector
+//and fills the histograms with the variables of interest (momentum,mass ..).
     dir1->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     dir1->Fill3pi(dir1->GetThreeTrackMomentum());
     dir1->ComputeThreeTrack(electron1,electron2,muon);
     dir1->FillHist(dir1->GetThreeTrackMomentum(),dir1->GetNuMomentum(), Kcharge);
     dir1->FillAngle(muon.Momentum,dir1->GetTwoTrackMomentum());
 
-    //Producing cut variable in more readable way with the class
-    //described in Cuts.h;
+//Producing cut variable in more readable way with the class
+//described in Cuts.h;
     Cuts cutting = make_cuts(dir1,muon,electron1,electron2,Vertex_mu_e1,Vertex_mu_e2,Vertex_e1_e2,"munuee");
-    //Defining variables that it would be cut on
-    //
-    ////Cuts
-    //-- CUT1 DCH Geometry and Time Cut --
+//Defining variables that it would be cut on
+//
+////Cuts
+//-- CUT1 DCH Geometry and Time Cut --
     if(cutting.DCH_Radius_mu < 14  ||
        cutting.DCH_Radius_mu > 110 ||
        cutting.DCH_Radius_el1 < 14 ||
@@ -815,13 +885,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8
         ){return 0;}
 
-    // if(IS_DATA){
-        if(cutting.Lkr_cut_mu  < 15.     ||
-           fabs(cutting.Lkr_x_mu ) > 113 ||
-           fabs(cutting.Lkr_y_mu ) > 113 ||
-           (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
-            ){return 0;}
-        //}
+// if(IS_DATA){
+    if(cutting.Lkr_cut_mu  < 15.     ||
+       fabs(cutting.Lkr_x_mu ) > 113 ||
+       fabs(cutting.Lkr_y_mu ) > 113 ||
+       (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
+        ){return 0;}
+//}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
     if(fabs(cutting.MUV_x_mu) < 13  && fabs(cutting.MUV_y_mu) < 13  ) {return 0;}
@@ -834,7 +904,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            fabs(cutting.Hod_mue1) > 2.  ||
            fabs(cutting.Hod_mue2) > 2.
             ){return 0;}
-    //-- CUT1 DCH Geometry and Time Cut --
+//-- CUT1 DCH Geometry and Time Cut --
 
     if(IS_MC){
         FillMC(dir3, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -843,6 +913,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
         }
     }
+
+//noSelectedEvents++;
 
     dir3->fh_Event_Type->Fill(Event_Type);
     dir3->fh_Kaon_Charge->Fill(Kcharge);
@@ -862,12 +934,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->fh_lda3_e1->Fill(lda3_e1);
     dir3->fh_lda3_e2->Fill(lda3_e2);
     dir3->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-    //-- CUT2 Momentum cut ---
+//-- CUT2 Momentum cut ---
     if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
     if(cutting.E2_P < 3.  || cutting.E2_P > 50.){return 0;}
     if(cutting.muee_P > 66){return 0;}
-    //--ENDOF CUT2 Momentum cut ---
+//--ENDOF CUT2 Momentum cut ---
 
     if(IS_MC){
         FillMC(dir4, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -895,7 +967,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir4->fh_lda3_e1->Fill(lda3_e1);
     dir4->fh_lda3_e2->Fill(lda3_e2);
     dir4->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-    //-- CUT3 Vertex Cut --
+//-- CUT3 Vertex Cut --
     if(fabs(cutting.zvtx_mue1_mue2) > 500 ||
        fabs(cutting.zvtx_mue1_e1e2) > 500 ||
        fabs(cutting.zvtx_mue2_e1e2) > 500 ||
@@ -906,7 +978,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_mue1_e1e2) > 500 ||
        fabs(cutting.yvtx_mue2_e1e2) > 500
         ){return 0;}
-    //--ENDOF CUT3 Vertex Cut --
+//--ENDOF CUT3 Vertex Cut --
 
     if(IS_MC){
         FillMC(dir5, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -934,9 +1006,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir5->fh_lda3_e1->Fill(lda3_e1);
     dir5->fh_lda3_e2->Fill(lda3_e2);
     dir5->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-    //-- CUT4 Transverse Momentum Cut --
+//-- CUT4 Transverse Momentum Cut --
     if(cutting.muee_Pt < 0.022 ){return 0;}
-    //--ENDOF CUT4 Transverse Momentum Cut --
+//--ENDOF CUT4 Transverse Momentum Cut --
 
     if(IS_MC){
         FillMC(dir6, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -964,9 +1036,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir6->fh_lda3_e1->Fill(lda3_e1);
     dir6->fh_lda3_e2->Fill(lda3_e2);
     dir6->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-    //-- CUT5 Invariant Mass Cut --
+//-- CUT5 Invariant Mass Cut --
     if(cutting.mee < 0.140){return 0;}
-    //--ENDOF CUT5 Invariant Mass Cut --
+//--ENDOF CUT5 Invariant Mass Cut --
 
     if(IS_MC){
         FillMC(dir7, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -992,10 +1064,10 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
 
-    //K3pi wrong sign selection
-    //Charged_Particle k3pi_pion1(sevt,sbur,211,imu);
-    //Charged_Particle k3pi_pion2(sevt,sbur,211,iel1);
-    //Charged_Particle k3pi_pion3(sevt,sbur,211,iel2);
+//K3pi wrong sign selection
+//Charged_Particle k3pi_pion1(sevt,sbur,211,imu);
+//Charged_Particle k3pi_pion2(sevt,sbur,211,iel1);
+//Charged_Particle k3pi_pion3(sevt,sbur,211,iel2);
     dir7->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
 
     if(electron1.GetCharge()==electron2.GetCharge() &&
@@ -1042,9 +1114,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     }
 
-    //-- CUT6 muon charge  cut ---
+//-- CUT6 muon charge  cut ---
     if(muon.GetCharge()*Kcharge != 1){return 0;}
-    //-- END OF CUT6 muon charge  cut ---
+//-- END OF CUT6 muon charge  cut ---
 
     if(IS_MC){
         FillMC(dir9, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -1074,19 +1146,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir9->fh_lda3_e1->Fill(lda3_e1);
     dir9->fh_lda3_e2->Fill(lda3_e2);
     dir9->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-    //Charged_Particle munuee_pion1(sevt,sbur,211,imu);
-    //Charged_Particle munuee_pion2(sevt,sbur,211,iel1);
-    //Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
+//Charged_Particle munuee_pion1(sevt,sbur,211,imu);
+//Charged_Particle munuee_pion2(sevt,sbur,211,iel1);
+//Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
 
 
-    //-- CUT7 K3pi invariant mass cut ---
+//-- CUT7 K3pi invariant mass cut ---
     if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     if(IS_DATA)
         if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
-    //if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
+//if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
     dir10->Fill3pi(dir10->GetThreeTrackMomentum());
-    //--END OF CUT7 K3pi invariant mass cut ---
+//--END OF CUT7 K3pi invariant mass cut ---
 
 
     dir10->fh_Event_Type->Fill(Event_Type);
@@ -1114,12 +1186,258 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-    //LAST CUT z----- vtx -------------
+//LAST CUT z----- vtx -------------
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
     if(sevt->muon[sevt->track[imu].iMuon].status > 2 ) {return 0;}
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     dir11->Fill3pi(dir11->GetThreeTrackMomentum());
-    //--END OF CUT z --------- vtx ---
+//--END OF CUT z --------- vtx ---
+
+// ------------------------------------------ SS0 --------------------------------------//
+/* if( 15304 < sbur->nrun < 15582){ */
+    if( 15304 < sbur->nrun && sbur->nrun < 15582){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS0_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS0_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS0_MB_1VTX->Fill(Event_Type);
+
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS0_full_trig->Fill(Event_Type);
+
+            }
+        }
+    }
+//--------------------------------------- SS1 ---------------------------------------//
+    if( 15633 < sbur->nrun && sbur->nrun < 15703){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS1_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS1_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS1_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS1_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+//------------------------------------- SS2 -----------------------------------------------//
+    if( 15717 < sbur->nrun && sbur->nrun < 15777){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS2_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS2_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS2_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS2_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+//------------------------------------- SS3 -----------------------------------------------//
+    if( 15778 < sbur->nrun && sbur->nrun < 15790){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS3_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS3_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS3_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS3_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+//------------------------------------- SS4 -----------------------------------------------//
+    if( 16121 < sbur->nrun && sbur->nrun < 16383){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS4_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS4_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS4_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS4_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+
+//------------------------------------- SS5 -----------------------------------------------//
+    if( 16428 < sbur->nrun && sbur->nrun < 16585){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS5_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS5_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS5_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS5_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+//------------------------------------- SS6 -----------------------------------------------//
+    if( 16586 < sbur->nrun && sbur->nrun < 16709){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS6_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS6_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS6_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS6_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+//------------------------------------- SS7 -----------------------------------------------//
+    if( 16722 < sbur->nrun && sbur->nrun < 16801){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS7_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS7_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS7_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS7_full_trig->Fill(Event_Type);
+            }
+        }
+    }
+
+//------------------------------------- SS8 -----------------------------------------------//
+    if( 16802 < sbur->nrun && sbur->nrun < 16905){
+        if(((sevt->trigWord)>>3)&0x1) {
+            // ref. trigg. ok:
+            dir11->fh_SS8_CPRE->Fill(Event_Type);
+            if( (sevt->pu[3].chan[5]>>4)&0x1 ||
+                (sevt->pu[4].chan[5]>>4)&0x1 ||
+                (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>4)&0x1 ||
+                (sevt->pu[3].chan[5]>>8)&0x1 ||
+                (sevt->pu[4].chan[5]>>8)&0x1 ||
+                (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>8)&0x1 ||
+                (sevt->pu[3].chan[5]>>13)&0x1 ||
+                (sevt->pu[4].chan[5]>>13)&0x1 ||
+                (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
+                (sevt->pu[6].chan[5]>>13)&0x1 ) {
+                if( ((sevt->trigWord)>>4)&0x1 ) //
+                    dir11->fh_SS8_MB_1TRK_P->Fill(Event_Type);
+                if( ((sevt->trigWord)>>1)&0x1  )
+                    dir11->fh_SS8_MB_1VTX->Fill(Event_Type);
+                if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
+                    dir11->fh_SS8_full_trig->Fill(Event_Type);
+            }
+        }
+    }
 
 
     dir11->fh_Event_Type->Fill(Event_Type);
@@ -1139,7 +1457,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir11->fh_lda3_e2->Fill(lda3_e2);
     dir11->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
 
-    //TEST
+//noSelectedEvents++;
+//TEST
     if(IS_MC){
         //electron1 reweighting
         if(electron1.Momentum.P() < 5.){
@@ -1202,7 +1521,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         MC_reweight->fh_mee->Fill(dir11->GetTwoTrackMomentum().M(),w_tot);
         MC_reweight->fh_missing_mass->Fill(dir11->GetNuMomentum().M2(),w_tot );
     }
-    //END OF TEST
+//END OF TEST
 
     if(IS_MC){
         FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);

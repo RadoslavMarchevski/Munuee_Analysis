@@ -14,8 +14,6 @@
 #include "TFile.h"
 #include "TDirectory.h"
 #include "TH1F.h"
-#include "TH2F.h"
-#include "TH2D.h"
 #include "TLorentzVector.h"
 
 #include <stdio.h>
@@ -44,8 +42,11 @@ float CPDlength = 8 * CELLlength;
 
 
 int runNo;
+int PrevrunNo = 0;
 int magnetCurrent;
 int noBursts;
+int noBurstsPerRun;
+int noSelectedEvents;
 int burstCounter;
 int IS_DATA;          // data type == 1
 int IS_MC;            // data type == 2
@@ -98,19 +99,19 @@ int user_init() {
     //1 - K3pi selection
     //2 - Kmunuee selection
     Initial_dir =  new  Hist_dir("No cuts",0);
-    K3pi_selection =  new  Hist_dir("K3pi selection",1, "k3pi");
-    dir1 =  new  Hist_dir("Munuee index matching",2,"index");
-    dir2 =  new  Hist_dir("K3pi Wrong Sign",2, "WS");
-    dir3 =  new  Hist_dir("Munuee Geometry Cut",2, "GC");
-    dir4 =  new  Hist_dir("Munuee Momentum Cut",2, "MC");
-    dir5 =  new  Hist_dir("Munuee Vertex Cut",2, "VC");
-    dir6 =  new  Hist_dir("Munuee Pt Cut",2, "PtC");
-    dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2, "IMC");
-    dir8 =  new  Hist_dir("Munuee Timing Cut",2, "TC");
-    dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2, "CMC");
-    dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2, "LMM");
-    dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2,"MSC");
-    MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3,"ELR");
+    K3pi_selection =  new  Hist_dir("K3pi selection",1);
+    dir1 =  new  Hist_dir("Munuee index matching",2);
+    dir2 =  new  Hist_dir("K3pi Wrong Sign",2);
+    dir3 =  new  Hist_dir("Munuee Geometry Cut",2);
+    dir4 =  new  Hist_dir("Munuee Momentum Cut",2);
+    dir5 =  new  Hist_dir("Munuee Vertex Cut",2);
+    dir6 =  new  Hist_dir("Munuee Pt Cut",2);
+    dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2);
+    dir8 =  new  Hist_dir("Munuee Timing Cut",2);
+    dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
+    dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2);
+    dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2);
+    MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
 
 /*----------- End of user C code -----------*/

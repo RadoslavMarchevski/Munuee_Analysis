@@ -3,8 +3,6 @@
 #include "TFile.h"
 #include "TDirectory.h"
 #include "TH1F.h"
-#include "TH2F.h"
-#include "TH2D.h"
 #include <iostream>
 #include <string>
 #include "Charged_Particle.h"
@@ -17,8 +15,8 @@ public:
     //Three type of directories one for monitoring of some main
     //analysis quantities and two for the two different analyses:
     //K->mu nu e e and the normalization channel K3pi
-    Hist_dir(const std::string& dir_Name,int type, const std::string& tag);
     Hist_dir(const std::string& dir_Name,int type);
+    Hist_dir(const std::string& dir_Name, int type, const std::string& tag);
     ~Hist_dir();
     void AddToFile(TFile* file);
     void FillCommonHist(superCmpEvent* sevt);

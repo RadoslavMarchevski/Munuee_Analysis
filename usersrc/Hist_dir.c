@@ -285,7 +285,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Mee_before = new TH1F("z_vtx_before","ComPaCt z vtx before z vtx cut",150,-4000.,11000.);
         fh_muon_status = new TH1I("muon_status","1 - MUV 1 & 2 & 3, 2 - 1 & 2 &! 3, 3 - !1 &2 &3, 4 - 1 & &!2 &3", 10, 0, 10);
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
-        fh_MM2_minus = new TH1F("MM2_plus", "Missing mass squared for K-",100, -0.05, 0.05);
+        fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
 
     }
     if(ftype==3){
@@ -293,7 +293,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
-        fh_MM2_minus = new TH1F("MM2_plus", "Missing mass squared for K-",100, -0.05, 0.05);
+        fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
     }
 }
 
@@ -448,7 +448,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_Lkr_extrap_tracks_x_vs_y = new TH2F(Form("%s_Lkr_extrap_tracks_x_vs_y",tag.c_str()),"Extrapolated tracks to the Lkr ;Lkr_x[cm];Lkr_y[cm]",400,-200., 200., 400, -200., 200.);
         fh_muv_x_y_position = new TH2F(Form("%s_muv_x_y_position",tag.c_str()),"MUV2 extrapolated position x vs y;Track_x[cm];Track_y[cm]",400,-200.,200.,400,-200.,200.);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-        fh_MM2_minus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
+        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I(Form("%s_Ntracks",tag.c_str()),"Number of charged tracks;Ntrk;Nevents",10,0,10);
@@ -570,7 +570,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_Mee_before = new TH1F(Form("%s_z_vtx_before",tag.c_str()),"ComPaCt z vtx before z vtx cut",150,-4000.,11000.);
         fh_muon_status = new TH1I(Form("%s_muon_status",tag.c_str()),"1 - MUV 1 & 2 & 3, 2 - 1 & 2 &! 3, 3 - !1 &2 &3, 4 - 1 & &!2 &3", 10, 0, 10);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-        fh_MM2_minus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
+        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
 
     }
     if(ftype==3){
@@ -578,7 +578,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_mee = new TH1F(Form("%s_mee",tag.c_str()),"Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F(Form("%s_mee_z_variable",tag.c_str()),"Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-        fh_MM2_minus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
+        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
     }
 }
 

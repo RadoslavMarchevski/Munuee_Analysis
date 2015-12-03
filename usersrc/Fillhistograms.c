@@ -3,8 +3,6 @@
 #include "Cuts.h"
 #include "TFile.h"
 #include "TDirectory.h"
-#include "TH2F.h"
-#include "TH2D.h"
 #include "TH1F.h"
 #include "TH1I.h"
 #include <iostream>
@@ -25,7 +23,6 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
             fh_muon_dtrk_cl->Fill(part.GetDistanceTrackCluster());
             //fh_mu_cluster_x_y->Fill(part.cluster_position[0],part.cluster_position[1]);
             fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
-
         }
         fh_muv2_trk_cl_diff->Fill(part.MUV2_distance_trk_cl);
         fh_muv_xpos->Fill(part.extrapolated_track_MUV2[0]);
@@ -50,6 +47,7 @@ void Hist_dir::FillHist(Charged_Particle& part, std::string particle){
         fh_el1_cluster_time->Fill(part.GetClusterTime());
         fh_el1_dtrk_cl->Fill(part.GetDistanceTrackCluster());
         fh_Lkr_extrap_tracks_x_vs_y->Fill(part.extrapolated_track_Lkr[0],part.extrapolated_track_Lkr[1]);
+
         fh_deadcell_distance->Fill(part.GetDistanceDeadcell());
         fh_bx_vs_by_el1->Fill(part.Position[0],part.Position[1]);
         fh_Track_Momentum->Fill(part.GetMomentum());
