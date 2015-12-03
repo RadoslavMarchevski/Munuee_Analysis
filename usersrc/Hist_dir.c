@@ -66,7 +66,8 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
 
     }
     if(ftype==1){
-        //Trigger efficiency plots for the different supersamples
+
+//Trigger efficiency plots for the different supersamples
         //SS0
         fh_Trigger_bits          = new TH1I("Trigger_bits"    ,"Trigger word ;Trigger word bits",0 ,0, 20);
         fh_SS0_CPRE              = new TH1I("SS0_h_CPRE"      ," SS0 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
@@ -287,6 +288,55 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
         fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
 
+
+//Trigger efficiency plots for the different supersamples
+        //SS0
+        fh_Trigger_bits          = new TH1I("Trigger_bits"    ,"Trigger word ;Trigger word bits",0 ,0, 20);
+        fh_SS0_CPRE              = new TH1I("SS0_h_CPRE"      ," SS0 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS0_MB_1TRK_P         = new TH1I("SS0_MB_1TRK_P"   ," SS0 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS0_MB_1VTX           = new TH1I("SS0_MB_1VTX"     ," SS0 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS0_full_trig         = new TH1I("SS0_MB_full_trig"," SS0 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS1_CPRE              = new TH1I("SS1_h_CPRE"      ," SS1 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS1_MB_1TRK_P         = new TH1I("SS1_MB_1TRK_P"   ," SS1 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS1_MB_1VTX           = new TH1I("SS1_MB_1VTX"     ," SS1 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS1_full_trig         = new TH1I("SS1_MB_full_trig"," SS1 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS2_CPRE              = new TH1I("SS2_h_CPRE"      ," SS2 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS2_MB_1TRK_P         = new TH1I("SS2_MB_1TRK_P"   ," SS2 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS2_MB_1VTX           = new TH1I("SS2_MB_1VTX"     ," SS2 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS2_full_trig         = new TH1I("SS2_MB_full_trig"," SS2 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS3_CPRE              = new TH1I("SS3_h_CPRE"      ," SS3 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS3_MB_1TRK_P         = new TH1I("SS3_MB_1TRK_P"   ," SS3 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS3_MB_1VTX           = new TH1I("SS3_MB_1VTX"     ," SS3 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS3_full_trig         = new TH1I("SS3_MB_full_trig"," SS3 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS4_CPRE              = new TH1I("SS4_h_CPRE"      ," SS4 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS4_MB_1TRK_P         = new TH1I("SS4_MB_1TRK_P"   ," SS4 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS4_MB_1VTX           = new TH1I("SS4_MB_1VTX"     ," SS4 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS4_full_trig         = new TH1I("SS4_MB_full_trig"," SS4 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS5_CPRE              = new TH1I("SS5_h_CPRE"      ," SS5 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS5_MB_1TRK_P         = new TH1I("SS5_MB_1TRK_P"   ," SS5 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS5_MB_1VTX           = new TH1I("SS5_MB_1VTX"     ," SS5 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS5_full_trig         = new TH1I("SS5_MB_full_trig"," SS5 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS6_CPRE              = new TH1I("SS6_h_CPRE"      ," SS6 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS6_MB_1TRK_P         = new TH1I("SS6_MB_1TRK_P"   ," SS6 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS6_MB_1VTX           = new TH1I("SS6_MB_1VTX"     ," SS6 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS6_full_trig         = new TH1I("SS6_MB_full_trig"," SS6 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS7_CPRE              = new TH1I("SS7_h_CPRE"      ," SS7 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS7_MB_1TRK_P         = new TH1I("SS7_MB_1TRK_P"   ," SS7 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS7_MB_1VTX           = new TH1I("SS7_MB_1VTX"     ," SS7 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS7_full_trig         = new TH1I("SS7_MB_full_trig"," SS7 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
+        fh_SS8_CPRE              = new TH1I("SS8_h_CPRE"      ," SS8 CPRE trigger word - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS8_MB_1TRK_P         = new TH1I("SS8_MB_1TRK_P"   ," SS8 MB_1TRK_P trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS8_MB_1VTX           = new TH1I("SS8_MB_1VTX"     ," SS8 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+        fh_SS8_full_trig         = new TH1I("SS8_MB_full_trig"," SS8 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
+
     }
     if(ftype==3){
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
@@ -448,15 +498,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_Lkr_extrap_tracks_x_vs_y = new TH2F(Form("%s_Lkr_extrap_tracks_x_vs_y",tag.c_str()),"Extrapolated tracks to the Lkr ;Lkr_x[cm];Lkr_y[cm]",400,-200., 200., 400, -200., 200.);
         fh_muv_x_y_position = new TH2F(Form("%s_muv_x_y_position",tag.c_str()),"MUV2 extrapolated position x vs y;Track_x[cm];Track_y[cm]",400,-200.,200.,400,-200.,200.);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-<<<<<<< HEAD
         fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-=======
-<<<<<<< HEAD
-        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-=======
-        fh_MM2_minus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
->>>>>>> 14ea3ab7bb9b556ac6b44faf57361e7cd017c7c1
->>>>>>> 5cfbd0677591c847dd51c505476d442d54b12f54
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I(Form("%s_Ntracks",tag.c_str()),"Number of charged tracks;Ntrk;Nevents",10,0,10);
@@ -578,15 +620,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_Mee_before = new TH1F(Form("%s_z_vtx_before",tag.c_str()),"ComPaCt z vtx before z vtx cut",150,-4000.,11000.);
         fh_muon_status = new TH1I(Form("%s_muon_status",tag.c_str()),"1 - MUV 1 & 2 & 3, 2 - 1 & 2 &! 3, 3 - !1 &2 &3, 4 - 1 & &!2 &3", 10, 0, 10);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-<<<<<<< HEAD
         fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-=======
-<<<<<<< HEAD
-        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-=======
-        fh_MM2_minus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
->>>>>>> 14ea3ab7bb9b556ac6b44faf57361e7cd017c7c1
->>>>>>> 5cfbd0677591c847dd51c505476d442d54b12f54
 
     }
     if(ftype==3){
@@ -594,15 +628,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_mee = new TH1F(Form("%s_mee",tag.c_str()),"Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F(Form("%s_mee_z_variable",tag.c_str()),"Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-<<<<<<< HEAD
         fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-=======
-<<<<<<< HEAD
-        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-=======
-        fh_MM2_minus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
->>>>>>> 14ea3ab7bb9b556ac6b44faf57361e7cd017c7c1
->>>>>>> 5cfbd0677591c847dd51c505476d442d54b12f54
     }
 }
 

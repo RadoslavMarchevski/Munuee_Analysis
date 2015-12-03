@@ -125,13 +125,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     if(nvtx != 1){return 0;}
     if(ntrack != 3 ) {return 0;}
+
+
+    if(IS_DATA){
     if(sbur->nrun > 16000){
         if(sevt->LKRdownscaled) return 0;
     }
-<<<<<<< HEAD
-
-    if(IS_DATA){
-        if(sbur->nrun >= 16586 && sbur->nrun <= 16606){
+    if(sbur->nrun >= 16586 && sbur->nrun <= 16606){
             int dn = 5;
             int nev = sevt->nEvt;
             //double rejected;
@@ -195,8 +195,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             }
         }
     }
-=======
->>>>>>> 5cfbd0677591c847dd51c505476d442d54b12f54
+
     for (int j=0; j<ntrack;j++){
         Kcharge += sevt->track[j].q;
     }
@@ -482,38 +481,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             //cout << "Run Number == " << sbur->nrun << endl;
             //Filling a histogram with all the bits from the trigger word
             if( ((sevt->trigWord)>>1)&0x1 ){
-<<<<<<< HEAD
                 K3pi_selection->fh_Trigger_bits->AddBinContent(1);
-=======
-<<<<<<< HEAD
-                K3pi_selection->fh_Trigger_bits->AddBinContent(1);
-            }
-            if( ((sevt->trigWord)>>2)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(2);
-            }
-            if( ((sevt->trigWord)>>3)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(3);
-             }
-            if( ((sevt->trigWord)>>4)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(4);
-            }
-            if( ((sevt->trigWord)>>5)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(5);
-            }
-            if( ((sevt->trigWord)>>6)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(6);
-            }
-            if( ((sevt->trigWord)>>7)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(7);
-            }
-            if( ((sevt->trigWord)>>8)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(8);
-            }
-            if( ((sevt->trigWord)>>9)&0x1 ){
-                K3pi_selection->fh_Trigger_bits->AddBinContent(9);
-=======
-                K3pi_selection->fh_Trigger_bits->Fill(1);
->>>>>>> 5cfbd0677591c847dd51c505476d442d54b12f54
             }
             if( ((sevt->trigWord)>>2)&0x1 ){
                 K3pi_selection->fh_Trigger_bits->AddBinContent(2);
@@ -537,12 +505,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 K3pi_selection->fh_Trigger_bits->AddBinContent(8);
             }
             if( ((sevt->trigWord)>>9)&0x1 ){
-<<<<<<< HEAD
                 K3pi_selection->fh_Trigger_bits->AddBinContent(9);
-=======
-                K3pi_selection->fh_Trigger_bits->Fill(9);
->>>>>>> 14ea3ab7bb9b556ac6b44faf57361e7cd017c7c1
->>>>>>> 5cfbd0677591c847dd51c505476d442d54b12f54
             }
 
             // ------------------------------------------ SS0 --------------------------------------//
@@ -1056,7 +1019,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
         }
     }
-
     dir6->fh_Event_Type->Fill(Event_Type);
     dir6->fh_Kaon_Charge->Fill(Kcharge);
     dir6->FillCommonHist(sevt);
@@ -1231,13 +1193,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     dir11->Fill3pi(dir11->GetThreeTrackMomentum());
 //--END OF CUT z --------- vtx ---
-
+    double trigger = 1;
 // ------------------------------------------ SS0 --------------------------------------//
 /* if( 15304 < sbur->nrun < 15582){ */
     if( 15304 < sbur->nrun && sbur->nrun < 15582){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS0_CPRE->Fill(Event_Type);
+            dir11->fh_SS0_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1251,12 +1213,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS0_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS0_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS0_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS0_MB_1VTX->Fill(trigger);
 
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS0_full_trig->Fill(Event_Type);
+                    dir11->fh_SS0_full_trig->Fill(trigger);
 
             }
         }
@@ -1265,7 +1227,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if( 15633 < sbur->nrun && sbur->nrun < 15703){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS1_CPRE->Fill(Event_Type);
+            dir11->fh_SS1_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1279,20 +1241,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS1_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS1_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS1_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS1_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS1_full_trig->Fill(Event_Type);
+                    dir11->fh_SS1_full_trig->Fill(trigger);
             }
         }
     }
-
 //------------------------------------- SS2 -----------------------------------------------//
     if( 15717 < sbur->nrun && sbur->nrun < 15777){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS2_CPRE->Fill(Event_Type);
+            dir11->fh_SS2_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1306,20 +1267,19 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS2_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS2_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS2_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS2_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS2_full_trig->Fill(Event_Type);
+                    dir11->fh_SS2_full_trig->Fill(trigger);
             }
         }
     }
-
 //------------------------------------- SS3 -----------------------------------------------//
     if( 15778 < sbur->nrun && sbur->nrun < 15790){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS3_CPRE->Fill(Event_Type);
+            dir11->fh_SS3_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1333,11 +1293,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS3_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS3_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS3_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS3_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS3_full_trig->Fill(Event_Type);
+                    dir11->fh_SS3_full_trig->Fill(trigger);
             }
         }
     }
@@ -1346,7 +1306,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if( 16121 < sbur->nrun && sbur->nrun < 16383){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS4_CPRE->Fill(Event_Type);
+            dir11->fh_SS4_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1360,11 +1320,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS4_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS4_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS4_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS4_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS4_full_trig->Fill(Event_Type);
+                    dir11->fh_SS4_full_trig->Fill(trigger);
             }
         }
     }
@@ -1374,7 +1334,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if( 16428 < sbur->nrun && sbur->nrun < 16585){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS5_CPRE->Fill(Event_Type);
+            dir11->fh_SS5_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1388,11 +1348,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS5_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS5_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS5_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS5_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS5_full_trig->Fill(Event_Type);
+                    dir11->fh_SS5_full_trig->Fill(trigger);
             }
         }
     }
@@ -1401,7 +1361,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if( 16586 < sbur->nrun && sbur->nrun < 16709){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS6_CPRE->Fill(Event_Type);
+            dir11->fh_SS6_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1415,11 +1375,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS6_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS6_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS6_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS6_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS6_full_trig->Fill(Event_Type);
+                    dir11->fh_SS6_full_trig->Fill(trigger);
             }
         }
     }
@@ -1428,7 +1388,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if( 16722 < sbur->nrun && sbur->nrun < 16801){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS7_CPRE->Fill(Event_Type);
+            dir11->fh_SS7_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1442,11 +1402,11 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS7_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS7_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS7_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS7_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS7_full_trig->Fill(Event_Type);
+                    dir11->fh_SS7_full_trig->Fill(trigger);
             }
         }
     }
@@ -1455,7 +1415,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if( 16802 < sbur->nrun && sbur->nrun < 16905){
         if(((sevt->trigWord)>>3)&0x1) {
             // ref. trigg. ok:
-            dir11->fh_SS8_CPRE->Fill(Event_Type);
+            dir11->fh_SS8_CPRE->Fill(trigger);
             if( (sevt->pu[3].chan[5]>>4)&0x1 ||
                 (sevt->pu[4].chan[5]>>4)&0x1 ||
                 (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
@@ -1469,260 +1429,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
                 (sevt->pu[6].chan[5]>>13)&0x1 ) {
                 if( ((sevt->trigWord)>>4)&0x1 ) //
-                    dir11->fh_SS8_MB_1TRK_P->Fill(Event_Type);
+                    dir11->fh_SS8_MB_1TRK_P->Fill(trigger);
                 if( ((sevt->trigWord)>>1)&0x1  )
-                    dir11->fh_SS8_MB_1VTX->Fill(Event_Type);
+                    dir11->fh_SS8_MB_1VTX->Fill(trigger);
                 if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                    dir11->fh_SS8_full_trig->Fill(Event_Type);
+                    dir11->fh_SS8_full_trig->Fill(trigger);
             }
         }
     }
-
-    // ------------------------------------------ SS0 --------------------------------------//
-            /* if( 15304 < sbur->nrun < 15582){ */
-            if( 15304 < sbur->nrun && sbur->nrun < 15582){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS0_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS0_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS0_MB_1VTX->Fill(K3pi_Event_Type);
-
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS0_full_trig->Fill(K3pi_Event_Type);
-
-                    }
-                }
-            }
-            //--------------------------------------- SS1 ---------------------------------------//
-            if( 15633 < sbur->nrun && sbur->nrun < 15703){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS1_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS1_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS1_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS1_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-            //------------------------------------- SS2 -----------------------------------------------//
-            if( 15717 < sbur->nrun && sbur->nrun < 15777){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS2_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS2_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS2_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS2_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-//------------------------------------- SS3 -----------------------------------------------//
-            if( 15778 < sbur->nrun && sbur->nrun < 15790){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS3_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS3_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS3_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS3_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-            //------------------------------------- SS4 -----------------------------------------------//
-            if( 16121 < sbur->nrun && sbur->nrun < 16383){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS4_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS4_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS4_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS4_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-
-            //------------------------------------- SS5 -----------------------------------------------//
-            if( 16428 < sbur->nrun && sbur->nrun < 16585){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS5_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS5_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS5_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS5_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-            //------------------------------------- SS6 -----------------------------------------------//
-            if( 16586 < sbur->nrun && sbur->nrun < 16709){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS6_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS6_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS6_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS6_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-            //------------------------------------- SS7 -----------------------------------------------//
-            if( 16722 < sbur->nrun && sbur->nrun < 16801){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS7_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS7_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS7_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS7_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
-
-            //------------------------------------- SS8 -----------------------------------------------//
-            if( 16802 < sbur->nrun && sbur->nrun < 16905){
-                if(((sevt->trigWord)>>3)&0x1) {
-                    // ref. trigg. ok:
-                    dir11->fh_SS8_CPRE->Fill(K3pi_Event_Type);
-                    if( (sevt->pu[3].chan[5]>>4)&0x1 ||
-                        (sevt->pu[4].chan[5]>>4)&0x1 ||
-                        (sevt->pu[5].chan[5]>>4)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>4)&0x1 ||
-                        (sevt->pu[3].chan[5]>>8)&0x1 ||
-                        (sevt->pu[4].chan[5]>>8)&0x1 ||
-                        (sevt->pu[5].chan[5]>>8)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>8)&0x1 ||
-                        (sevt->pu[3].chan[5]>>13)&0x1 ||
-                        (sevt->pu[4].chan[5]>>13)&0x1 ||
-                        (sevt->pu[5].chan[5]>>13)&0x1 ||  //5 is the central time slice
-                        (sevt->pu[6].chan[5]>>13)&0x1 ) {
-                        if( ((sevt->trigWord)>>4)&0x1 ) //
-                            dir11->fh_SS8_MB_1TRK_P->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord)>>1)&0x1  )
-                            dir11->fh_SS8_MB_1VTX->Fill(K3pi_Event_Type);
-                        if( ((sevt->trigWord))&0x1    || ((sevt->trigWord)>>1)&0x1 || ((sevt->trigWord)>>4)&0x1 )
-                            dir11->fh_SS8_full_trig->Fill(K3pi_Event_Type);
-                    }
-                }
-            }
 
 
     dir11->fh_Event_Type->Fill(Event_Type);
