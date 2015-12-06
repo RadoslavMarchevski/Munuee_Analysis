@@ -65,7 +65,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     static double massKaonC = 0.493677;
     const double Electron_EoverP_up = 1.05;
     const double Electron_EoverP_down = 0.95;
-    const double Muon_EoverP_up = 0.1;
+    const double Muon_EoverP_up = 0.2;
     int Kcharge=0;
     int ngoodtrack=0;
     int Nelectrons=0;
@@ -1074,7 +1074,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(electron1.GetCharge()==electron2.GetCharge() &&
        electron1.GetCharge()!=muon.GetCharge()      &&
        lda3_e1 > 0.8                                &&
-       lda3_e2 > 0.8
+       lda3_e2 > 0.8                                &&
+       sevt->muon[sevt->track[imu].iMuon].status < 3
         ){
 
         dir7->fh_lda3_e1->Fill(lda3_e1);

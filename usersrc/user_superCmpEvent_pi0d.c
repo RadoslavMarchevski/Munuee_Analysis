@@ -130,6 +130,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         Track_EoverP  = Track_Energy / Track_Momentum;
 
         //Quality controll
+
         if(Track_icl > -1)
             Track_Lkr_status     = sevt->cluster[Track_icl].status;
 
@@ -171,20 +172,23 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             }
         }
 
-        for (int j = 0; j< nclust; j++){
-
-            if( igamma < 0 && sevt->cluster[j].iTrack < 0 && sevt->cluster[j].energy > 2. ){
-                igamma = j;
-
-            }
-        }
-
-
     }//end for i
     //K2piD selection
     Charged_Particle pion(sevt,sbur,211,ipi);
     Charged_Particle electron1(sevt,sbur,-11,iel1);
     Charged_Particle electron2(sevt,sbur,-11,iel2);
+
+//Requiring only one high energetic cluster without associated track
+    double ngamma = 0;
+    for (int j = 0; j< nclust; j++){
+
+        if( sevt->cluster[j].iTrack < 0 && sevt->cluster[j].energy > 2. ){
+            igamma = j;
+            ngamma++;
+        }
+    }
+
+    if (ngamma != 1) return 0;
 
 
     //Checking for goodness of tracks
