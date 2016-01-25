@@ -337,6 +337,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_SS8_MB_1VTX           = new TH1I("SS8_MB_1VTX"     ," SS8 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
         fh_SS8_full_trig         = new TH1I("SS8_MB_full_trig"," SS8 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
 
+
     }
     if(ftype==3){
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
@@ -344,6 +345,10 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
         fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
+
+        fh_mee_z_variable->Sumw2();
+        fh_mee->Sumw2();
+        fh_missing_mass->Sumw2();
     }
 }
 
@@ -545,6 +550,19 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         //ENDOF Time matching
         fh_mee = new TH1F(Form("%s_mee",tag.c_str()),"Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F(Form("%s_mee_z_variable",tag.c_str()),"Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
+
+        //2D Mee and MM2 plots
+        fh_mee_vs_Pmu  = new TH2F(Form("%s_mee_vs_Pmu",tag.c_str()),"Invariant mass of the electron pair vs #mu momentum ",50,0.,0.5, 100, 0, 100);
+        fh_mee_vs_Pel1 = new TH2F(Form("%s_mee_vs_Pel1",tag.c_str()),"Invariant mass of the electron pair vs electron1 momentum ",50,0.,0.5, 100, 0, 100);
+        fh_mee_vs_Pel2 = new TH2F(Form("%s_mee_vs_Pel2",tag.c_str()),"Invariant mass of the electron pair vs electron1 momentum ",50,0.,0.5, 100, 0, 100);
+        fh_mee_vs_Pt   = new TH2F(Form("%s_mee_vs_Pt",tag.c_str()),"Invariant mass of the electron pair vs Total transverse momentum ",50,0.,0.5, 100, 0, 1);
+        fh_mee_vs_MM2  = new TH2F(Form("%s_mee_vs_MM2",tag.c_str()),"Invariant mass of the electron pair vs MM2 ",50,0.,0.5, 100, -0.05, 0.05);
+        fh_mee_vs_zvtx = new TH2F(Form("%s_mee_vs_zvtx",tag.c_str()),"Invariant mass of the electron pair vs zvtx ",50,0.,0.5, 100, -4000, 11000);
+        fh_P_vs_dtrkcl = new TH2F(Form("%s_P_vs_dtrkcl",tag.c_str()),"Momentum vs distance between track and cluster ",100,0.,100,200,0.,200.);
+        fh_Ecl_vs_dtrkcl = new TH2F(Form("%s_mee_vs_zvtx",tag.c_str()),"Invariant mass of the electron pair vs zvtx ",100,0.,100,100,0.,50.);
+
+        fh_HoDTotTime = new TH1F(Form("%s_HoDTotTime",tag.c_str()),"(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3;EventTime [ns];Nevents",200,0.,200.);
+
         fh_muee_P = new TH1F(Form("%s_muee_P",tag.c_str()),"Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
         fh_muee_Pt = new TH1F(Form("%s_muee_Pt",tag.c_str()),"Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",200,0,2.);
         fh_muee_M = new TH1F(Form("%s_muee_M",tag.c_str()),"Three track invariant mass ;M_{#mu e e}[GeV];Nevents",100,0.,1.);
@@ -793,12 +811,21 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Hod_timediff_mu_e1->Write();
         fh_Hod_timediff_mu_e2->Write();
         fh_Hod_timediff_e1_e2->Write();
+        fh_HoDTotTime->Write();
         fh_mee         ->Write();
         fh_mee_z_variable->Write();
         fh_muee_P      ->Write();
         fh_muee_M      ->Write();
         fh_Muee_M_3pi_assumption->Write();
         fh_missing_mass->Write();
+        fh_mee_vs_Pmu  ->Write();
+        fh_mee_vs_Pel1 ->Write();
+        fh_mee_vs_Pel2 ->Write();
+        fh_mee_vs_Pt   ->Write();
+        fh_mee_vs_MM2  ->Write();
+        fh_mee_vs_zvtx ->Write();
+        fh_P_vs_dtrkcl ->Write();
+        fh_Ecl_vs_dtrkcl ->Write();
         fh_muee_Pt      ->Write();
         fh_bx_vs_by_muon->Write();
         fh_bx_vs_by_el1 ->Write();
@@ -856,6 +883,42 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Mee_before->Write();
         fh_MM2_plus->Write();
         fh_MM2_minus->Write();
+        fh_SS0_CPRE         ->Write();
+        fh_SS0_MB_1TRK_P    ->Write();
+        fh_SS0_MB_1VTX      ->Write();
+        fh_SS0_full_trig    ->Write();
+        fh_SS1_CPRE         ->Write();
+        fh_SS1_MB_1TRK_P    ->Write();
+        fh_SS1_MB_1VTX      ->Write();
+        fh_SS1_full_trig    ->Write();
+        fh_SS2_CPRE         ->Write();
+        fh_SS2_MB_1TRK_P    ->Write();
+        fh_SS2_MB_1VTX      ->Write();
+        fh_SS2_full_trig    ->Write();
+        fh_SS3_CPRE         ->Write();
+        fh_SS3_MB_1TRK_P    ->Write();
+        fh_SS3_MB_1VTX      ->Write();
+        fh_SS3_full_trig    ->Write();
+        fh_SS4_CPRE         ->Write();
+        fh_SS4_MB_1TRK_P    ->Write();
+        fh_SS4_MB_1VTX      ->Write();
+        fh_SS4_full_trig    ->Write();
+        fh_SS5_CPRE         ->Write();
+        fh_SS5_MB_1TRK_P    ->Write();
+        fh_SS5_MB_1VTX      ->Write();
+        fh_SS5_full_trig    ->Write();
+        fh_SS6_CPRE         ->Write();
+        fh_SS6_MB_1TRK_P    ->Write();
+        fh_SS6_MB_1VTX      ->Write();
+        fh_SS6_full_trig    ->Write();
+        fh_SS7_CPRE         ->Write();
+        fh_SS7_MB_1TRK_P    ->Write();
+        fh_SS7_MB_1VTX      ->Write();
+        fh_SS7_full_trig    ->Write();
+        fh_SS8_CPRE         ->Write();
+        fh_SS8_MB_1TRK_P    ->Write();
+        fh_SS8_MB_1VTX      ->Write();
+        fh_SS8_full_trig    ->Write();
     }
     if(ftype==3){
         fh_missing_mass          ->Write();
@@ -1014,6 +1077,15 @@ Hist_dir::~Hist_dir(){
         delete fh_mee;
         delete fh_muee_M;
         delete fh_missing_mass;
+        delete fh_mee_vs_Pmu  ;
+        delete fh_mee_vs_Pel1 ;
+        delete fh_mee_vs_Pel2 ;
+        delete fh_mee_vs_Pt   ;
+        delete fh_mee_vs_MM2  ;
+        delete fh_mee_vs_zvtx ;
+        delete fh_P_vs_dtrkcl ;
+        delete fh_Ecl_vs_dtrkcl ;
+        delete fh_HoDTotTime;
         delete fh_cda_mu_e1;
         delete fh_cda_mu_e2;
         delete fh_cda_e1_e2;

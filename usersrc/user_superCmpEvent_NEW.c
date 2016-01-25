@@ -65,7 +65,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     static double massKaonC = 0.493677;
     const double Electron_EoverP_up = 1.05;
     const double Electron_EoverP_down = 0.95;
-    const double Muon_EoverP_up = 0.1;
+    const double Muon_EoverP_up = 0.2;
     int Kcharge=0;
     int ngoodtrack=0;
     int Nelectrons=0;
@@ -82,19 +82,29 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     float lda3_pi1;
     float lda3_pi2;
     float lda3_pi3;
-    ////////////MC weights//////////////////
-    double w_0_5  = 0.9386*0.9553;
-    double w_5_10 = 0.9621*0.9658;
-    double w_10_15= 0.9741*0.9701;
-    double w_15_20= 0.9780*0.9720;
-    double w_20_25= 0.9791*0.9741;
-    double w_25_30= 0.9754*0.9656;
-    double w_30_35= 0.9691*0.9733;
-    double w_35_40= 0.9608*0.9592;
+
+////////////MC weights EoP*lda3//////////////////
+    /* double w_0_5  = 0.940576*0.960979; */
+    /* double w_5_10 = 0.962015*0.971205; */
+    /* double w_10_15= 0.972047*0.974435; */
+    /* double w_15_20= 0.975931*0.975205; */
+    /* double w_20_25= 0.982185*0.973952; */
+    /* double w_25_30= 0.986453*0.960957; */
+    /* double w_30_35= 0.98318 *0.955836; */
+    /* double w_35_40= 0.984925*0.953608; */
+    double w_0_5  = 0.938829*0.959385;
+    double w_5_10 = 0.960154*0.970754;
+    double w_10_15= 0.973072*0.976971;
+    double w_15_20= 0.978127*0.976439;
+    double w_20_25= 0.980435*0.964764;
+    double w_25_30= 0.980477*0.964764;
+    double w_30_35= 0.978684*0.954012;
+    double w_35_40= 0.977009*0.940663;
     double w_el1= 1.0;
     double w_el2= 1.0;
     double w_tot= 1.0;
     ////////////////////////////////////////
+
     double Track_Momentum;
     double Track_Charge;
     double Track_Quality;
@@ -111,11 +121,16 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     Initial_dir->fh_Nrun->Fill(sbur->nrun);
 
+    if(IS_MC){
+        if( sbur->nrun > 16000)return 0;
+    }
+
     if(IS_DATA){
         if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
         if(chi2_Z_Vertex > 20.){return 0;}
     }
     if(IS_MC){
+        if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
         FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
             FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -422,12 +437,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
            //--ENDOF CUT1 Momentum cut ---
            //-- CUT2 Timing cut --- (DATA only)
-           fabs(cut_k3pi.DCH_e1e2) < 10.&&
-           fabs(cut_k3pi.DCH_mue1) < 10.&&
-           fabs(cut_k3pi.DCH_mue2) < 10.&&
-           fabs(cut_k3pi.Hod_e1e2) < 2. &&
-           fabs(cut_k3pi.Hod_mue1) < 2. &&
-           fabs(cut_k3pi.Hod_mue2) < 2. &&
+           //fabs(cut_k3pi.DCH_e1e2) < 10.&&
+           //fabs(cut_k3pi.DCH_mue1) < 10.&&
+           //fabs(cut_k3pi.DCH_mue2) < 10.&&
+           //fabs(cut_k3pi.Hod_e1e2) < 2. &&
+           //fabs(cut_k3pi.Hod_mue1) < 2. &&
+           //fabs(cut_k3pi.Hod_mue2) < 2. &&
            //-- ENDOF CUT2 Timing cut ---
 
            //-- CUT3 Vertex Cut --
@@ -969,6 +984,21 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir4->fh_lda3_e1->Fill(lda3_e1);
     dir4->fh_lda3_e2->Fill(lda3_e2);
     dir4->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+
+    //New 2D plots
+    dir4->fh_mee_vs_MM2->Fill(dir4->GetTwoTrackMomentum().M(), dir4->GetThreeTrackMomentum().M2());
+    dir4->fh_mee_vs_Pt->Fill(dir4->GetTwoTrackMomentum().M(), dir4->GetThreeTrackMomentum().Pt());
+    dir4->fh_mee_vs_zvtx->Fill(dir4->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir4->fh_mee_vs_Pel1->Fill(dir4->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir4->fh_mee_vs_Pel2->Fill(dir4->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir4->fh_mee_vs_Pmu->Fill(dir4->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir4->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir4->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir4->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir4->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir4->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir4->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
 //-- CUT3 Vertex Cut --
     if(fabs(cutting.zvtx_mue1_mue2) > 500 ||
        fabs(cutting.zvtx_mue1_e1e2) > 500 ||
@@ -1008,6 +1038,22 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir5->fh_lda3_e1->Fill(lda3_e1);
     dir5->fh_lda3_e2->Fill(lda3_e2);
     dir5->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+
+
+    //New 2D plots
+    dir5->fh_mee_vs_MM2->Fill(dir5->GetTwoTrackMomentum().M(), dir5->GetThreeTrackMomentum().M2());
+    dir5->fh_mee_vs_Pt->Fill(dir5->GetTwoTrackMomentum().M(), dir5->GetThreeTrackMomentum().Pt());
+    dir5->fh_mee_vs_zvtx->Fill(dir5->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir5->fh_mee_vs_Pel1->Fill(dir5->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir5->fh_mee_vs_Pel2->Fill(dir5->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir5->fh_mee_vs_Pmu->Fill(dir5->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir5->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir5->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir5->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir5->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir5->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir5->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
 //-- CUT4 Transverse Momentum Cut --
     if(cutting.muee_Pt < 0.022 ){return 0;}
 //--ENDOF CUT4 Transverse Momentum Cut --
@@ -1037,7 +1083,23 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir6->fh_lda3_e1->Fill(lda3_e1);
     dir6->fh_lda3_e2->Fill(lda3_e2);
     dir6->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-//-- CUT5 Invariant Mass Cut --
+
+
+//-    //New 2D plots
+    dir6->fh_mee_vs_MM2->Fill(dir6->GetTwoTrackMomentum().M(), dir6->GetThreeTrackMomentum().M2());
+    dir6->fh_mee_vs_Pt->Fill(dir6->GetTwoTrackMomentum().M(), dir6->GetThreeTrackMomentum().Pt());
+    dir6->fh_mee_vs_zvtx->Fill(dir6->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir6->fh_mee_vs_Pel1->Fill(dir6->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir6->fh_mee_vs_Pel2->Fill(dir6->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir6->fh_mee_vs_Pmu->Fill(dir6->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir6->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir6->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir6->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir6->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir6->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir6->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
+    //- CUT5 Invariant Mass Cut --
     if(cutting.mee < 0.140){return 0;}
 //--ENDOF CUT5 Invariant Mass Cut --
 
@@ -1064,6 +1126,20 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir7->FillAngle(muon.Momentum,dir7->GetTwoTrackMomentum());
 
 
+//-    //New 2D plots
+    dir7->fh_mee_vs_MM2->Fill(dir7->GetTwoTrackMomentum().M(), dir7->GetThreeTrackMomentum().M2());
+    dir7->fh_mee_vs_Pt->Fill(dir7->GetTwoTrackMomentum().M(), dir7->GetThreeTrackMomentum().Pt());
+    dir7->fh_mee_vs_zvtx->Fill(dir7->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir7->fh_mee_vs_Pel1->Fill(dir7->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir7->fh_mee_vs_Pel2->Fill(dir7->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir7->fh_mee_vs_Pmu->Fill(dir7->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir7->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir7->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir7->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir7->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir7->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir7->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
 
 //K3pi wrong sign selection
 //Charged_Particle k3pi_pion1(sevt,sbur,211,imu);
@@ -1074,7 +1150,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(electron1.GetCharge()==electron2.GetCharge() &&
        electron1.GetCharge()!=muon.GetCharge()      &&
        lda3_e1 > 0.8                                &&
-       lda3_e2 > 0.8
+       lda3_e2 > 0.8                               // &&
+       //sevt->muon[sevt->track[imu].iMuon].status < 3
         ){
 
         dir7->fh_lda3_e1->Fill(lda3_e1);
@@ -1083,8 +1160,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         dir7->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
         dir2->ComputeThreeTrack(electron1,electron2,muon);
 
-        if( dir2->GetNuMomentum().M2() > -0.015          &&
-            dir2->GetNuMomentum().M2() < 0.015){
+        //if( dir2->GetNuMomentum().M2() > -0.015          &&
+        //    dir2->GetNuMomentum().M2() < 0.015){
 
             if(IS_MC){
                 FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -1111,7 +1188,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             dir2->fh_lda3_e1->Fill(lda3_e1);
             dir2->fh_lda3_e2->Fill(lda3_e2);
             dir2->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-        }
+            // }
 
     }
 
@@ -1152,8 +1229,21 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 //Charged_Particle munuee_pion3(sevt,sbur,211,iel2);
 
 
+//-    //New 2D plots
+    dir9->fh_mee_vs_MM2->Fill(dir9->GetTwoTrackMomentum().M(), dir9->GetThreeTrackMomentum().M2());
+    dir9->fh_mee_vs_Pt->Fill(dir9->GetTwoTrackMomentum().M(), dir9->GetThreeTrackMomentum().Pt());
+    dir9->fh_mee_vs_zvtx->Fill(dir9->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir9->fh_mee_vs_Pel1->Fill(dir9->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir9->fh_mee_vs_Pel2->Fill(dir9->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir9->fh_mee_vs_Pmu->Fill(dir9->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir9->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir9->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir9->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir9->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir9->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir9->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
 //-- CUT7 K3pi invariant mass cut ---
-    if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     if(IS_DATA)
         if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
@@ -1179,6 +1269,22 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir10->fh_lda3_e1->Fill(lda3_e1);
     dir10->fh_lda3_e2->Fill(lda3_e2);
     dir10->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+
+
+//-    //New 2D plots
+    dir10->fh_mee_vs_MM2->Fill(dir10->GetTwoTrackMomentum().M(), dir10->GetThreeTrackMomentum().M2());
+    dir10->fh_mee_vs_Pt->Fill(dir10->GetTwoTrackMomentum().M(), dir10->GetThreeTrackMomentum().Pt());
+    dir10->fh_mee_vs_zvtx->Fill(dir10->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir10->fh_mee_vs_Pel1->Fill(dir10->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir10->fh_mee_vs_Pel2->Fill(dir10->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir10->fh_mee_vs_Pmu->Fill(dir10->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir10->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir10->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir10->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir10->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir10->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir10->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
     if(IS_MC){
         FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -1188,6 +1294,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     }
 
 //LAST CUT z----- vtx -------------
+    if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
     if(sevt->muon[sevt->track[imu].iMuon].status > 2 ) {return 0;}
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
@@ -1456,6 +1563,21 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir11->fh_lda3_e2->Fill(lda3_e2);
     dir11->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
 
+
+//-    //New 2D plots
+    dir11->fh_mee_vs_MM2->Fill(dir11->GetTwoTrackMomentum().M(), dir11->GetThreeTrackMomentum().M2());
+    dir11->fh_mee_vs_Pt->Fill(dir11->GetTwoTrackMomentum().M(), dir11->GetThreeTrackMomentum().Pt());
+    dir11->fh_mee_vs_zvtx->Fill(dir11->GetTwoTrackMomentum().M(), COmPaCt_Z_Vertex);
+    dir11->fh_mee_vs_Pel1->Fill(dir11->GetTwoTrackMomentum().M(),electron1.GetMomentum());
+    dir11->fh_mee_vs_Pel2->Fill(dir11->GetTwoTrackMomentum().M(),electron2.GetMomentum());
+    dir11->fh_mee_vs_Pmu->Fill(dir11->GetTwoTrackMomentum().M(),muon.GetMomentum());
+    dir11->fh_P_vs_dtrkcl->Fill(electron1.GetMomentum(),electron1.GetDistanceTrackCluster() );
+    dir11->fh_P_vs_dtrkcl->Fill(electron2.GetMomentum(),electron2.GetDistanceTrackCluster() );
+    dir11->fh_P_vs_dtrkcl->Fill(muon.GetMomentum(),muon.GetDistanceTrackCluster() );
+    dir11->fh_Ecl_vs_dtrkcl->Fill(electron1.GetEnergyLeftInEcal(),electron1.GetDistanceTrackCluster() );
+    dir11->fh_Ecl_vs_dtrkcl->Fill(electron2.GetEnergyLeftInEcal(),electron2.GetDistanceTrackCluster() );
+    dir11->fh_HoDTotTime->Fill((electron1.GetHodTime() + electron2.GetHodTime() + muon.GetHodTime() )/ 3 );
+
 //noSelectedEvents++;
 //TEST
     if(IS_MC){
@@ -1515,6 +1637,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
         w_tot = w_el1*w_el2;
+
+        //if(Kcharge ==  -1) w_tot = w_tot*0.556;
 
         MC_reweight->fh_mee_z_variable->Fill(dir11->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
         MC_reweight->fh_mee->Fill(dir11->GetTwoTrackMomentum().M(),w_tot);

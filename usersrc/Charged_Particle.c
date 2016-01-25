@@ -16,6 +16,8 @@ Charged_Particle::Charged_Particle(superCmpEvent* sevt, superBurst *sburst, int 
     fsburst = sburst;
     fpindex = pindex;
     fPID = PDGCode;
+
+    distance_trk_cl = 0;
     CompactMomentum = (double)sevt->track[pindex].p;
     if(fPID == -13)/*Muon+ choosen*/{
         fMass = 0.105658369; // GeV

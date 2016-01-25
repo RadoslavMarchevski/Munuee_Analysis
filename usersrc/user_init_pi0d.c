@@ -42,11 +42,15 @@ float CPDlength = 8 * CELLlength;
 
 
 int runNo;
+int PrevrunNo = 0;
 int magnetCurrent;
 int noBursts;
+int noBurstsPerRun;
+int noSelectedEvents;
 int burstCounter;
 int IS_DATA;          // data type == 1
 int IS_MC;            // data type == 2
+
 
 
 // E/p corrections for each cell
