@@ -78,6 +78,7 @@ public:
     TH1I* fh_SS8_MB_1VTX  ;
     TH1I* fh_SS8_full_trig;
     TH1I* fh_Ntracks           ;
+    TH1I* fh_Nmuons           ;
     TH1I* fh_Nclusters         ;
     TH1I* fh_Nvtx              ;
     TH1I* fh_Kaon_Charge       ;
@@ -193,7 +194,17 @@ public:
     TH1F* fh_mc_four_track_1234_momentum;
     TH1F* fh_mc_four_track_1234_mass;
     TH1F* fh_mee_z_variable;
+    TH2F* fh_mee_vs_Pmu  ;
+    TH2F* fh_mee_vs_Pel1 ;
+    TH2F* fh_mee_vs_Pel2 ;
+    TH2F* fh_mee_vs_Pt   ;
+    TH2F* fh_mee_vs_MM2  ;
+    TH2F* fh_mee_vs_zvtx ;
+    TH2F* fh_P_vs_dtrkcl ;
+    TH2F* fh_Ecl_vs_dtrkcl ;
 
+    TH1F* fh_HoDTotTime;
+    TH1F* fh_DCHTotTime;
     TH1F* fh_muv_xpos;
     TH1F* fh_muv_ypos;
     TH1F* fh_mc_P1_dist_prod_dec;

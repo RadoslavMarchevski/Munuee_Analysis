@@ -174,12 +174,14 @@ void Hist_dir::FillAngle(TLorentzVector muon, TLorentzVector Two_Track_Momentum)
 
 void Hist_dir::FillCommonHist(superCmpEvent* sevt){
     int    ntrack = sevt->Ntrack; // number of tracks
+    int    nmuons = sevt->Nmuon; // number of muons
     int    nclust = sevt->Ncluster; // number of clusters
     int    nvtx   = sevt->Nvtx;   // number of vtx
     double COmPaCt_Z_Vertex = sevt->vtx[0].z;
 
 
     fh_Ntracks->Fill(ntrack);
+    fh_Nmuons->Fill(nmuons);
     fh_Nclusters->Fill(nclust);
     fh_Nvtx->Fill(nvtx);
     fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex);

@@ -31,6 +31,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
 
         fh_Nrun              = new TH1I("Nrun","Run Number;Run Number",2000,15000,17000);
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
+        fh_Nmuons            = new TH1I("Nmuons","Number of charged tracks;Ntrk;Nevents",10,0,10);
         fh_Nclusters         = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Track_Momentum    = new TH1F("Track_Momentum","Track momentum after Nvtx,Ntrack and ZVtx cut;Track_P[GeV];Nevents ",100.,0.,100.);
@@ -116,6 +117,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_SS8_full_trig         = new TH1I("SS8_MB_full_trig"," SS8 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
 
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
+        fh_Nmuons            = new TH1I("Nmuons","Number of charged tracks;Ntrk;Nevents",10,0,10);
         fh_Nclusters         = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Kaon_Charge       = new TH1I("Kaon_Charge","Charge of the Kaon;Q;Nevents",4,-2,2);
@@ -127,8 +129,9 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_lda3_p1 = new TH1F("lda3_p1","lda3 variable for pion 1", 200,0.,2);
         fh_lda3_p2 = new TH1F("lda3_p2","lda3 variable for pion 2", 200,0.,2);
         fh_lda3_p3 = new TH1F("lda3_p3","lda3 variable for pion 3", 200,0.,2);
-
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
+        fh_HoDTotTime = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3;EventTime [ns];Nevents",200,-100.,100.);
+        fh_DCHTotTime = new TH1F("DCHTotTime","(T^{DCH}_{1} + T^{DCH}_{2} + T^{DCH}_{3} )/3;EventTime [ns];Nevents",200,-100.,100.);
         //Reconstructed Vtx difference
         fh_xvtxdiff_pi1pi2_pi2pi3 = new TH1F("xvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed X vtx; X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
         fh_xvtxdiff_pi1pi2_pi1pi3 = new TH1F("xvtxdiff_pi1pi2_pi1pi3","Difference between  #pi_1 #pi_2 and #pi_1 #pi_3 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
@@ -167,6 +170,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     }
     if(ftype==2){
         fh_Ntracks           = new TH1I("Ntracks","Number of charged tracks;Ntrk;Nevents",10,0,10);
+        fh_Nmuons            = new TH1I("Nmuons","Number of charged tracks;Ntrk;Nevents",10,0,10);
         fh_Nclusters         = new TH1I("Nclusters","Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I("Nvtx","Number of vertexes;Nvtx;Nevents",10,0,10);
         fh_Kaon_Charge       = new TH1I("Kaon_Charge","Charge of the Kaon;Q;Nevents",4,-2,2);
@@ -208,6 +212,22 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Hod_timediff_mu_e2 = new TH1F("Hod_timediff_mu_e2","Hodoscope time difference between #mu and e2;Hodtimediff[ns];Nevents",100,-50.,50.);
         fh_Hod_timediff_e1_e2 = new TH1F("Hod_timediff_e1_e2","Hodoscope time difference between e1 and e2 ;Hodtimediff[ns];Nevents",100,-50.,50.);
         //ENDOF Time matching
+
+        //2D Mee and MM2 plots
+        fh_mee_vs_Pmu  = new TH2F("mee_vs_Pmu" ,"Invariant mass of the electron pair vs #mu momentum ",50,0.,0.5, 100, 0, 100);
+        fh_mee_vs_Pel1 = new TH2F("mee_vs_Pel1","Invariant mass of the electron pair vs electron1 momentum ",50,0.,0.5, 100, 0, 100);
+        fh_mee_vs_Pel2 = new TH2F("mee_vs_Pel2","Invariant mass of the electron pair vs electron1 momentum ",50,0.,0.5, 100, 0, 100);
+        fh_mee_vs_Pt   = new TH2F("mee_vs_Pt"  ,"Invariant mass of the electron pair vs Total transverse momentum ",50,0.,0.5, 100, 0, 1);
+        fh_mee_vs_MM2  = new TH2F("mee_vs_MM2" ,"Invariant mass of the electron pair vs MM2 ",50,0.,0.5, 100, -0.05, 0.05);
+        fh_mee_vs_zvtx = new TH2F("mee_vs_zvtx","Invariant mass of the electron pair vs zvtx ",50,0.,0.5, 100, -4000, 11000);
+        fh_P_vs_dtrkcl = new TH2F("P_vs_dtrkcl","Momentum vs distance between track and cluster ",100,0.,100,200,0.,200.);
+        fh_Ecl_vs_dtrkcl = new TH2F("mee_vs_zvtx","Invariant mass of the electron pair vs zvtx ",100,0.,100,100,0.,50.);
+
+        fh_HoDTotTime = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3;EventTime [ns];Nevents",200, -100.,100.);
+        fh_DCHTotTime = new TH1F("DCHTotTime","(T^{DCH}_{1} + T^{DCH}_{2} + T^{DCH}_{3} )/3;EventTime [ns];Nevents",200,-100.,100.);
+
+
+
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
@@ -337,6 +357,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_SS8_MB_1VTX           = new TH1I("SS8_MB_1VTX"     ," SS8 MB_1VTX trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
         fh_SS8_full_trig         = new TH1I("SS8_MB_full_trig"," SS8 MB_full_trigger - Mu e e : 0- ++-, 1- +++, 2- +--, 3- -+-, 4- -++, 5- ---;Event Type;Nevents",7,-1,6);
 
+
     }
     if(ftype==3){
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
@@ -344,6 +365,10 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
         fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
+
+        fh_mee_z_variable->Sumw2();
+        fh_mee->Sumw2();
+        fh_missing_mass->Sumw2();
     }
 }
 
@@ -639,6 +664,7 @@ void Hist_dir::AddToFile(TFile* file){
     if(ftype==0){
         fh_Nrun              ->Write();
         fh_Ntracks           ->Write();
+        fh_Nmuons            ->Write();
         fh_Nclusters         ->Write();
         fh_Nvtx              ->Write();
         fh_Track_Momentum    ->Write();
@@ -705,6 +731,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_SS8_MB_1VTX      ->Write();
         fh_SS8_full_trig    ->Write();
         fh_Ntracks           ->Write();
+        fh_Nmuons            ->Write();
         fh_Nvtx              ->Write();
         fh_Nclusters         ->Write();
         fh_Kaon_Charge       ->Write();
@@ -716,6 +743,8 @@ void Hist_dir::AddToFile(TFile* file){
         fh_lda3_p1->Write();
         fh_lda3_p2->Write();
         fh_lda3_p3->Write() ;
+        fh_HoDTotTime->Write();
+        fh_DCHTotTime->Write();
         fh_COmPaCt_Z_Vertex  ->Write();
         fh_zvtxdiff_pi1pi2_pi2pi3->Write();
         fh_zvtxdiff_pi1pi2_pi1pi3->Write();
@@ -749,6 +778,7 @@ void Hist_dir::AddToFile(TFile* file){
     }
     if(ftype==2){
         fh_Ntracks           ->Write();
+        fh_Nmuons            ->Write();
         fh_Nvtx              ->Write();
         fh_Nclusters         ->Write();
         fh_Kaon_Charge       ->Write();
@@ -793,12 +823,22 @@ void Hist_dir::AddToFile(TFile* file){
         fh_Hod_timediff_mu_e1->Write();
         fh_Hod_timediff_mu_e2->Write();
         fh_Hod_timediff_e1_e2->Write();
+        fh_HoDTotTime->Write();
+        fh_DCHTotTime->Write();
         fh_mee         ->Write();
         fh_mee_z_variable->Write();
         fh_muee_P      ->Write();
         fh_muee_M      ->Write();
         fh_Muee_M_3pi_assumption->Write();
         fh_missing_mass->Write();
+        fh_mee_vs_Pmu  ->Write();
+        fh_mee_vs_Pel1 ->Write();
+        fh_mee_vs_Pel2 ->Write();
+        fh_mee_vs_Pt   ->Write();
+        fh_mee_vs_MM2  ->Write();
+        fh_mee_vs_zvtx ->Write();
+        fh_P_vs_dtrkcl ->Write();
+        fh_Ecl_vs_dtrkcl ->Write();
         fh_muee_Pt      ->Write();
         fh_bx_vs_by_muon->Write();
         fh_bx_vs_by_el1 ->Write();
@@ -906,6 +946,7 @@ Hist_dir::~Hist_dir(){
     if(ftype==0){
         delete fh_Nrun;
         delete fh_Ntracks           ;
+        delete fh_Nmuons            ;
         delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Track_Momentum    ;
@@ -935,6 +976,7 @@ Hist_dir::~Hist_dir(){
     }
     if(ftype==1){
         delete fh_Ntracks           ;
+        delete fh_Nmuons            ;
         delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Kaon_Charge       ;
@@ -942,6 +984,8 @@ Hist_dir::~Hist_dir(){
         delete fh_Pion_Momentum     ;
         delete fh_eop               ;
         delete fh_odd_eop           ;
+        delete fh_HoDTotTime;
+        delete fh_DCHTotTime;
         delete fh_COmPaCt_Z_Vertex  ;
         delete fh_zvtxdiff_pi1pi2_pi2pi3   ;
         delete fh_zvtxdiff_pi1pi2_pi1pi3   ;
@@ -1010,6 +1054,7 @@ Hist_dir::~Hist_dir(){
     }
     if(ftype==2){
         delete fh_Ntracks           ;
+        delete fh_Nmuons            ;
         delete fh_Nclusters         ;
         delete fh_Nvtx              ;
         delete fh_Kaon_Charge       ;
@@ -1050,6 +1095,16 @@ Hist_dir::~Hist_dir(){
         delete fh_mee;
         delete fh_muee_M;
         delete fh_missing_mass;
+        delete fh_mee_vs_Pmu  ;
+        delete fh_mee_vs_Pel1 ;
+        delete fh_mee_vs_Pel2 ;
+        delete fh_mee_vs_Pt   ;
+        delete fh_mee_vs_MM2  ;
+        delete fh_mee_vs_zvtx ;
+        delete fh_P_vs_dtrkcl ;
+        delete fh_Ecl_vs_dtrkcl ;
+        delete fh_HoDTotTime;
+        delete fh_DCHTotTime;
         delete fh_cda_mu_e1;
         delete fh_cda_mu_e2;
         delete fh_cda_e1_e2;
