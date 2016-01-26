@@ -123,7 +123,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     Initial_dir->FillCommonHist(sevt);
 
     if(IS_MC){
-      //if( sbur->nrun > 16000)return 0;
+      if( sbur->nrun > 16000)return 0;
     }
 
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
@@ -515,7 +515,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 //Signal particle identification
     if(imu == -1 || iel1 == -1 || iel2 == -1){return 0;}
     //if(IS_DATA)
-      if(!electron1.cluster_exists || !electron2.cluster_exists){return 0;}
+    if(!electron1.cluster_exists || !electron2.cluster_exists){return 0;}
 
     double Event_HoDTime;
     double Event_DCHTime;
@@ -525,10 +525,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     dir1->FillCommonHist(sevt);
     dir1->fh_Event_Type->Fill(Event_Type);
-    dir1->fh_HoDTotTime->Fill(Event_HoDTime);
-    dir1->fh_DCHTotTime->Fill(Event_DCHTime);
     dir1->fh_Kaon_Charge->Fill(Kcharge);
-//Fill MC histograms (if IS_MC == 1)
+    //Fill MC histograms (if IS_MC == 1)
     if(IS_MC){
         FillMC(dir1, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         if(Npart >= 4){
@@ -586,6 +584,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir1->ComputeThreeTrack(electron1,electron2,muon);
     dir1->FillHist(dir1->GetThreeTrackMomentum(),dir1->GetNuMomentum(), Kcharge);
     dir1->FillAngle(muon.Momentum,dir1->GetTwoTrackMomentum());
+    dir1->fh_HoDTotTime->Fill(Event_HoDTime);
+    dir1->fh_DCHTotTime->Fill(Event_DCHTime);
 
 
 //Producing cut variable in more readable way with the class
@@ -594,6 +594,24 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 //Defining variables that it would be cut on
 //
 ////Cuts
+    if(IS_DATA)
+        if(fabs(Event_HoDTime) > 10. ||
+           fabs(Event_DCHTime) > 2.
+           ){return 0;}
+
+    dir3->fh_HoDTotTime->Fill(Event_HoDTime);
+    dir3->fh_DCHTotTime->Fill(Event_DCHTime);
+
+
+        //if(IS_DATA)
+        //if(fabs(cutting.DCH_e1e2) > 10. ||
+        //   fabs(cutting.DCH_mue1) > 10. ||
+        //   fabs(cutting.DCH_mue2) > 10. ||
+        //   fabs(cutting.Hod_e1e2) > 2.  ||
+        //   fabs(cutting.Hod_mue1) > 2.  ||
+        //   fabs(cutting.Hod_mue2) > 2.
+        //   ){return 0;}
+
 //-- CUT1 DCH Geometry and Time Cut --
     if(cutting.DCH_Radius_mu < 14  ||
        cutting.DCH_Radius_mu > 110 ||
@@ -626,14 +644,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
     if(fabs(cutting.MUV_x_mu) < 13  && fabs(cutting.MUV_y_mu) < 13  ) {return 0;}
 
-    if(IS_DATA)
-        if(fabs(cutting.DCH_e1e2) > 10. ||
-           fabs(cutting.DCH_mue1) > 10. ||
-           fabs(cutting.DCH_mue2) > 10. ||
-           fabs(cutting.Hod_e1e2) > 2.  ||
-           fabs(cutting.Hod_mue1) > 2.  ||
-           fabs(cutting.Hod_mue2) > 2.
-            ){return 0;}
+
 //-- CUT1 DCH Geometry and Time Cut --
 
     if(IS_MC){
@@ -649,8 +660,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->fh_Event_Type->Fill(Event_Type);
     dir3->fh_Kaon_Charge->Fill(Kcharge);
     dir3->FillCommonHist(sevt);
-    dir2->fh_HoDTotTime->Fill(Event_HoDTime);
-    dir2->fh_DCHTotTime->Fill(Event_DCHTime);
     dir3->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2,"munuee");
     dir3->FillHist(muon,"muon");
     dir3->FillHist(electron1,"electron1");
