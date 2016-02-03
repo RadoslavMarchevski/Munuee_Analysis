@@ -242,5 +242,7 @@ extern Hist_dir* dir8;
 extern Hist_dir* dir9;
 extern Hist_dir* dir10;
 extern Hist_dir* dir11;
+extern Hist_dir* dir12;
+extern Hist_dir* dir13;
 extern Hist_dir* MC_reweight;
 #endif

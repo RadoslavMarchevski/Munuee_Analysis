@@ -82,6 +82,8 @@ Hist_dir* dir8;
 Hist_dir* dir9;
 Hist_dir* dir10;
 Hist_dir* dir11;
+Hist_dir* dir12;
+Hist_dir* dir13;
 Hist_dir* MC_reweight;
 
 
@@ -111,6 +113,8 @@ int user_init() {
     dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
     dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2);
     dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2);
+    dir12=  new  Hist_dir("Munuee accidentals",2);
+    dir13=  new  Hist_dir("Munuee in time",2);
     MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
 
