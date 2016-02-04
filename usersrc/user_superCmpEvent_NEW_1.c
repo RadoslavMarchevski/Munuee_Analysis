@@ -415,12 +415,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
            //--ENDOF CUT1 Momentum cut ---
            //-- CUT2 Timing cut --- (DATA only)
-           fabs(cut_k3pi.DCH_e1e2) < 10.&&
-           fabs(cut_k3pi.DCH_mue1) < 10.&&
-           fabs(cut_k3pi.DCH_mue2) < 10.&&
-           fabs(cut_k3pi.Hod_e1e2) < 2. &&
-           fabs(cut_k3pi.Hod_mue1) < 2. &&
-           fabs(cut_k3pi.Hod_mue2) < 2. &&
+           //fabs(cut_k3pi.DCH_e1e2) < 10.&&
+           //fabs(cut_k3pi.DCH_mue1) < 10.&&
+           //fabs(cut_k3pi.DCH_mue2) < 10.&&
+           //fabs(cut_k3pi.Hod_e1e2) < 2. &&
+           //fabs(cut_k3pi.Hod_mue1) < 2. &&
+           //fabs(cut_k3pi.Hod_mue2) < 2. &&
            //-- ENDOF CUT2 Timing cut ---
            //fabs(K3pi_Event_HoDTime) < 2. &&
            //fabs(K3pi_Event_DCHtime) < 10. &&
@@ -593,26 +593,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //Producing cut variable in more readable way with the class
     //described in Cuts.h;
     Cuts cutting = make_cuts(dir1,muon,electron1,electron2,Vertex_mu_e1,Vertex_mu_e2,Vertex_e1_e2,"munuee");
-    //Defining variables that it would be cut on
-    //
-    ////Cuts
-    //if(IS_DATA)
-    //    if(fabs(Event_HoDTime) > 2. ||
-    //       fabs(Event_DCHTime) > 10.
-    //       ){return 0;}
-
-
-
-
-    //if(IS_DATA)
-    //if(fabs(cutting.DCH_e1e2) > 10. ||
-    // fabs(cutting.DCH_mue1) > 10. ||
-    // fabs(cutting.DCH_mue2) > 10. ||
-    // fabs(cutting.Hod_e1e2) > 2.  ||
-    // fabs(cutting.Hod_mue1) > 2.  ||
-    // fabs(cutting.Hod_mue2) > 2.
-    // ){return 0;}
-
 
     //-- CUT1 DCH Geometry and Time Cut --
     if(cutting.DCH_Radius_mu < 14  ||
@@ -680,7 +660,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->fh_lda3_e2->Fill(lda3_e2);
     dir3->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT2 Momentum cut ---
-    //if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
+    if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
     if(cutting.E2_P < 3.  || cutting.E2_P > 50.){return 0;}
     if(cutting.muee_P > 66){return 0;}
@@ -889,7 +869,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(electron1.GetCharge()==electron2.GetCharge() &&
        electron1.GetCharge()!=muon.GetCharge()      &&
        lda3_e1 > 0.8                                &&
-       lda3_e2 > 0.8                               // &&
+       lda3_e2 > 0.8                                &&
+       fabs(Event_HoDTime) < 3
         ){
 
         dir7->fh_lda3_e1->Fill(lda3_e1);
@@ -927,6 +908,8 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             dir2->fh_lda3_e1->Fill(lda3_e1);
             dir2->fh_lda3_e2->Fill(lda3_e2);
             dir2->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+            dir2->fh_HoDTotTime->Fill(Event_HoDTime);
+            dir2->fh_DCHTotTime->Fill(Event_DCHTime);
         }
 
     }
@@ -1033,7 +1016,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
     //LAST CUT z----- vtx -------------
-    if(dir9->GetNuMomentum().M2() < -0.015 || dir9->GetNuMomentum().M2() > 0.015){return 0;}
+    if(dir10->GetNuMomentum().M2() < -0.015 || dir10->GetNuMomentum().M2() > 0.015){return 0;}
 
     dir11->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     dir11->Fill3pi(dir11->GetThreeTrackMomentum());
