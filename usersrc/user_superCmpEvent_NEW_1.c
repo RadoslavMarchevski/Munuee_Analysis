@@ -142,7 +142,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
     if(IS_DATA){
-        if(sbur->nrun > 16000){
+      if(sbur->nrun > 16000){
             if(sevt->LKRdownscaled) return 0;
         }
         if(sbur->nrun >= 16586 && sbur->nrun <= 16606){
@@ -789,7 +789,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir5->fh_DCHTotTime->Fill(Event_DCHTime);
 
     //-- CUT4 Transverse Momentum Cut --
-    if(cutting.muee_Pt < 0.022 ){return 0;}
+    //if(cutting.muee_Pt < 0.022 ){return 0;}
     //--ENDOF CUT4 Transverse Momentum Cut --
 
     if(IS_MC){
