@@ -122,9 +122,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     Initial_dir->fh_Nrun->Fill(sbur->nrun);
     Initial_dir->FillCommonHist(sevt);
 
-    if(IS_MC){
-        if( sbur->nrun > 16000)return 0;
-    }
+    //if(IS_MC){
+    //    if( sbur->nrun > 16000)return 0;
+    //}
 
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
 
@@ -415,12 +415,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
            //--ENDOF CUT1 Momentum cut ---
            //-- CUT2 Timing cut --- (DATA only)
-           //fabs(cut_k3pi.DCH_e1e2) < 10.&&
-           //fabs(cut_k3pi.DCH_mue1) < 10.&&
-           //fabs(cut_k3pi.DCH_mue2) < 10.&&
-           //fabs(cut_k3pi.Hod_e1e2) < 2. &&
-           //fabs(cut_k3pi.Hod_mue1) < 2. &&
-           //fabs(cut_k3pi.Hod_mue2) < 2. &&
+           fabs(cut_k3pi.DCH_e1e2) < 10.&&
+           fabs(cut_k3pi.DCH_mue1) < 10.&&
+           fabs(cut_k3pi.DCH_mue2) < 10.&&
+           fabs(cut_k3pi.Hod_e1e2) < 2. &&
+           fabs(cut_k3pi.Hod_mue1) < 2. &&
+           fabs(cut_k3pi.Hod_mue2) < 2. &&
            //-- ENDOF CUT2 Timing cut ---
            //fabs(K3pi_Event_HoDTime) < 2. &&
            //fabs(K3pi_Event_DCHtime) < 10. &&
@@ -469,7 +469,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            COmPaCt_Z_Vertex > -1800 &&
            COmPaCt_Z_Vertex < 8000.
            //-- ENDOF CUT5 DCH geometry Cut --
-           ){
+            ){
 
             K3pi_selection->FillCommonHist(sevt);
 
@@ -621,16 +621,16 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        cutting.DCH_Radius_el1 > 110||
        cutting.DCH_Radius_el2 < 14 ||
        cutting.DCH_Radius_el2 > 110
-       ){return 0;}
+        ){return 0;}
 
     if(cutting.Lkr_cut_el1  < 15.     ||
        cutting.Lkr_cut_el2  < 15.
-       ){return 0;}
+        ){return 0;}
     if(   fabs(cutting.Lkr_x_el1) > 113 ||
           fabs(cutting.Lkr_x_el2) > 113 ||
           fabs(cutting.Lkr_y_el1) > 113 ||
           fabs(cutting.Lkr_y_el2) > 113
-          ) {return 0;}
+        ) {return 0;}
     if( (fabs(cutting.Lkr_x_el1) + fabs(cutting.Lkr_y_el1) ) > 159.8 ||
         (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8
         ){return 0;}
@@ -640,7 +640,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.Lkr_x_mu ) > 113 ||
        fabs(cutting.Lkr_y_mu ) > 113 ||
        (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
-       ){return 0;}
+        ){return 0;}
     //}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
@@ -741,7 +741,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_mue1_mue2) > 500 ||
        fabs(cutting.yvtx_mue1_e1e2) > 500 ||
        fabs(cutting.yvtx_mue2_e1e2) > 500
-       ){return 0;}
+        ){return 0;}
     //--ENDOF CUT3 Vertex Cut --
 
     if(IS_MC){
@@ -890,7 +890,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        electron1.GetCharge()!=muon.GetCharge()      &&
        lda3_e1 > 0.8                                &&
        lda3_e2 > 0.8                               // &&
-       ){
+        ){
 
         dir7->fh_lda3_e1->Fill(lda3_e1);
         dir7->fh_lda3_e2->Fill(lda3_e2);
@@ -1403,7 +1403,6 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
     }
 
-
     if(fabs(Event_HoDTime) > 10 && fabs(Event_HoDTime) < 60){
         dir12->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
         dir12->Fill3pi(dir12->GetThreeTrackMomentum());
@@ -1446,7 +1445,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     }
 
-    if(fabs(Event_HoDTime) < 4 && fabs(Event_DCHTime) < 12){
+    if(fabs(Event_HoDTime) < 4 ){
         dir13->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
         dir13->Fill3pi(dir13->GetThreeTrackMomentum());
 
@@ -1487,6 +1486,9 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         dir13->fh_DCHTotTime->Fill(Event_DCHTime);
 
     }
+
+
+
 
     return 0;
 }
