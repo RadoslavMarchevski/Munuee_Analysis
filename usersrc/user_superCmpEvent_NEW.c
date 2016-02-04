@@ -143,7 +143,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
     if(IS_DATA){
-    if(sbur->nrun > 16000){
+      if(sbur->nrun > 16000){
         if(sevt->LKRdownscaled) return 0;
     }
     if(sbur->nrun >= 16586 && sbur->nrun <= 16606){

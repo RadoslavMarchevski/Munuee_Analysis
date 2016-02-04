@@ -680,7 +680,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->fh_lda3_e2->Fill(lda3_e2);
     dir3->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT2 Momentum cut ---
-    if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
+    //if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
     if(cutting.E2_P < 3.  || cutting.E2_P > 50.){return 0;}
     if(cutting.muee_P > 66){return 0;}
@@ -1445,7 +1445,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     }
 
-    if(fabs(Event_HoDTime) < 4 ){
+    if(fabs(Event_HoDTime) < 3 ){
         dir13->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
         dir13->Fill3pi(dir13->GetThreeTrackMomentum());
 
