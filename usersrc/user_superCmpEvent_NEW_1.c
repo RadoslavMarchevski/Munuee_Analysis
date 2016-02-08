@@ -126,7 +126,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //    if( sbur->nrun > 16000)return 0;
     //}
 
-    //if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
+    if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
 
     if(IS_MC){
         FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -660,7 +660,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir3->fh_lda3_e2->Fill(lda3_e2);
     dir3->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
     //-- CUT2 Momentum cut ---
-    if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
+    //if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(cutting.E1_P < 3.  || cutting.E1_P > 50.){return 0;}
     if(cutting.E2_P < 3.  || cutting.E2_P > 50.){return 0;}
     if(cutting.muee_P > 66){return 0;}
@@ -972,7 +972,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir10->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
     if(IS_DATA)
         if(lda3_e1 < 0.8 || lda3_e2 < 0.8){return 0;}
-    //if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
+    if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
     if(sevt->muon[sevt->track[imu].iMuon].status > 2 ) {return 0;}
     //if(dir10->GetThreeTrackMomentum().M() <= 0.51 ){return 0;}
     dir10->Fill3pi(dir10->GetThreeTrackMomentum());
@@ -1375,7 +1375,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         MC_reweight->fh_mee_z_variable->Fill(dir11->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
         MC_reweight->fh_mee->Fill(dir11->GetTwoTrackMomentum().M(),w_tot);
         MC_reweight->fh_missing_mass->Fill(dir11->GetNuMomentum().M2(),w_tot );
-        MC_reweight->fh_muee_Pt->Fill(dir12->GetThreeTrackMomentum().Pt(),w_tot);
+        MC_reweight->fh_muee_Pt->Fill(dir11->GetThreeTrackMomentum().Pt(),w_tot);
         MC_reweight->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
         MC_reweight->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
     }

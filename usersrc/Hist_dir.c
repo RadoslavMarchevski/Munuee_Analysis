@@ -148,7 +148,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         //ENDOF Vertex Reconstruction
 
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{3#pi}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",30,0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",75,0,0.3);
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
@@ -231,7 +231,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",30, 0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75, 0,0.3);
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{#mu e e}[GeV];Nevents",100,0.,1.);
         fh_Muee_M_3pi_assumption = new TH1F("Muee_M_3pi_assumption","Three track invariant mass with 3 #pi assumtion ;M_{3#pi};Nevents",100,0.,1.);
 
@@ -362,7 +362,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     if(ftype==3){
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",30, 0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75, 0,0.3);
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
         fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
@@ -511,7 +511,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         //ENDOF Vertex Reconstruction
 
         fh_muee_P = new TH1F(Form("%s_muee_P",tag.c_str()),"Three track momentum ;P_{3#pi}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F(Form("%s_muee_Pt",tag.c_str()),"Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",30,0,0.3);
+        fh_muee_Pt = new TH1F(Form("%s_muee_Pt",tag.c_str()),"Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",75,0,0.3);
         fh_muee_M = new TH1F(Form("%s_muee_M",tag.c_str()),"Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
 
         fh_missing_mass = new TH1F(Form("%s_missing_mass",tag.c_str()),"Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
@@ -577,7 +577,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_mee = new TH1F(Form("%s_mee",tag.c_str()),"Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F(Form("%s_mee_z_variable",tag.c_str()),"Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_muee_P = new TH1F(Form("%s_muee_P",tag.c_str()),"Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F(Form("%s_muee_Pt",tag.c_str()),"Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",30,0,0.3);
+        fh_muee_Pt = new TH1F(Form("%s_muee_Pt",tag.c_str()),"Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75,0,0.3);
         fh_muee_M = new TH1F(Form("%s_muee_M",tag.c_str()),"Three track invariant mass ;M_{#mu e e}[GeV];Nevents",100,0.,1.);
         fh_Muee_M_3pi_assumption = new TH1F(Form("%s_Muee_M_3pi_assumption",tag.c_str()),"Three track invariant mass with 3 #pi assumtion ;M_{3#pi};Nevents",100,0.,1.);
 
@@ -660,7 +660,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_mee_z_variable = new TH1F(Form("%s_mee_z_variable",tag.c_str()),"Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
         fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",30,0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",75,0,0.3);
     }
 
 }
