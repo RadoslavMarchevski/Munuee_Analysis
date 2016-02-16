@@ -84,6 +84,10 @@ Hist_dir* dir10;
 Hist_dir* dir11;
 Hist_dir* dir12;
 Hist_dir* dir13;
+Hist_dir* dir14;
+Hist_dir* dir15;
+Hist_dir* dir16;
+Hist_dir* dir17;
 Hist_dir* MC_reweight;
 
 
@@ -103,18 +107,23 @@ int user_init() {
     Initial_dir =  new  Hist_dir("No cuts",0);
     K3pi_selection =  new  Hist_dir("K3pi selection",1);
     dir1 =  new  Hist_dir("Munuee index matching",2);
-    dir2 =  new  Hist_dir("K3pi Wrong Sign",2);
+    dir2 =  new  Hist_dir("WS no Pt and mu P cut",2);
     dir3 =  new  Hist_dir("Munuee Geometry Cut",2);
     dir4 =  new  Hist_dir("Munuee Momentum Cut",2);
-    dir5 =  new  Hist_dir("Munuee Vertex Cut",2);
-    dir6 =  new  Hist_dir("Munuee Pt Cut",2);
+    dir5 =  new  Hist_dir("WS no Pt cut",3);
+    dir6 =  new  Hist_dir("WS no mu P cut",3);
     dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2);
     dir8 =  new  Hist_dir("Munuee Timing Cut",2);
-    dir9 =  new  Hist_dir("Munuee Charge Matching Cut",2);
+    dir9 =  new  Hist_dir("WS all cuts",3);
     dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2);
     dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2);
     dir12=  new  Hist_dir("Munuee accidentals",2);
-    dir13=  new  Hist_dir("Munuee in time",2);
+    //dir13=  new  Hist_dir("Munuee in time",2);
+
+    dir13=  new  Hist_dir("No Pt No mu P cuts",3);
+    dir15=  new  Hist_dir("No Pt cut",3);
+    dir16=  new  Hist_dir("No mu P cut",3);
+    dir17=  new  Hist_dir("All cuts",3);
     MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
 

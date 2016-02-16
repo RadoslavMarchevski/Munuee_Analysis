@@ -74,7 +74,7 @@ int user_superBurst(superBurst *sbur) {
 
 
 PrevrunNo = runNo;
-//printf ("magnet current = %d\n", magnetCurrent);
+printf ("magnet current = %d\n", magnetCurrent);
 
 // HistnoBursts->Fill(0);
 //if (sbur->BadB.Skip == 0)

@@ -223,7 +223,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_P_vs_dtrkcl = new TH2F("P_vs_dtrkcl","Momentum vs distance between track and cluster ",100,0.,100,200,0.,200.);
         fh_Ecl_vs_dtrkcl = new TH2F("mee_vs_zvtx","Invariant mass of the electron pair vs zvtx ",100,0.,100,100,0.,50.);
 
-        fh_HoDTotTime = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3;EventTime [ns];Nevents",200, -100.,100.);
+        fh_HoDTotTime = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3 - TrackHoD_{time};EventTime [ns];Nevents",200, -100.,100.);
         fh_DCHTotTime = new TH1F("DCHTotTime","(T^{DCH}_{1} + T^{DCH}_{2} + T^{DCH}_{3} )/3;EventTime [ns];Nevents",200,-100.,100.);
 
 
@@ -363,7 +363,17 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
         fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75, 0,0.3);
+
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
+
+        fh_mee_z_Kplus       = new TH1F("mee_z_Kplus","Invariant mass of the electron pair in terms of the z variable for K^{+};z;Nevents",25,0,0.5);
+        fh_mee_z_Kminus      = new TH1F("mee_z_Kminus","Invariant mass of the electron pair in terms of the z variable for K^{-};z;Nevents",25,0,0.5);
+        fh_mee_z_magnet_plus = new TH1F("mee_z_magnet_plus","Invariant mass of the electron pair in terms of the z variable for + magnet polarity;z;Nevents",25,0,0.5);
+        fh_mee_z_magnet_minus= new TH1F("mee_z_magnet_minus","Invariant mass of the electron pair in terms of the z variable for - magnet polarity;z;Nevents",25,0,0.5);
+        fh_HoDTotTime        = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3 - TrackHoD_{time};EventTime [ns];Nevents",400, -100.,100.);
+
+
+
         fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
         fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
         fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
@@ -372,6 +382,11 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Mu_momentum->Sumw2();
         fh_COmPaCt_Z_Vertex->Sumw2();
         fh_mee_z_variable->Sumw2();
+        fh_mee_z_Kplus       ->Sumw2();
+        fh_mee_z_Kminus      ->Sumw2();
+        fh_mee_z_magnet_plus ->Sumw2();
+        fh_mee_z_magnet_minus->Sumw2();
+        fh_HoDTotTime->Sumw2();
         fh_muee_Pt->Sumw2();
         fh_mee->Sumw2();
         fh_missing_mass->Sumw2();
@@ -654,14 +669,39 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
         fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
 
     }
-    if(ftype==3){
-        fh_missing_mass = new TH1F(Form("%s_missing_mass",tag.c_str()),"Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
-        fh_mee = new TH1F(Form("%s_mee",tag.c_str()),"Invariant mass of the electron pair ",50,0.,0.5);
-        fh_mee_z_variable = new TH1F(Form("%s_mee_z_variable",tag.c_str()),"Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
-        fh_MM2_plus = new TH1F(Form("%s_MM2_plus",tag.c_str()),"Missing mass squared for K+",100, -0.05, 0.05);
-        fh_MM2_minus = new TH1F(Form("%s_MM2_minus",tag.c_str()),"Missing mass squared for K-",100, -0.05, 0.05);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",75,0,0.3);
+ if(ftype==3){
+        fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
+        fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75, 0,0.3);
+
+        fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
+
+        fh_mee_z_Kplus       = new TH1F("mee_z_Kplus","Invariant mass of the electron pair in terms of the z variable for K^{+};z;Nevents",25,0,0.5);
+        fh_mee_z_Kminus      = new TH1F("mee_z_Kminus","Invariant mass of the electron pair in terms of the z variable for K^{-};z;Nevents",25,0,0.5);
+        fh_mee_z_magnet_plus = new TH1F("mee_z_magnet_plus","Invariant mass of the electron pair in terms of the z variable for + magnet polarity;z;Nevents",25,0,0.5);
+        fh_mee_z_magnet_minus= new TH1F("mee_z_magnet_minus","Invariant mass of the electron pair in terms of the z variable for - magnet polarity;z;Nevents",25,0,0.5);
+        fh_HoDTotTime        = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3 - TrackHoD_{time};EventTime [ns];Nevents",200, -100.,100.);
+
+
+
+        fh_MM2_plus = new TH1F("MM2_plus", "Missing mass squared for K+",100, -0.05, 0.05);
+        fh_MM2_minus = new TH1F("MM2_minus", "Missing mass squared for K-",100, -0.05, 0.05);
+        fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
+        fh_Mu_momentum       = new TH1F("Mu_momentum","Muon momentum ;Mu_P[GeV];Nevents ",100.,0.,100.);
+
+        fh_Mu_momentum->Sumw2();
+        fh_COmPaCt_Z_Vertex->Sumw2();
+        fh_mee_z_variable->Sumw2();
+        fh_mee_z_Kplus       ->Sumw2();
+        fh_mee_z_Kminus      ->Sumw2();
+        fh_mee_z_magnet_plus ->Sumw2();
+        fh_mee_z_magnet_minus->Sumw2();
+        fh_HoDTotTime->Sumw2();
+        fh_muee_Pt->Sumw2();
+        fh_mee->Sumw2();
+        fh_missing_mass->Sumw2();
     }
+
 
 }
 
@@ -942,14 +982,20 @@ void Hist_dir::AddToFile(TFile* file){
         fh_SS8_full_trig    ->Write();
     }
     if(ftype==3){
-        fh_missing_mass          ->Write();
-        fh_mee         ->Write();
-        fh_mee_z_variable->Write();
-        fh_muee_Pt      ->Write();
         fh_COmPaCt_Z_Vertex  ->Write();
         fh_Mu_momentum       ->Write();
+        fh_missing_mass          ->Write();
         fh_MM2_plus->Write();
         fh_MM2_minus->Write();
+        fh_muee_Pt      ->Write();
+        fh_mee         ->Write();
+        fh_mee_z_variable->Write();
+        fh_mee_z_Kplus       ->Write();
+        fh_mee_z_Kminus      ->Write();
+        fh_mee_z_magnet_plus ->Write();
+        fh_mee_z_magnet_minus->Write();
+        fh_HoDTotTime        ->Write();
+
     }
 }
 
@@ -1197,5 +1243,11 @@ Hist_dir::~Hist_dir(){
         delete fh_muee_Pt;
         delete fh_MM2_plus;
         delete fh_MM2_minus;
+delete fh_mee_z_Kplus       ;
+delete fh_mee_z_Kminus      ;
+delete fh_mee_z_magnet_plus ;
+delete fh_mee_z_magnet_minus;
+delete fh_HoDTotTime        ;
+
     }
 }
