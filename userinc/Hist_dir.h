@@ -223,6 +223,12 @@ public:
     TH1I* fh_muon_status;
     TH1F* fh_MM2_plus;
     TH1F* fh_MM2_minus;
+    TH1F* fh_mee_z_Kplus;
+    TH1F* fh_mee_z_Kminus;
+    TH1F* fh_mee_z_magnet_plus;
+    TH1F* fh_mee_z_magnet_minus;
+
+
 
 private:
     std::string fDir;
@@ -244,5 +250,9 @@ extern Hist_dir* dir10;
 extern Hist_dir* dir11;
 extern Hist_dir* dir12;
 extern Hist_dir* dir13;
+extern Hist_dir* dir14;
+extern Hist_dir* dir15;
+extern Hist_dir* dir16;
+extern Hist_dir* dir17;
 extern Hist_dir* MC_reweight;
 #endif

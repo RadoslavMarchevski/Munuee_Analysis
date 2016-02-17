@@ -35,6 +35,10 @@ int user_exit() {
     dir11->AddToFile(file);
     dir12->AddToFile(file);
     dir13->AddToFile(file);
+    //dir14->AddToFile(file);
+    dir15->AddToFile(file);
+    dir16->AddToFile(file);
+    dir17->AddToFile(file);
     MC_reweight->AddToFile(file);
     printf ("### saving histograms to file run2003_2004.root \n");
     //delete dir1;
