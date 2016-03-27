@@ -60,6 +60,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_two_track_23_momentum = new TH1F("mc_two_track_23_momentum","MC Momentum of the track 2+3",100,0.,100.);
         fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3 ",50,0,0.5);
         fh_mc_two_track_23_mass_z_variable = new TH1F("mc_two_track_23_mass_z_variable","MC Mass of the track 2+3 in terms of the z variable;z;Nevents",25,0,0.5);
+        fh_mc_Pmu_vs_z = new TH2F("mc_Pmu_vs_z"," P_{#mu} vs z variable;z;Nevents", 100,0,100, 25,0,0.5);
         fh_mc_P4_mass = new TH1F("mc_P4_mass","MC Particle 4 Mass",550,0.,0.55);
         fh_mc_P4_momentum = new TH1F("mc_P4_momentum","MC Particle 4 Momentum",100,0.,100.);
         fh_mc_four_track_1234_momentum = new TH1F("mc_four_track_1234_momentum","MC Momentum of the track 1+2+3+4",100,0.,100.);
@@ -148,7 +149,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         //ENDOF Vertex Reconstruction
 
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{3#pi}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",75,0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of 3#pi ;Pt_{#mu e e}[GeV];Nevents",60,0,0.3);
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{3#pi}[GeV];Nevents",1000,-1.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
@@ -231,7 +232,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
         fh_muee_P = new TH1F("muee_P","Three track momentum ;P_{#mu e e}[GeV];Nevents",100,0.,100);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75, 0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",60, 0,0.3);
         fh_muee_M = new TH1F("muee_M","Three track invariant mass ;M_{#mu e e}[GeV];Nevents",100,0.,1.);
         fh_Muee_M_3pi_assumption = new TH1F("Muee_M_3pi_assumption","Three track invariant mass with 3 #pi assumtion ;M_{3#pi};Nevents",100,0.,1.);
 
@@ -297,6 +298,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_mc_two_track_23_momentum = new TH1F("mc_two_track_23_momentum","MC Momentum of the track 2+3",100,0.,100.);
         fh_mc_two_track_23_mass = new TH1F("mc_two_track_23_mass","MC Mass of the track 2+3;M_{ee}[GeV]; ",50,0,0.5);
         fh_mc_two_track_23_mass_z_variable = new TH1F("mc_two_track_23_mass_z_variable","MC Mass of the track 2+3 in terms of the z variable;z;Nevents",25,0,0.5);
+        fh_mc_Pmu_vs_z = new TH2F("mc_Pmu_vs_z"," P_{#mu} vs z variable;z;Nevents", 100,0,100, 25,0,0.5);
         fh_mc_P4_mass = new TH1F("mc_P4_mass","MC Particle 4 Mass",550,0.,0.55);
         fh_mc_P4_momentum = new TH1F("mc_P4_momentum","MC Particle 4 Momentum",100,0.,100.);
         fh_mc_four_track_1234_momentum = new TH1F("mc_four_track_1234_momentum","MC Momentum of the track 1+2+3+4",100,0.,100.);
@@ -362,7 +364,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     if(ftype==3){
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss};Nevents",100,-0.05,0.05);
         fh_mee = new TH1F("mee","Invariant mass of the electron pair ",50,0.,0.5);
-        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",75, 0,0.3);
+        fh_muee_Pt = new TH1F("muee_Pt","Transverse momentum of #mu^{#pm} e^{+}e^{-} system;Pt_{#mu e e}[GeV];Nevents",60, 0,0.3);
 
         fh_mee_z_variable = new TH1F("mee_z_variable","Invariant mass of the electron pair in terms of the z variable;z;Nevents",25,0,0.5);
 
@@ -733,6 +735,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_two_track_23_momentum->Write();
         fh_mc_two_track_23_mass->Write();
         fh_mc_two_track_23_mass_z_variable->Write();
+        fh_mc_Pmu_vs_z      ->Write();
         fh_mc_P4_Pzvtx->Write();
         fh_mc_P4_mass->Write();
         fh_mc_P4_momentum->Write();
@@ -931,6 +934,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_mc_two_track_23_momentum->Write();
         fh_mc_two_track_23_mass->Write();
         fh_mc_two_track_23_mass_z_variable->Write();
+        fh_mc_Pmu_vs_z      ->Write();
         fh_mc_P4_Pzvtx->Write();
         fh_mc_P4_mass->Write();
         fh_mc_P4_momentum->Write();
@@ -1023,6 +1027,7 @@ Hist_dir::~Hist_dir(){
         delete fh_mc_three_track_123_mass;
         delete fh_mc_two_track_23_momentum;
         delete fh_mc_two_track_23_mass;
+        delete fh_mc_Pmu_vs_z;
         delete fh_mc_P4_Pzvtx;
         delete fh_mc_P4_mass;
         delete fh_mc_P4_momentum;
@@ -1208,6 +1213,7 @@ Hist_dir::~Hist_dir(){
         delete fh_mc_three_track_123_mass;
         delete fh_mc_two_track_23_momentum;
         delete fh_mc_two_track_23_mass;
+        delete fh_mc_Pmu_vs_z;
         delete fh_mc_P4_Pzvtx;
         delete fh_mc_P4_mass;
         delete fh_mc_P4_momentum;

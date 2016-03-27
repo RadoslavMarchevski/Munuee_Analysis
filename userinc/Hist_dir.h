@@ -188,6 +188,7 @@ public:
     TH1F* fh_mc_three_track_123_mass;
     TH1F* fh_mc_two_track_23_momentum;
     TH1F* fh_mc_two_track_23_mass;
+    TH2F* fh_mc_Pmu_vs_z;
     TH1F* fh_mc_P4_Pzvtx;
     TH1F* fh_mc_P4_mass;
     TH1F* fh_mc_P4_momentum;
