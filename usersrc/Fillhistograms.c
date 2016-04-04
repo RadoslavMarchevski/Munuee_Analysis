@@ -228,7 +228,6 @@ void Hist_dir::ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Char
     Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
     Nu_Momentum   = Kaon_Momentum - Three_Track_Momentum;
     MuNu_Momentum = Kaon_Momentum - Two_Track_Momentum;
-    //std::cout  << "Using combined vectors" << MuNu_Momentum.Angle(Two_Track_Momentum.Vect()) << std::endl;
 }
 
 void Hist_dir::Fill3pi(TLorentzVector Three_Track_Momentum ){

@@ -188,6 +188,7 @@ public:
     TH1F* fh_mc_three_track_123_mass;
     TH1F* fh_mc_two_track_23_momentum;
     TH1F* fh_mc_two_track_23_mass;
+    TH2F* fh_Pmu_vs_z;
     TH1F* fh_mc_P4_Pzvtx;
     TH1F* fh_mc_P4_mass;
     TH1F* fh_mc_P4_momentum;
@@ -203,6 +204,12 @@ public:
     TH2F* fh_P_vs_dtrkcl ;
     TH2F* fh_Ecl_vs_dtrkcl ;
 
+
+    TH2F* fh_M3pi_vs_EoP;
+    TH1F* fh_Muee_3pi;
+    TH1F* fh_e1nu_M;
+    TH1F* fh_e2nu_M;
+    TH1F* fh_munu_M;
     TH1F* fh_HoDTotTime;
     TH1F* fh_DCHTotTime;
     TH1F* fh_muv_xpos;
@@ -254,5 +261,6 @@ extern Hist_dir* dir14;
 extern Hist_dir* dir15;
 extern Hist_dir* dir16;
 extern Hist_dir* dir17;
+extern Hist_dir* dir18;
 extern Hist_dir* MC_reweight;
 #endif
