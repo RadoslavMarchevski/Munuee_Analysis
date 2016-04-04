@@ -39,10 +39,7 @@ int user_exit() {
     dir15->AddToFile(file);
     dir16->AddToFile(file);
     dir17->AddToFile(file);
-<<<<<<< HEAD
     dir18->AddToFile(file);
-=======
->>>>>>> e2bbd012fd2615a60d9b8dfc48f796b86414bf47
     MC_reweight->AddToFile(file);
     printf ("### saving histograms to file output.root \n");
     //delete dir1;
