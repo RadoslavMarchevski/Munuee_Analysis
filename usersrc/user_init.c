@@ -88,7 +88,10 @@ Hist_dir* dir14;
 Hist_dir* dir15;
 Hist_dir* dir16;
 Hist_dir* dir17;
+<<<<<<< HEAD
 Hist_dir* dir18;
+=======
+>>>>>>> e2bbd012fd2615a60d9b8dfc48f796b86414bf47
 Hist_dir* MC_reweight;
 
 
@@ -125,7 +128,10 @@ int user_init() {
     dir15=  new  Hist_dir("Pt 10 MeV",3);
     dir16=  new  Hist_dir("Pt 20 MeV",3);
     dir17=  new  Hist_dir("Pt 30 MeV",3);
+<<<<<<< HEAD
     dir18=  new  Hist_dir("Kcharge = +-3",3);
+=======
+>>>>>>> e2bbd012fd2615a60d9b8dfc48f796b86414bf47
     MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
 
