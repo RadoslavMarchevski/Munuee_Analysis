@@ -996,7 +996,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //--ENDOF CUT3 Vertex Cut --
 
     //- CUT5 Invariant Mass Cut --
-    if(cutting.mee < 0.140){return 0;}
+    //if(cutting.mee < 0.140){return 0;}
     //--ENDOF CUT5 Invariant Mass Cut --
 
     if(IS_MC){
@@ -1062,10 +1062,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        electron1.GetCharge()!=muon.GetCharge()      &&
        lda3_e1 > 0.8                                &&
        lda3_e2 > 0.8                                &&
-       fabs(Event_HoDTime) < 3                      &&
        dir2->GetNuMomentum().M2() > -0.015          &&
        dir2->GetNuMomentum().M2() < 0.015           &&
-       sevt->muon[sevt->track[imu].iMuon].status < 3){
+       sevt->muon[sevt->track[imu].iMuon].status < 3 &&
+       fabs(Kcharge) < 2){
+
+
+
 
         if(IS_MC){
             FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
@@ -1077,131 +1080,233 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
 
-        TLorentzVector WS_e1nu = electron1.Momentum + dir10->GetNuMomentum();
-        TLorentzVector WS_e2nu = electron2.Momentum + dir10->GetNuMomentum();
-        TLorentzVector WS_munu = muon.Momentum + dir10->GetNuMomentum();
+        TLorentzVector WS_e1nu = electron1.Momentum + dir2->GetNuMomentum();
+        TLorentzVector WS_e2nu = electron2.Momentum + dir2->GetNuMomentum();
+        TLorentzVector WS_munu = muon.Momentum + dir2->GetNuMomentum();
         TLorentzVector WS_three_pi = k3pi_pion1.Momentum + k3pi_pion2.Momentum + k3pi_pion3.Momentum;
 
+        if(fabs(Event_HoDTime) > 3 &&
+           fabs(Event_HoDTime) < 23 ){
 
-        dir2->fh_Event_Type->Fill(Event_Type);
-        dir2->fh_Kaon_Charge->Fill(Kcharge);
-        dir2->FillCommonHist(sevt);
-        dir2->FillVertexHist(Vertex_mu_e1, cda_mu_e1 , Vertex_mu_e2, cda_mu_e2, Vertex_e1_e2, cda_e1_e2,"munuee");
-        dir2->FillHist(muon,"muon");
-        dir2->FillHist(electron1,"electron1");
-        dir2->FillHist(electron2,"electron2");
-        dir2->FillHist(muon,electron1,"mue1");
-        dir2->FillHist(muon,electron2,"mue2");
-        dir2->FillHist(electron1,electron2,"e1e2");
-        dir2->FillHist(dir2->GetThreeTrackMomentum(),dir2->GetNuMomentum(), Kcharge);
-        dir2->FillAngle(muon.Momentum,dir2->GetTwoTrackMomentum());
+            dir19->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
+            dir19->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
+            dir19->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+            dir19->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+            dir19->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
+            dir19->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+            dir19->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
 
-        dir2->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
-        dir2->Fill3pi(dir2->GetThreeTrackMomentum());
-        dir2->fh_lda3_e1->Fill(lda3_e1);
-        dir2->fh_lda3_e2->Fill(lda3_e2);
-        dir2->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
-        dir2->fh_HoDTotTime->Fill(Event_HoDTime);
-        dir2->fh_DCHTotTime->Fill(Event_DCHTime);
-        dir2->ComputeThreeTrack(electron1,electron2,muon);
-
-        //Pt > 10 MeV/c
-        if(dir2->GetThreeTrackMomentum().Pt() > 0.010){
-
-            dir5->ComputeThreeTrack(electron1,electron2,muon);
-
-            dir5->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
-            dir5->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
-            dir5->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
-            dir5->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
-            dir5->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
-            dir5->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-            dir5->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+            dir19->fh_muee_M->Fill(dir2->GetThreeTrackMomentum().M(),w_tot);
+            dir19->fh_Pmu_vs_z->Fill(muon.GetMomentum(), dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+            dir19->fh_Kaon_Charge->Fill(Kcharge );
+            dir19->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+            dir19->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+            dir19->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+            dir19->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+            dir19->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+            dir19->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+            dir19->fh_munu_M->Fill(WS_munu.M(),w_tot);
+            dir19->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+            dir19->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
 
             if(Kcharge>0){
-                dir5->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-                dir5->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir19->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir19->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
 
             }
 
             if(Kcharge<0){
-                dir5->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
-                dir5->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir19->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir19->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
             }
 
             if(magnetCurrent < 0){
-                dir5->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir19->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
             }
             if(magnetCurrent > 0){
-                dir5->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir19->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
             }
+
         }
 
-        dir6->ComputeThreeTrack(electron1,electron2,muon);
-        //Pt > 20 MeV/c
-        if(dir2->GetThreeTrackMomentum().Pt() > 0.020){
 
+        if(fabs(Event_HoDTime) < 3){
 
-            dir6->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
-            dir6->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
-            dir6->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
-            dir6->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
-            dir6->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
-            dir6->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-            dir6->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+            dir2->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
+            dir2->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
+            dir2->fh_muee_M->Fill(dir2->GetThreeTrackMomentum().M(),w_tot);
+            dir2->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+            dir2->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+            dir2->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
+            dir2->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+            dir2->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+            dir2->fh_Pmu_vs_z->Fill(muon.GetMomentum(), dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+            dir2->fh_Kaon_Charge->Fill(Kcharge );
+            dir2->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+            dir2->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+            dir2->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+            dir2->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+            dir2->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+            dir2->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+            dir2->fh_munu_M->Fill(WS_munu.M(),w_tot);
+            dir2->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+            dir2->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
 
             if(Kcharge>0){
-                dir6->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-                dir6->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir2->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir2->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
 
             }
 
             if(Kcharge<0){
-                dir6->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
-                dir6->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir2->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir2->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
             }
 
             if(magnetCurrent < 0){
-                dir6->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir2->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
             }
             if(magnetCurrent > 0){
-                dir6->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir2->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
             }
+
+            //Pt > 10 MeV/c
+            if(dir2->GetThreeTrackMomentum().Pt() > 0.010){
+
+                dir5->ComputeThreeTrack(electron1,electron2,muon);
+
+                dir5->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir5->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
+                dir5->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir5->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir5->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
+                dir5->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir5->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir5->fh_muee_M->Fill(dir2->GetThreeTrackMomentum().M(),w_tot);
+                dir5->fh_Pmu_vs_z->Fill(muon.GetMomentum(), dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir5->fh_Kaon_Charge->Fill(Kcharge );
+                dir5->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir5->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir5->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir5->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir5->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir5->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir5->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir5->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir5->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir5->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                    dir5->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir5->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                    dir5->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir5->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir5->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+
+            dir6->ComputeThreeTrack(electron1,electron2,muon);
+            //Pt > 20 MeV/c
+            if(dir2->GetThreeTrackMomentum().Pt() > 0.020){
+
+
+                dir6->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir6->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
+                dir6->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir6->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir6->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
+                dir6->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir6->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir6->fh_muee_M->Fill(dir2->GetThreeTrackMomentum().M(),w_tot);
+                dir6->fh_Pmu_vs_z->Fill(muon.GetMomentum(), dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir6->fh_Kaon_Charge->Fill(Kcharge );
+                dir6->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir6->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir6->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir6->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir6->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir6->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir6->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir6->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir6->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir6->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                    dir6->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir6->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                    dir6->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir6->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir6->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+            //Pt > 30 MeV/c
+            if(dir2->GetThreeTrackMomentum().Pt() > 0.030){
+                dir9->ComputeThreeTrack(electron1,electron2,muon);
+
+                dir9->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                dir9->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
+                dir9->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir9->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir9->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
+                dir9->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir9->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir9->fh_muee_M->Fill(dir2->GetThreeTrackMomentum().M(),w_tot);
+                dir9->fh_Pmu_vs_z->Fill(muon.GetMomentum(), dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                dir9->fh_Kaon_Charge->Fill(Kcharge );
+                dir9->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir9->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir9->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir9->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir9->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir9->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir9->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir9->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir9->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir9->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                    dir9->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir9->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
+                    dir9->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir9->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir9->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+
+
         }
-        //Pt > 30 MeV/c
-        if(dir2->GetThreeTrackMomentum().Pt() > 0.030){
-            dir9->ComputeThreeTrack(electron1,electron2,muon);
-
-            dir9->fh_missing_mass->Fill(dir2->GetNuMomentum().M2(),w_tot );
-            dir9->fh_muee_Pt->Fill(dir2->GetThreeTrackMomentum().Pt(),w_tot);
-            dir9->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
-            dir9->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
-            dir9->fh_mee->Fill(dir2->GetTwoTrackMomentum().M(),w_tot);
-            dir9->fh_mee_z_variable->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-            dir9->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
-
-            if(Kcharge>0){
-                dir9->fh_mee_z_Kplus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-                dir9->fh_MM2_plus->Fill(dir2->GetNuMomentum().M2(),w_tot );
-
-            }
-
-            if(Kcharge<0){
-                dir9->fh_MM2_minus->Fill(dir2->GetNuMomentum().M2(),w_tot );
-                dir9->fh_mee_z_Kminus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-            }
-
-            if(magnetCurrent < 0){
-                dir9->fh_mee_z_magnet_minus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-            }
-            if(magnetCurrent > 0){
-                dir9->fh_mee_z_magnet_plus->Fill(dir2->GetTwoTrackMomentum().M2()/(massKaonC*massKaonC),w_tot);
-            }
-        }
-
-
     }
-
 
 
 

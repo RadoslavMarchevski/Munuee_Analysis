@@ -26,13 +26,14 @@ int user_exit() {
     dir1->AddToFile(file);
     dir3->AddToFile(file);
     dir4->AddToFile(file);
-    dir5->AddToFile(file);
-    dir6->AddToFile(file);
     dir7->AddToFile(file);
-    dir2->AddToFile(file);
-    dir9->AddToFile(file);
     dir10->AddToFile(file);
     dir11->AddToFile(file);
+    dir2->AddToFile(file);
+    dir5->AddToFile(file);
+    dir6->AddToFile(file);
+    dir9->AddToFile(file);
+    dir19->AddToFile(file);
     dir12->AddToFile(file);
     dir13->AddToFile(file);
     //dir14->AddToFile(file);
@@ -40,7 +41,7 @@ int user_exit() {
     dir16->AddToFile(file);
     dir17->AddToFile(file);
     dir18->AddToFile(file);
-    MC_reweight->AddToFile(file);
+    //MC_reweight->AddToFile(file);
     printf ("### saving histograms to file output.root \n");
     //delete dir1;
     //delete dir2;

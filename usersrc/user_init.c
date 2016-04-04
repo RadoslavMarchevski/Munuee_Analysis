@@ -89,6 +89,7 @@ Hist_dir* dir15;
 Hist_dir* dir16;
 Hist_dir* dir17;
 Hist_dir* dir18;
+Hist_dir* dir19;
 Hist_dir* MC_reweight;
 
 
@@ -108,7 +109,7 @@ int user_init() {
     Initial_dir =  new  Hist_dir("No cuts",0);
     K3pi_selection =  new  Hist_dir("K3pi selection",1);
     dir1 =  new  Hist_dir("Munuee index matching",2);
-    dir2 =  new  Hist_dir("WS no Pt and mu P cut",2);
+    dir2 =  new  Hist_dir("WS no Pt and mu P cut",3);
     dir3 =  new  Hist_dir("Munuee Geometry Cut",2);
     dir4 =  new  Hist_dir("Munuee Momentum Cut",2);
     dir5 =  new  Hist_dir("WS Pt > 10 MeV",3);
@@ -126,6 +127,7 @@ int user_init() {
     dir16=  new  Hist_dir("Pt 20 MeV",3);
     dir17=  new  Hist_dir("Pt 30 MeV",3);
     dir18=  new  Hist_dir("Kcharge = +-3",3);
+    dir19=  new  Hist_dir("WS Accidentals",3);
     MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
 
