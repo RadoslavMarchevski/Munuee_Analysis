@@ -225,6 +225,8 @@ void Hist_dir::ComputeThreeTrack(Charged_Particle& p1,Charged_Particle& p2, Char
     //TLorentzVector Kaon_Momentum;
     //TLorentzVector Nu_Momentum;
     Three_Track_Momentum = p1.Momentum + p2.Momentum + p3.Momentum;
+//Particle one and two should be electrons
+    Two_Track_Momentum =  p2.Momentum + p1.Momentum;
     Kaon_Momentum.SetPxPyPzE(0,0,60.,TMath::Sqrt(60*60 + massKaonC*massKaonC));
     Nu_Momentum   = Kaon_Momentum - Three_Track_Momentum;
     MuNu_Momentum = Kaon_Momentum - Two_Track_Momentum;

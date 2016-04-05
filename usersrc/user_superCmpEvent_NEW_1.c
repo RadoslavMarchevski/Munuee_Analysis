@@ -996,7 +996,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //--ENDOF CUT3 Vertex Cut --
 
     //- CUT5 Invariant Mass Cut --
-    //if(cutting.mee < 0.140){return 0;}
+    if(cutting.mee < 0.140){return 0;}
     //--ENDOF CUT5 Invariant Mass Cut --
 
     if(IS_MC){
