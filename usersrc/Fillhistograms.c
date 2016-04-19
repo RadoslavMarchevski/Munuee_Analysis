@@ -121,8 +121,8 @@ void Hist_dir::FillHist(Charged_Particle& p1,Charged_Particle& p2, std::string p
     }
     if(particles.compare("e1e2") == 0 ){
         //TLorentzVector Two_Track_Momentum;
-        Two_Track_Momentum = p1.Momentum + p2.Momentum;
-        fh_mee->Fill( Two_Track_Momentum.M());
+        //Two_Track_Momentum = p1.Momentum + p2.Momentum;
+        //fh_mee->Fill( Two_Track_Momentum.M());
         fh_DCH_timediff_e1_e2->Fill(p1.GetDCHtime() -  p2.GetDCHtime());
         fh_Hod_timediff_e1_e2->Fill(p1.GetHodTime() - p2.GetHodTime());
         fh_el1_el2_cluster_timediff->Fill(p1.GetClusterTime() - p2.GetClusterTime());

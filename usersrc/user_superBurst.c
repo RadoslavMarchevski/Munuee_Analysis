@@ -28,6 +28,8 @@ int user_superBurst(superBurst *sbur) {
         noBurstsPerRun = 0;
     }
 
+    HistnoBursts->Fill(runNo);
+
     noBurstsPerRun++;            // number of bursts for each run
     noBursts++;            // total number of bursts
     burstCounter++;        // counter set to 0 in superEob if certain number of bursts reached to write the root file
@@ -66,15 +68,15 @@ int user_superBurst(superBurst *sbur) {
         }
 
     }
-
-    //  printf ("burst number = %d  -  run %d  -  BadB.Phys = %i\n", noBursts, runNo, sbur->BadB.Phys);
-    //printf ("burst number = %d  -  run %d  -  period %d  -  burst time %d  -  BadB.Skip = %i  -  magnet current = %.1f  -  dataType = %i\n",
-    // noBursts, runNo, periodFlag, sbur->time, sbur->BadB.Skip, (float)(magnetCurrent/1000.), sbur->brtype);
+    HistnoGoodBursts->Fill(runNo);
+    //printf ("burst number = %d  -  run %d  -  BadB.Phys = %i\n", noBursts, runNo, sbur->BadB.Phys);
+    printf ("burst number = %d  -  run %d  -  period %d  -  burst time %d  -  BadB.Skip = %i  -  magnet current = %.1f  -  dataType = %i\n",
+    noBursts, runNo, periodFlag, sbur->time, sbur->BadB.Skip, (float)(magnetCurrent/1000.), sbur->brtype);
 
 
 
 PrevrunNo = runNo;
-printf ("magnet current = %d\n", magnetCurrent);
+//printf ("magnet current = %d\n", magnetCurrent);
 
 // HistnoBursts->Fill(0);
 //if (sbur->BadB.Skip == 0)

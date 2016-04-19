@@ -27,8 +27,8 @@ superCmpEvent* sevt;
 
 
 
-TH1F* HistnoBursts;
-TH1F* HistnoGoodBursts;
+TH1I* HistnoBursts;
+TH1I* HistnoGoodBursts;
 
 TH1I* RejectedBursts;
 
@@ -92,7 +92,6 @@ Hist_dir* dir18;
 Hist_dir* dir19;
 Hist_dir* MC_reweight;
 
-
 // missing compact declarations
 
 
@@ -129,6 +128,9 @@ int user_init() {
     dir18=  new  Hist_dir("Kcharge = +-3",3);
     dir19=  new  Hist_dir("WS Accidentals",3);
     MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
+
+    HistnoBursts                 = new TH1I("noBursts", "number of bursts read",2000,15000,17000);
+    HistnoGoodBursts             = new TH1I("noGoodBursts", "number of good bursts read",2000,15000,17000);
 
 
 /*----------- End of user C code -----------*/

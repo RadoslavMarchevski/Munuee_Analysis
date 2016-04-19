@@ -132,6 +132,7 @@ public:
     TH1F* fh_missing_mass;
     TH1F* fh_muee_Pt;
     TH1F* fh_muee_P;
+    TH1F* fh_cda;
     TH1F* fh_cda_mu_e2;
     TH1F* fh_cda_e1_e2;
     TH1F* fh_cda_mu_e1;

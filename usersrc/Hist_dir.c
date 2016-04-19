@@ -237,6 +237,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
         fh_Muee_M_3pi_assumption = new TH1F("Muee_M_3pi_assumption","Three track invariant mass with 3 #pi assumtion ;M_{3#pi};Nevents",100,0.,1.);
 
         fh_missing_mass = new TH1F("missing_mass","Missing mass squared;M^{2}_{miss}[GeV^2];Nevents",100,-0.05,0.05);
+        fh_cda= new TH1F("cda","Closest distance approach ;cda[cm];Nevents",50, 0., 50.);
         fh_cda_mu_e1 = new TH1F("cda_mu_e1","Closest distance approach between the #mu and e1;cda[cm];Nevents",50, 0., 50.);
         fh_cda_mu_e2 = new TH1F("cda_mu_e2","Closest distance approach between the #mu and e2;cda[cm];Nevents",50, 0., 50.);
         fh_cda_e1_e2 = new TH1F("cda_e1_e2","Closest distance approach between the e1 and e2;cda[cm];Nevents" ,50, 0., 50.);
@@ -427,7 +428,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type, const std::string& tag
 
 
 
-        fh_Nrun              = new TH1I(Form("%s_%s_Nrun",tag.c_str()),"Run Number;Run Number",2000,15000,17000);
+        fh_Nrun              = new TH1I(Form("%s_Nrun",tag.c_str()),"Run Number;Run Number",2000,15000,17000);
         fh_Ntracks           = new TH1I(Form("%s_Ntracks",tag.c_str()),"Number of charged tracks;Ntrk;Nevents",10,0,10);
         fh_Nclusters         = new TH1I(Form("%s_Nclusters",tag.c_str()),"Number of clusters in the Lkr;Nclusters;Nevents",10,0,10);
         fh_Nvtx              = new TH1I(Form("%s_Nvtx",tag.c_str()),"Number of vertexes;Nvtx;Nevents",10,0,10);
@@ -867,6 +868,7 @@ void Hist_dir::AddToFile(TFile* file){
         fh_yvtxdiff_mue1_mue2->Write();
         fh_yvtxdiff_mue1_e1e2->Write();
         fh_yvtxdiff_mue2_e1e2->Write();
+        fh_cda           ->Write();
         fh_cda_mu_e1->Write();
         fh_cda_mu_e2->Write();
         fh_cda_e1_e2->Write();
@@ -1190,6 +1192,7 @@ Hist_dir::~Hist_dir(){
         delete fh_Ecl_vs_dtrkcl ;
         delete fh_HoDTotTime;
         delete fh_DCHTotTime;
+        delete fh_cda;
         delete fh_cda_mu_e1;
         delete fh_cda_mu_e2;
         delete fh_cda_e1_e2;

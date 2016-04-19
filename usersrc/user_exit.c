@@ -45,6 +45,8 @@ int user_exit() {
     printf ("### saving histograms to file output.root \n");
     //delete dir1;
     //delete dir2;
+    HistnoBursts->Write();
+    HistnoGoodBursts->Write();
     file->Write();
     file->Close();
 

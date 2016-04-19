@@ -67,5 +67,8 @@ extern float Particle_production_zvtx[20];
 extern float Particle_decay_zvtx[20];
 extern float  DKaon[3];
 extern TLorentzVector True_Momentum[20];
+
+extern TH1I* HistnoBursts;
+extern TH1I* HistnoGoodBursts;
 //extern TLorentzVector mc_Three_Track_Momentum;
 //extern TLorentzVector mc_Two_Track_Momentum;

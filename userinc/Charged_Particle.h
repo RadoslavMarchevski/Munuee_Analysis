@@ -20,7 +20,8 @@ public:
     void CalculateMomentum();
     void MakeTime();
     void MakeLkrCluster(bool cluster);
-    void MakeMUVExtrapolation();
+    /* void MakeMUVExtrapolation(); */
+    void MakeMUVExtrapolation(bool cluster);
     //Methods for getting objects properties
     const int    GetCharge()      const {return fSevt->track[fpindex].q; };
     const double GetMass()        const {return fMass;}
@@ -40,6 +41,7 @@ public:
     int icluster;
     int imuon;
     bool cluster_exists;
+    bool muvcl_exits;
     double CompactMomentum;
     TVector3 Momentum3NoAlphaNoBetaCorrection;
     TVector3 Momentum3NoNoBetaCorrection;
