@@ -146,6 +146,27 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         //  if( 15633 >= sbur->nrun || sbur->nrun <= 15703){ return 0;}
 
         FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
+        TLorentzVector MC_Pk3pi;
+        MC_Pk3pi = True_Momentum[1] + True_Momentum[2] + True_Momentum[3];
+        if(Ktype < 0 ){
+          Initial_dir->fh_M3pi_Kminus->Fill(MC_Pk3pi.M());
+        }
+        if(Ktype > 0 ){
+          Initial_dir->fh_M3pi_Kplus->Fill(MC_Pk3pi.M());
+        }
+        if(magnetCurrent > 0 ){
+          Initial_dir->fh_M3pi_magnet_plus->Fill(MC_Pk3pi.M());
+        }
+        if(magnetCurrent < 0 ){
+          Initial_dir->fh_M3pi_magnet_minus->Fill(MC_Pk3pi.M());
+        }
+        if(AchromatCurrent < 0) {
+          Initial_dir->fh_M3pi_Aminus->Fill(MC_Pk3pi.M());
+        }
+        if(AchromatCurrent > 0) {
+          Initial_dir->fh_M3pi_Aplus->Fill(MC_Pk3pi.M());
+        }
+
         if(Npart >= 4){
             FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         }
