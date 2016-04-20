@@ -27,7 +27,7 @@ TVector3* clpos;
 void cleanup();
 Cuts make_cuts(Hist_dir* dir1, Charged_Particle& muon, Charged_Particle& electron1, Charged_Particle& electron2,double* Vertex_mu_e1,double* Vertex_mu_e2,double* Vertex_e1_e2, std::string decay_type);
 
-void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, float* DKaon,float* part_production, float* part_decay);
+void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, float* DKaon,float* part_production, float* part_decay, int Kcharge);
 
 void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, TLorentzVector p4, float* DKaon,float* part_production, float* part_decay);
 
@@ -139,9 +139,13 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
     if(COmPaCt_Z_Vertex < -1800. || COmPaCt_Z_Vertex > 8000.){return 0;}
 
+
+
     if(IS_MC){
-        if( 15633 >= sbur->nrun || sbur->nrun >= 15703){ return 0;}
-        FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+        //Only for comparison with the DE and IB
+        //  if( 15633 >= sbur->nrun || sbur->nrun <= 15703){ return 0;}
+
+        FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
         if(Npart >= 4){
             FillMC(Initial_dir, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
         }
@@ -474,7 +478,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
            COmPaCt_Z_Vertex > -1800 &&
            COmPaCt_Z_Vertex < 8000.
            //-- ENDOF CUT5 DCH geometry Cut --
-           ){
+            ){
 
             double trigger = 1;
             // ------------------------------------------ SS0 --------------------------------------//
@@ -748,6 +752,28 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
             K3pi_selection->FillVertexHist(Vertex_pi1_pi2, cda_pi1_pi2 , Vertex_pi2_pi3, cda_pi2_pi3, Vertex_pi1_pi3, cda_pi1_pi3,"K3pi");
 
+            if(Kcharge>0){
+              K3pi_selection->fh_M3pi_Kplus->Fill(PK3pi.M());
+            }
+
+            if(Kcharge<0){
+              K3pi_selection->fh_M3pi_Kminus->Fill(PK3pi.M());
+            }
+
+            if(magnetCurrent < 0){
+              K3pi_selection->fh_M3pi_magnet_minus->Fill(PK3pi.M());
+            }
+            if(magnetCurrent > 0){
+              K3pi_selection->fh_M3pi_magnet_plus->Fill(PK3pi.M());
+            }
+            if(AchromatCurrent < 0) {
+              K3pi_selection->fh_M3pi_Aminus->Fill(PK3pi.M());
+            }
+            if(AchromatCurrent > 0) {
+              K3pi_selection->fh_M3pi_Aplus->Fill(PK3pi.M());
+            }
+
+
             if(Kcharge*pion1.GetCharge()==-1 && sevt->track[pi1].iMuon != -1){
                 K3pi_selection->fh_odd_eop->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum());
                 K3pi_selection->fh_EoP_vs_p_odd_tr->Fill(pion1.GetEnergyLeftInEcal()/ pion1.GetMomentum(), pion1.GetMomentum());
@@ -793,7 +819,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     dir1->fh_Kaon_Charge->Fill(Kcharge);
     //Fill MC histograms (if IS_MC == 1)
     if(IS_MC){
-        FillMC(dir1, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+        FillMC(dir1, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
         if(Npart >= 4){
             FillMC(dir1, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
@@ -865,16 +891,16 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        cutting.DCH_Radius_el1 > 110||
        cutting.DCH_Radius_el2 < 14 ||
        cutting.DCH_Radius_el2 > 110
-       ){return 0;}
+        ){return 0;}
 
     if(cutting.Lkr_cut_el1  < 15.     ||
        cutting.Lkr_cut_el2  < 15.
-       ){return 0;}
+        ){return 0;}
     if(   fabs(cutting.Lkr_x_el1) > 113 ||
           fabs(cutting.Lkr_x_el2) > 113 ||
           fabs(cutting.Lkr_y_el1) > 113 ||
           fabs(cutting.Lkr_y_el2) > 113
-          ) {return 0;}
+        ) {return 0;}
     if( (fabs(cutting.Lkr_x_el1) + fabs(cutting.Lkr_y_el1) ) > 159.8 ||
         (fabs(cutting.Lkr_x_el2) + fabs(cutting.Lkr_y_el2) ) > 159.8
         ){return 0;}
@@ -884,7 +910,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.Lkr_x_mu ) > 113 ||
        fabs(cutting.Lkr_y_mu ) > 113 ||
        (fabs(cutting.Lkr_x_mu) +  fabs(cutting.Lkr_y_mu ) ) > 159.8
-       ){return 0;}
+        ){return 0;}
     //}
 
     if(fabs(cutting.MUV_y_mu) > 130. || fabs(cutting.MUV_x_mu) > 130.) {return 0;}
@@ -944,7 +970,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //--ENDOF CUT2 Momentum cut ---
 
     if(IS_MC){
-        FillMC(dir4, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+        FillMC(dir4, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
         if(Npart >= 4){
             FillMC(dir4, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
@@ -998,7 +1024,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
        fabs(cutting.yvtx_mue1_mue2) > 500 ||
        fabs(cutting.yvtx_mue1_e1e2) > 500 ||
        fabs(cutting.yvtx_mue2_e1e2) > 500
-       ){return 0;}
+        ){return 0;}
     //--ENDOF CUT3 Vertex Cut --
     if(sevt->vtx[0].cda > 3){return 0;}
     //- CUT5 Invariant Mass Cut --
@@ -1006,7 +1032,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //--ENDOF CUT5 Invariant Mass Cut --
 
     if(IS_MC){
-        FillMC(dir7, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+        FillMC(dir7, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
         if(Npart >= 4){
             FillMC(dir7, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
@@ -1076,7 +1102,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
         if(IS_MC){
-            FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+            FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
             if(Npart >= 4){
                 FillMC(dir2, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
@@ -1134,6 +1160,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             if(magnetCurrent > 0){
                 dir19->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
             }
+            if(AchromatCurrent < 0) {
+              dir19->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            }
+            if(AchromatCurrent > 0) {
+              dir19->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            }
 
         }
 
@@ -1178,6 +1210,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             if(magnetCurrent > 0){
                 dir2->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
             }
+            if(AchromatCurrent < 0) {
+              dir2->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            }
+            if(AchromatCurrent > 0) {
+              dir2->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            }
 
             //Pt > 10 MeV/c
             if(WS_Pmuee.Pt() > 0.010){
@@ -1220,6 +1258,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 }
                 if(magnetCurrent > 0){
                     dir5->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent < 0) {
+                  dir5->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir5->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
                 }
             }
 
@@ -1265,6 +1309,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 if(magnetCurrent > 0){
                     dir6->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
                 }
+                if(AchromatCurrent < 0) {
+                  dir6->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir6->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
             }
             //Pt > 30 MeV/c
             if(WS_Pmuee.Pt() > 0.030){
@@ -1306,6 +1356,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                 }
                 if(magnetCurrent > 0){
                     dir9->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent < 0) {
+                  dir9->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir9->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
                 }
             }
 
@@ -1649,7 +1705,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
 
 
     if(IS_MC){
-        FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+        FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
         if(Npart >= 4){
             FillMC(dir10, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
@@ -1749,7 +1805,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //END OF TEST
 
     if(IS_MC){
-        FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
+        FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], DKaon, Particle_production_zvtx, Particle_decay_zvtx, Kcharge);
         if(Npart >= 4){
             FillMC(dir11, True_Momentum[1], True_Momentum[2], True_Momentum[3], True_Momentum[4], DKaon, Particle_production_zvtx, Particle_decay_zvtx);
 
@@ -1757,7 +1813,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     }
 
     if(fabs(Event_HoDTime) > 3 && fabs(Event_HoDTime) < 23 ){
-      //dir12->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
+        //dir12->ComputeThreeTrack(k3pi_pion1,k3pi_pion2,k3pi_pion3);
         dir12->Fill3pi(Pmuee);
 
         dir12->fh_Event_Type->Fill(Event_Type);
@@ -1847,7 +1903,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         if(magnetCurrent > 0){
             dir18->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
         }
-
+        if(AchromatCurrent < 0) {
+          dir18->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir18->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
     }
 
 
@@ -1895,7 +1956,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     if(magnetCurrent > 0){
         dir13->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
     }
-
+    if(AchromatCurrent < 0) {
+      dir13->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+    }
+    if(AchromatCurrent > 0) {
+      dir13->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+    }
 
     // Pt > 10 MeV/c
     if(Pmuee.Pt() > 0.010){
@@ -1939,7 +2005,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         if(magnetCurrent > 0){
             dir15->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
         }
-
+        if(AchromatCurrent < 0) {
+          dir15->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir15->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
     }
 
     // Pt > 20 MeV/c
@@ -1982,9 +2053,14 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
             dir16->fh_mee_z_magnet_minus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
         }
         if(magnetCurrent > 0){
-            dir16->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+          dir16->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
         }
-
+        if(AchromatCurrent < 0) {
+          dir16->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir16->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
     }
 
     // Pt > 30 MeV/c
@@ -2028,6 +2104,12 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
         if(magnetCurrent > 0){
             dir17->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent < 0) {
+          dir17->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir17->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
         }
 
     }
@@ -2143,7 +2225,7 @@ Cuts make_cuts(Hist_dir* dir1,Charged_Particle& muon, Charged_Particle& electron
     return cutting;
 }
 
-void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, float* DKaon, float* part_production, float* part_decay){
+void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, float* DKaon, float* part_production, float* part_decay,int Kcharge){
     TLorentzVector mc_Two_Track_Momentum;
     TLorentzVector mc_Three_Track_Momentum;
     mc_Three_Track_Momentum = p1 + p2 + p3;
@@ -2173,6 +2255,25 @@ void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector 
     dir->fh_mc_two_track_23_mass->Fill(mc_Two_Track_Momentum.M());
     dir->fh_mc_two_track_23_mass_z_variable->Fill(mc_Two_Track_Momentum.M()*mc_Two_Track_Momentum.M()/(0.493677*0.493677));
     dir->fh_Pmu_vs_z->Fill( p1.P(),mc_Two_Track_Momentum.M()*mc_Two_Track_Momentum.M()/(0.493677*0.493677) );
+
+    if(Ktype < 0 ){
+        dir->fh_mc_mee_z_Kminus->Fill(mc_Two_Track_Momentum.M2()/(0.493677*0.493677));
+    }
+    if(Ktype > 0 ){
+        dir->fh_mc_mee_z_Kplus->Fill(mc_Two_Track_Momentum.M2()/(0.493677*0.493677));
+    }
+    if(magnetCurrent > 0 ){
+        dir->fh_mc_mee_z_magnet_plus->Fill(mc_Two_Track_Momentum.M2()/(0.493677*0.493677));
+    }
+    if(magnetCurrent < 0 ){
+        dir->fh_mc_mee_z_magnet_minus->Fill(mc_Two_Track_Momentum.M2()/(0.493677*0.493677));
+    }
+    if(AchromatCurrent < 0) {
+        dir->fh_mc_mee_z_Aminus->Fill(mc_Two_Track_Momentum.M2()/(0.493677*0.493677));
+    }
+    if(AchromatCurrent > 0) {
+        dir->fh_mc_mee_z_Aplus->Fill(mc_Two_Track_Momentum.M2()/(0.493677*0.493677));
+    }
 
 }
 void FillMC(Hist_dir* dir, TLorentzVector p1, TLorentzVector p2, TLorentzVector p3, TLorentzVector p4, float* DKaon, float* part_production, float* part_decay){

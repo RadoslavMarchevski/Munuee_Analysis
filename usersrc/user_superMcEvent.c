@@ -33,6 +33,7 @@ int user_superMcEvent(superBurst *sbur, superMcEvent *evt) {
     {
 
         Npart = evt->Npart;
+        Ktype = evt->decay.Ktype;
 
         //int  Particle_type[20];
         //float Particle_production_zvtx[20];

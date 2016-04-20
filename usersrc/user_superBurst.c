@@ -34,6 +34,7 @@ int user_superBurst(superBurst *sbur) {
     noBursts++;            // total number of bursts
     burstCounter++;        // counter set to 0 in superEob if certain number of bursts reached to write the root file
     magnetCurrent =  sbur->MNP33current;
+    AchromatCurrent =  sbur->Bend1current;
 
     if (sbur->BadB.Phys!=0)    // exclude bad physics bursts
         sbur->BadB.Skip = 1;

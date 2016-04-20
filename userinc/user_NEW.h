@@ -6,10 +6,12 @@ extern int   CPDindex, CELLindex;
 extern float CPDlength, CELLlength;
 
 extern int runNo;
+extern int Ktype;
 extern int PrevrunNo;
 extern int noBurstsPerRun;
 extern int noSelectedEvents;
 extern int magnetCurrent;
+extern int AchromatCurrent;
 extern int noBursts;
 extern int burstCounter;
 extern int IS_DATA, IS_MC;

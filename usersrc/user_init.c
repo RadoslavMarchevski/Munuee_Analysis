@@ -42,8 +42,10 @@ float CPDlength = 8 * CELLlength;
 
 
 int runNo;
+int Ktype;
 int PrevrunNo = 0;
 int magnetCurrent;
+int AchromatCurrent;
 int noBursts;
 int noBurstsPerRun;
 int noSelectedEvents;
