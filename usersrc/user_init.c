@@ -92,6 +92,14 @@ Hist_dir* dir16;
 Hist_dir* dir17;
 Hist_dir* dir18;
 Hist_dir* dir19;
+Hist_dir* dir20;
+Hist_dir* dir21;
+Hist_dir* dir22;
+Hist_dir* dir23;
+Hist_dir* dir24;
+Hist_dir* dir25;
+Hist_dir* dir26;
+Hist_dir* dir27;
 Hist_dir* MC_reweight;
 
 // missing compact declarations
@@ -118,6 +126,10 @@ int user_init() {
     dir7 =  new  Hist_dir("Munuee e+e- Invariant Mass Cut",2);
     dir8 =  new  Hist_dir("Munuee Timing Cut",2);
     dir9 =  new  Hist_dir("WS Pt > 30 MeV",3);
+    dir20=  new  Hist_dir("WS Pt > 35 MeV",3);
+    dir21=  new  Hist_dir("WS Pt > 40 MeV",3);
+    dir22=  new  Hist_dir("WS Pt > 45 MeV",3);
+    dir23=  new  Hist_dir("WS Pt > 50 MeV",3);
     dir10=  new  Hist_dir("Munuee lda3 and missing mass Cut",2);
     dir11=  new  Hist_dir("Munuee z vtx and muon status Cut",2);
     dir12=  new  Hist_dir("Munuee accidentals",2);
@@ -127,8 +139,13 @@ int user_init() {
     dir15=  new  Hist_dir("Pt 10 MeV",3);
     dir16=  new  Hist_dir("Pt 20 MeV",3);
     dir17=  new  Hist_dir("Pt 30 MeV",3);
+    dir24=  new  Hist_dir("Pt 35 MeV",3);
+    dir25=  new  Hist_dir("Pt 40 MeV",3);
+    dir26=  new  Hist_dir("Pt 45 MeV",3);
+    dir27=  new  Hist_dir("Pt 50 MeV",3);
     dir18=  new  Hist_dir("Kcharge = +-3",3);
     dir19=  new  Hist_dir("WS Accidentals",3);
+
     MC_reweight =  new  Hist_dir("MC after EoP and lda3 reweighting",3);
 
     HistnoBursts                 = new TH1I("noBursts", "number of bursts read",2000,15000,17000);

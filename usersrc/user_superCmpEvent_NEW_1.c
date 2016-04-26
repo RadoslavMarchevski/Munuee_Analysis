@@ -182,6 +182,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         if(sbur->nrun > 16000){
             if(sevt->LKRdownscaled) return 0;
         }
+
         if(sbur->nrun >= 16586 && sbur->nrun <= 16606){
             int dn = 5;
             int nev = sevt->nEvt;
@@ -320,7 +321,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                     //lda3_e2 = ldaC(sevt,sbur,i);
                     //cout << " iel2 =  " << iel2 << "ipi =  " <<  ipi << endl;
                     //cout << " Pion E/p =  " << PiTrack_EoverP << "Electron E/p =  " << Track_EoverP << endl;
-                }else {
+                } else {
                     if(Track_EoverP > 0.3){
                         iel2 = i;
                         lda3_e2 = ldaC(sevt,sbur,i);
@@ -438,6 +439,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         double K3pi_Event_DCHtime;
         K3pi_Event_HoDTime = ( (pion1.GetHodTime() - pion2.GetHodTime()) + (pion2.GetHodTime() - pion3.GetHodTime() ) + (pion1.GetHodTime() - pion3.GetHodTime() ))/ 3.;
         K3pi_Event_DCHtime = ( (pion1.GetDCHtime() - pion2.GetDCHtime()) + (pion2.GetDCHtime() - pion3.GetDCHtime() ) + (pion1.GetDCHtime() - pion3.GetDCHtime() ))/ 3.;
+
         //-- CUT1 Momentum cut ---
         if(PK3pi.P() > 52. &&
            PK3pi.P() < 68. &&
@@ -983,6 +985,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
     //dir3->fh_lda3_e1->Fill(lda3_e1);
     //dir3->fh_lda3_e2->Fill(lda3_e2);
     //dir3->fh_muon_status->Fill(sevt->muon[sevt->track[imu].iMuon].status);
+
     //-- CUT2 Momentum cut ---
     //if(cutting.Mu_P < 10. || cutting.Mu_P > 50.){return 0;}
     if(electron1.GetMomentum() < 3.  || electron1.GetMomentum() > 50.){return 0;}
@@ -1338,6 +1341,7 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                   dir6->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
                 }
             }
+
             //Pt > 30 MeV/c
             if(WS_Pmuee.Pt() > 0.030){
 
@@ -1386,6 +1390,203 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
                   dir9->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
                 }
             }
+
+            //Pt > 35 MeV/c
+            if(WS_Pmuee.Pt() > 0.035){
+
+                dir20->fh_missing_mass->Fill(WS_Pnu.M2(),w_tot );
+                dir20->fh_muee_Pt->Fill(WS_Pmuee.Pt(),w_tot);
+                dir20->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir20->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir20->fh_mee->Fill(WS_Pee.M(),w_tot);
+                dir20->fh_mee_z_variable->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir20->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir20->fh_muee_M->Fill(WS_Pmuee.M(),w_tot);
+                dir20->fh_Pmu_vs_z->Fill(muon.GetMomentum(), WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir20->fh_Kaon_Charge->Fill(Kcharge );
+                dir20->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir20->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir20->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir20->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir20->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir20->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir20->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir20->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir20->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir20->fh_mee_z_Kplus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                    dir20->fh_MM2_plus->Fill(WS_Pnu.M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir20->fh_MM2_minus->Fill(WS_Pnu.M2(),w_tot );
+                    dir20->fh_mee_z_Kminus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir20->fh_mee_z_magnet_minus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir20->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent < 0) {
+                  dir20->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir20->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+
+            //Pt > 40 MeV/c
+            if(WS_Pmuee.Pt() > 0.04){
+
+                dir21->fh_missing_mass->Fill(WS_Pnu.M2(),w_tot );
+                dir21->fh_muee_Pt->Fill(WS_Pmuee.Pt(),w_tot);
+                dir21->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir21->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir21->fh_mee->Fill(WS_Pee.M(),w_tot);
+                dir21->fh_mee_z_variable->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir21->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir21->fh_muee_M->Fill(WS_Pmuee.M(),w_tot);
+                dir21->fh_Pmu_vs_z->Fill(muon.GetMomentum(), WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir21->fh_Kaon_Charge->Fill(Kcharge );
+                dir21->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir21->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir21->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir21->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir21->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir21->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir21->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir21->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir21->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir21->fh_mee_z_Kplus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                    dir21->fh_MM2_plus->Fill(WS_Pnu.M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir21->fh_MM2_minus->Fill(WS_Pnu.M2(),w_tot );
+                    dir21->fh_mee_z_Kminus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir21->fh_mee_z_magnet_minus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir21->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent < 0) {
+                  dir21->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir21->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+
+
+            //Pt > 45 MeV/c
+            if(WS_Pmuee.Pt() > 0.045){
+
+                dir22->fh_missing_mass->Fill(WS_Pnu.M2(),w_tot );
+                dir22->fh_muee_Pt->Fill(WS_Pmuee.Pt(),w_tot);
+                dir22->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir22->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir22->fh_mee->Fill(WS_Pee.M(),w_tot);
+                dir22->fh_mee_z_variable->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir22->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir22->fh_muee_M->Fill(WS_Pmuee.M(),w_tot);
+                dir22->fh_Pmu_vs_z->Fill(muon.GetMomentum(), WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir22->fh_Kaon_Charge->Fill(Kcharge );
+                dir22->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir22->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir22->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir22->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir22->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir22->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir22->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir22->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir22->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir22->fh_mee_z_Kplus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                    dir22->fh_MM2_plus->Fill(WS_Pnu.M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir22->fh_MM2_minus->Fill(WS_Pnu.M2(),w_tot );
+                    dir22->fh_mee_z_Kminus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir22->fh_mee_z_magnet_minus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir22->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent < 0) {
+                  dir22->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir22->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+            //Pt > 50 MeV/c
+            if(WS_Pmuee.Pt() > 0.05){
+
+                dir23->fh_missing_mass->Fill(WS_Pnu.M2(),w_tot );
+                dir23->fh_muee_Pt->Fill(WS_Pmuee.Pt(),w_tot);
+                dir23->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+                dir23->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+                dir23->fh_mee->Fill(WS_Pee.M(),w_tot);
+                dir23->fh_mee_z_variable->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir23->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+                dir23->fh_muee_M->Fill(WS_Pmuee.M(),w_tot);
+                dir23->fh_Pmu_vs_z->Fill(muon.GetMomentum(), WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                dir23->fh_Kaon_Charge->Fill(Kcharge );
+                dir23->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+                dir23->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir23->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir23->fh_Muee_3pi->Fill( WS_three_pi.M(),w_tot);
+                dir23->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+                dir23->fh_M3pi_vs_EoP->Fill( WS_three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+                dir23->fh_munu_M->Fill(WS_munu.M(),w_tot);
+                dir23->fh_e1nu_M->Fill(WS_e1nu.M(),w_tot);
+                dir23->fh_e2nu_M->Fill(WS_e2nu.M(),w_tot);
+
+                if(Kcharge>0){
+                    dir23->fh_mee_z_Kplus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                    dir23->fh_MM2_plus->Fill(WS_Pnu.M2(),w_tot );
+
+                }
+
+                if(Kcharge<0){
+                    dir23->fh_MM2_minus->Fill(WS_Pnu.M2(),w_tot );
+                    dir23->fh_mee_z_Kminus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+
+                if(magnetCurrent < 0){
+                    dir23->fh_mee_z_magnet_minus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(magnetCurrent > 0){
+                    dir23->fh_mee_z_magnet_plus->Fill(WS_Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent < 0) {
+                  dir23->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+                if(AchromatCurrent > 0) {
+                  dir23->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+                }
+            }
+
 
 
         }
@@ -2135,6 +2336,212 @@ int user_superCmpEvent(superBurst *sbur,superCmpEvent *sevt) {
         }
 
     }
+
+    // Pt > 35 MeV/c
+    if(Pmuee.Pt() > 0.035){
+
+        dir24->ComputeThreeTrack(electron1,electron2,muon);
+        dir24->fh_missing_mass->Fill(Pnu.M2() ,w_tot);
+        dir24->fh_muee_Pt->Fill(Pmuee.Pt(),w_tot);
+        dir24->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+        dir24->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+        dir24->fh_mee->Fill(Pee.M(),w_tot);
+        dir24->fh_mee_z_variable->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir24->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+        dir24->fh_muee_M->Fill(Pmuee.M(),w_tot);
+        dir24->fh_Pmu_vs_z->Fill(muon.GetMomentum(), Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir24->fh_Kaon_Charge->Fill(Kcharge );
+        dir24->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+        dir24->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir24->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir24->fh_Muee_3pi->Fill( three_pi.M(),w_tot);
+        dir24->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir24->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir24->fh_munu_M->Fill(munu.M(),w_tot);
+        dir24->fh_e1nu_M->Fill(e1nu.M(),w_tot);
+        dir24->fh_e2nu_M->Fill(e2nu.M(),w_tot);
+        dir24->fh_mc_two_track_23_mass_z_variable->Fill(mc_ee.M()*mc_ee.M()/(0.493677*0.493677));
+
+        if(Kcharge>0){
+            dir24->fh_mee_z_Kplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir24->fh_MM2_plus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(Kcharge<0){
+            dir24->fh_mee_z_Kminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir24->fh_MM2_minus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(magnetCurrent < 0){
+            dir24->fh_mee_z_magnet_minus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(magnetCurrent > 0){
+            dir24->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent < 0) {
+            dir24->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir24->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+
+    }
+
+    // Pt > 40 MeV/c
+    if(Pmuee.Pt() > 0.040){
+
+        dir25->ComputeThreeTrack(electron1,electron2,muon);
+        dir25->fh_missing_mass->Fill(Pnu.M2() ,w_tot);
+        dir25->fh_muee_Pt->Fill(Pmuee.Pt(),w_tot);
+        dir25->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+        dir25->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+        dir25->fh_mee->Fill(Pee.M(),w_tot);
+        dir25->fh_mee_z_variable->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir25->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+        dir25->fh_muee_M->Fill(Pmuee.M(),w_tot);
+        dir25->fh_Pmu_vs_z->Fill(muon.GetMomentum(), Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir25->fh_Kaon_Charge->Fill(Kcharge );
+        dir25->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+        dir25->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir25->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir25->fh_Muee_3pi->Fill( three_pi.M(),w_tot);
+        dir25->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir25->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir25->fh_munu_M->Fill(munu.M(),w_tot);
+        dir25->fh_e1nu_M->Fill(e1nu.M(),w_tot);
+        dir25->fh_e2nu_M->Fill(e2nu.M(),w_tot);
+        dir25->fh_mc_two_track_23_mass_z_variable->Fill(mc_ee.M()*mc_ee.M()/(0.493677*0.493677));
+
+        if(Kcharge>0){
+            dir25->fh_mee_z_Kplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir25->fh_MM2_plus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(Kcharge<0){
+            dir25->fh_mee_z_Kminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir25->fh_MM2_minus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(magnetCurrent < 0){
+            dir25->fh_mee_z_magnet_minus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(magnetCurrent > 0){
+            dir25->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent < 0) {
+            dir25->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir25->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+
+    }
+
+
+    // Pt > 45 MeV/c
+    if(Pmuee.Pt() > 0.045){
+
+        dir26->ComputeThreeTrack(electron1,electron2,muon);
+        dir26->fh_missing_mass->Fill(Pnu.M2() ,w_tot);
+        dir26->fh_muee_Pt->Fill(Pmuee.Pt(),w_tot);
+        dir26->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+        dir26->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+        dir26->fh_mee->Fill(Pee.M(),w_tot);
+        dir26->fh_mee_z_variable->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir26->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+        dir26->fh_muee_M->Fill(Pmuee.M(),w_tot);
+        dir26->fh_Pmu_vs_z->Fill(muon.GetMomentum(), Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir26->fh_Kaon_Charge->Fill(Kcharge );
+        dir26->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+        dir26->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir26->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir26->fh_Muee_3pi->Fill( three_pi.M(),w_tot);
+        dir26->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir26->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir26->fh_munu_M->Fill(munu.M(),w_tot);
+        dir26->fh_e1nu_M->Fill(e1nu.M(),w_tot);
+        dir26->fh_e2nu_M->Fill(e2nu.M(),w_tot);
+        dir26->fh_mc_two_track_23_mass_z_variable->Fill(mc_ee.M()*mc_ee.M()/(0.493677*0.493677));
+
+        if(Kcharge>0){
+            dir26->fh_mee_z_Kplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir26->fh_MM2_plus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(Kcharge<0){
+            dir26->fh_mee_z_Kminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir26->fh_MM2_minus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(magnetCurrent < 0){
+            dir26->fh_mee_z_magnet_minus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(magnetCurrent > 0){
+            dir26->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent < 0) {
+            dir26->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir26->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+
+    }
+
+    // Pt > 50 MeV/c
+    if(Pmuee.Pt() > 0.05){
+
+        dir27->ComputeThreeTrack(electron1,electron2,muon);
+        dir27->fh_missing_mass->Fill(Pnu.M2() ,w_tot);
+        dir27->fh_muee_Pt->Fill(Pmuee.Pt(),w_tot);
+        dir27->fh_COmPaCt_Z_Vertex->Fill(COmPaCt_Z_Vertex,w_tot);
+        dir27->fh_Mu_momentum->Fill(muon.GetMomentum(),w_tot);
+        dir27->fh_mee->Fill(Pee.M(),w_tot);
+        dir27->fh_mee_z_variable->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir27->fh_HoDTotTime->Fill(Event_HoDTime,w_tot);
+
+        dir27->fh_muee_M->Fill(Pmuee.M(),w_tot);
+        dir27->fh_Pmu_vs_z->Fill(muon.GetMomentum(), Pee.M2()/(massKaonC*massKaonC),w_tot);
+        dir27->fh_Kaon_Charge->Fill(Kcharge );
+        dir27->fh_eop->Fill(muon.GetEnergyLeftInEcal()/muon.GetMomentum(),w_tot);
+        dir27->fh_eop->Fill(electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir27->fh_eop->Fill(electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir27->fh_Muee_3pi->Fill( three_pi.M(),w_tot);
+        dir27->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron2.GetEnergyLeftInEcal()/electron2.GetMomentum(),w_tot);
+        dir27->fh_M3pi_vs_EoP->Fill( three_pi.M(), electron1.GetEnergyLeftInEcal()/electron1.GetMomentum(),w_tot);
+        dir27->fh_munu_M->Fill(munu.M(),w_tot);
+        dir27->fh_e1nu_M->Fill(e1nu.M(),w_tot);
+        dir27->fh_e2nu_M->Fill(e2nu.M(),w_tot);
+        dir27->fh_mc_two_track_23_mass_z_variable->Fill(mc_ee.M()*mc_ee.M()/(0.493677*0.493677));
+
+        if(Kcharge>0){
+            dir27->fh_mee_z_Kplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir27->fh_MM2_plus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(Kcharge<0){
+            dir27->fh_mee_z_Kminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+            dir27->fh_MM2_minus->Fill(Pnu.M2(),w_tot );
+        }
+
+        if(magnetCurrent < 0){
+            dir27->fh_mee_z_magnet_minus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(magnetCurrent > 0){
+            dir27->fh_mee_z_magnet_plus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent < 0) {
+            dir27->fh_mee_z_Aminus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+        if(AchromatCurrent > 0) {
+          dir27->fh_mee_z_Aplus->Fill(Pee.M2()/(massKaonC*massKaonC),w_tot);
+        }
+
+    }
+
 
 
 

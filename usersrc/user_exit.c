@@ -33,6 +33,10 @@ int user_exit() {
     dir5->AddToFile(file);
     dir6->AddToFile(file);
     dir9->AddToFile(file);
+    dir20->AddToFile(file);
+    dir21->AddToFile(file);
+    dir22->AddToFile(file);
+    dir23->AddToFile(file);
     dir19->AddToFile(file);
     dir12->AddToFile(file);
     dir13->AddToFile(file);
@@ -40,6 +44,11 @@ int user_exit() {
     dir15->AddToFile(file);
     dir16->AddToFile(file);
     dir17->AddToFile(file);
+    dir24->AddToFile(file);
+    dir25->AddToFile(file);
+    dir26->AddToFile(file);
+    dir27->AddToFile(file);
+
     dir18->AddToFile(file);
     //MC_reweight->AddToFile(file);
     printf ("### saving histograms to file output.root \n");
