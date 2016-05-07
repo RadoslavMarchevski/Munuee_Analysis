@@ -258,6 +258,8 @@ class Hist_dir {
 };
 extern Hist_dir* Initial_dir;
 extern Hist_dir* K3pi_selection;
+extern Hist_dir* K3pi_intime;
+extern Hist_dir* K3pi_accidentals;
 extern Hist_dir* dir1;
 extern Hist_dir* dir2;
 extern Hist_dir* dir3;

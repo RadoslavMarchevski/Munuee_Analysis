@@ -73,6 +73,8 @@ TLorentzVector True_Momentum[20];
 
 Hist_dir* Initial_dir;
 Hist_dir* K3pi_selection;
+Hist_dir* K3pi_intime;
+Hist_dir* K3pi_accidentals;
 Hist_dir* dir1;
 Hist_dir* dir2;
 Hist_dir* dir3;
@@ -117,6 +119,8 @@ int user_init() {
     //2 - Kmunuee selection
     Initial_dir =  new  Hist_dir("No cuts",0);
     K3pi_selection =  new  Hist_dir("K3pi selection",1);
+    K3pi_intime =  new  Hist_dir("K3pi in time",1);
+    K3pi_accidentals =  new  Hist_dir("K3pi accidental background",1);
     dir1 =  new  Hist_dir("Munuee index matching",2);
     dir2 =  new  Hist_dir("WS no Pt and mu P cut",3);
     dir3 =  new  Hist_dir("Munuee Geometry Cut",2);

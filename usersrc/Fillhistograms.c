@@ -188,6 +188,7 @@ void Hist_dir::FillCommonHist(superCmpEvent* sevt){
 
 }
 void Hist_dir::FillVertexHist(double* mu_e1, double cda_mu_e1,double* mu_e2, double cda_mu_e2, double* e1_e2, double cda_e1_e2,std::string decay_type){
+
     if(decay_type.compare("munuee") ==0){
         fh_zvtxdiff_mue1_mue2->Fill( mu_e1[2] - mu_e2[2]);
         fh_zvtxdiff_mue1_e1e2->Fill( mu_e1[2] - e1_e2[2]);

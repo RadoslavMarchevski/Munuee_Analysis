@@ -23,6 +23,8 @@ int user_exit() {
     TFile* file = new TFile("output.root", "RECREATE");
     Initial_dir->AddToFile(file);
     K3pi_selection->AddToFile(file);
+    K3pi_intime->AddToFile(file);
+    K3pi_accidentals->AddToFile(file);
     dir1->AddToFile(file);
     dir3->AddToFile(file);
     dir4->AddToFile(file);

@@ -81,7 +81,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     fh_M3pi_Aplus       = new TH1F("M3pi_Aplus","M 3 #pi for + achromat polarity;z;Nevents",1000,-1,1);
 
   }
-  if(ftype==1){
+  if(ftype=1){
 
     //Trigger efficiency plots for the different supersamples
     //SS0
@@ -145,8 +145,8 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     fh_lda3_p2 = new TH1F("lda3_p2","lda3 variable for pion 2", 200,0.,2);
     fh_lda3_p3 = new TH1F("lda3_p3","lda3 variable for pion 3", 200,0.,2);
     fh_COmPaCt_Z_Vertex  = new TH1F("COmPaCt_Z_Vertex","Three track vertex from COmPaCt",150,-4000.,11000.);
-    fh_HoDTotTime = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3;EventTime [ns];Nevents",200,-100.,100.);
-    fh_DCHTotTime = new TH1F("DCHTotTime","(T^{DCH}_{1} + T^{DCH}_{2} + T^{DCH}_{3} )/3;EventTime [ns];Nevents",200,-100.,100.);
+    fh_HoDTotTime = new TH1F("HoDTotTime","(T^{HoD}_{1} + T^{HoD}_{2} + T^{HoD}_{3} )/3;EventTime [ns];Nevents",800,-100.,100.);
+    fh_DCHTotTime = new TH1F("DCHTotTime","(T^{DCH}_{1} + T^{DCH}_{2} + T^{DCH}_{3} )/3;EventTime [ns];Nevents",800,-100.,100.);
     //Reconstructed Vtx difference
     fh_xvtxdiff_pi1pi2_pi2pi3 = new TH1F("xvtxdiff_pi1pi2_pi2pi3","Difference between #pi_1 #pi_2 and #pi_2 #pi_3 reconstructed X vtx; X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
     fh_xvtxdiff_pi1pi2_pi1pi3 = new TH1F("xvtxdiff_pi1pi2_pi1pi3","Difference between  #pi_1 #pi_2 and #pi_1 #pi_3 reconstructed X vtx;X_Vtx_diff[cm];Nevents ",400.,-2000.,2000.);
