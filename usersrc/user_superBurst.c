@@ -58,8 +58,6 @@ int user_superBurst(superBurst *sbur) {
     //printf ("IS_DATA = %i \t IS_MC = %i\n", IS_DATA, IS_MC);
     if (IS_DATA){
         if( sbur->BadB.Lkr == 1||
-            sbur->BadB.Phys == 1||
-            sbur->BadB.PMB == 1||
             sbur->BadB.Mbx == 1||
             sbur->BadB.Muv == 1||
             sbur->BadB.HodC== 1||

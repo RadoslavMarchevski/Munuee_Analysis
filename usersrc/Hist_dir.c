@@ -81,7 +81,7 @@ Hist_dir::Hist_dir(const std::string& dir_Name, int type){
     fh_M3pi_Aplus       = new TH1F("M3pi_Aplus","M 3 #pi for + achromat polarity;z;Nevents",1000,-1,1);
 
   }
-  if(ftype=1){
+  if(ftype==1){
 
     //Trigger efficiency plots for the different supersamples
     //SS0

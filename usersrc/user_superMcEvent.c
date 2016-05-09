@@ -48,10 +48,8 @@ int user_superMcEvent(superBurst *sbur, superMcEvent *evt) {
             Particle_type[i]           =evt->part[i].type;
             Particle_production_zvtx[i]=evt->part[i].pvertex[2];
             Particle_decay_zvtx[i]     =evt->part[i].dvertex[2];
-            True_Momentum[i].SetPxPyPzE(evt->part[i].p[1],evt->part[i].p[2],evt->part[i].p[3], evt->part[i].p[0]);
-            //cout << "i = " << i << "Type = "<< Particle_type[i] << " Mass = " << TMath::Sqrt(evt->part[i].p[0]*evt->part[i].p[0] - evt->part[i].p[1]*evt->part[i].p[1] - evt->part[i].p[2]*evt->part[i].p[2] - evt->part[i].p[3]*evt->part[i].p[3])<< " P = " << True_Momentum[i].P() << endl;
+            True_Momentum[i].SetPxPyPzE(evt->part[i].p[1],evt->part[i].p[2],evt->part[i].p[3],evt->part[i].p[0]);
         }
-        //cout << "---------------------------------------------------" << endl;
         //mc_Three_Track_Momentum = True_Momentum[1] + True_Momentum[2] + True_Momentum[3]  ;
         //mc_Two_Track_Momentum   = True_Momentum[2] + True_Momentum[3] ;
         //    //Nu_true = (*true_V[0]) - (*true_V[1]) - (*true_V[2]) - (*true_V[3]) ;
